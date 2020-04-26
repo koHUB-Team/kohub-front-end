@@ -1,0 +1,184 @@
+@use '../common/util.scss'as kohubUtil;
+@use '../common/color.scss'as kohubColor;
+
+//Layout Size
+$header-width--pc : 1200px;
+$header-height--pc : 150px;
+$header-height--mobile : 80px;
+$submenu-width : $header-width--pc - 50px;
+
+//Header
+header {
+    position: fixed;
+    width: 100%;
+
+    &:hover .kohub-header__submenu {
+        display: block;
+    }
+}
+
+.kohub-header {
+    background-color: kohubColor.$color-koHub-primary;
+
+    .header-area {
+        margin: 0 auto;
+        width: $header-width--pc;
+        height: $header-height--pc;
+        overflow: hidden;
+    }
+
+    .kohub-header__logo {
+        float: left;
+
+        .kohub-logo {
+            @include kohubUtil.background-img('../../public/imgs/logo/koHUB_logo_1200.png');
+            width: 192px;
+            height: 83px;
+        }
+    }
+
+    .kohub-header__nav {
+        margin-left: 100px;
+        float: left;
+
+
+        ul {
+            overflow: hidden;
+
+            li {
+                box-sizing: border-box;
+                height: $header-height--pc;
+                float: left;
+                margin-left: 50px;
+
+                &:hover {
+                    border-bottom: 5px solid white;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: kohubColor.$font-color-primary;
+                    font-size: 16pt;
+                }
+            }
+        }
+    }
+
+    .kohub-header__login {
+        float: right;
+
+        .kohub-login__icon {
+            @include kohubUtil.background-img('../../public/imgs/icons/user_1200.png');
+            width: 20px;
+            height: 20px;
+            float: left;
+        }
+
+        .kohub-login__menu {
+            float: left;
+            color: kohubColor.$font-color-primary;
+
+            a {
+                text-decoration: none;
+                color: kohubColor.$font-color-primary;
+                margin: 0 5px;
+
+                &:hover span {
+                    text-decoration: underline;
+                    color: kohubColor.$font-color-secondary;
+                }
+            }
+        }
+    }
+}
+
+//Header Submenu
+.kohub-header__submenu {
+    display: none;
+    width: 100%;
+    border-top: 1px solid white;
+    background-color: kohubColor.$color-koHub-primary--opacity;
+    overflow: hidden;
+
+
+    .submenu-area {
+        width: $submenu-width;
+        margin: 0 auto;
+        overflow: hidden;
+
+        nav {
+            margin: 10px 0 0 325px;
+        }
+
+        ul {
+            float: left;
+
+            &:nth-of-type(2) {
+                margin-left: 80px;
+            }
+
+            &:nth-of-type(3) {
+                margin-left: 44px;
+            }
+
+            &:nth-of-type(4) {
+                margin-left: 54px;
+            }
+
+            &:nth-of-type(5) {
+                margin-left: 70px;
+            }
+        }
+
+        li {
+            margin-bottom: 10px;
+
+            a {
+                color: kohubColor.$font-color-third--light;
+
+                &:hover {
+                    color: kohubColor.$font-color-primary;
+                }
+            }
+        }
+    }
+}
+
+
+// 태블릿
+@media screen and (max-width: 1150px) {
+    .kohub-header {
+        .header-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: static;
+            transform: none;
+        }
+    }
+
+    header:hover .kohub-header__submenu,
+    .kohub-header__nav,
+    .kohub-header__login,
+    .kohub-header__submenu {
+        display: none;
+    }
+}
+
+// 모바일
+@media screen and (max-width: 414px) {
+    .kohub-header {
+        .header-area {
+            height: $header-height--mobile;
+        }
+
+        .kohub-header__logo {
+            .kohub-logo {
+                @include kohubUtil.background-img('../../public/imgs/logo/koHUB_logo_414.png');
+                width: 99px;
+                height: 33px;
+            }
+        }
+    }
+}

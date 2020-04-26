@@ -1,0 +1,61 @@
+//컴포넌트에 공용으로 적용해야하는 스타일
+//주의 : 최상위에서 공유해야하는 부분이 아니라 상위 컴포넌트에서 하위 컴포넌트로 공유할 수 있는 부분은 상위 컴포넌트 스타일에 추가할 것
+
+html,
+body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    width: 100%;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
+.blind {
+    overflow: hidden;
+    text-indent: 101%;
+    white-space: nowrap;
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+//Element 세로정렬
+.align-center-col {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+//Container 부분
+$content-width : 1150px;
+$container-padding-top : 150px;
+$container-padding-top--mobile : 80px;
+
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    padding: $container-padding-top 0 0 0;
+}
+
+.content-area {
+    width: $content-width;
+    margin: 0 auto;
+}
+
+// 태블릿
+@media screen and (max-width: 1150px) {
+    .content-area {
+        width: 100%;
+    }
+}
+
+// 모바일
+@media screen and (max-width: 414px) {
+    .container {
+        padding: $container-padding-top--mobile 0 0 0;
+    }
+}

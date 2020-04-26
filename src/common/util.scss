@@ -1,0 +1,11 @@
+//공통으로 사용할 믹스인. 클래스로 분리할 수 없는 스타일만 믹스인으로 정의할 것.
+
+@use './color.scss'as kohubColor;
+
+//Background 이미지 설정 믹스인
+@mixin background-img($url) {
+    background-image: url($url);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: kohubColor.$color-background-empty;
+}
