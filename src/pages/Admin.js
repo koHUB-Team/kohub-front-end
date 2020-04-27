@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import { AdminNav, AdminAccount, AdminPromotion } from "../components";
+import { AdminNav, AdminContent } from "../components";
 import "./Admin.scss";
 import { Route, Switch } from "react-router-dom";
 
 class Admin extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     let match = this.props.match;
 
@@ -16,9 +13,24 @@ class Admin extends Component {
         <Switch>
           <Route
             path={match.url + "/promotion"}
-            component={AdminPromotion}
+            component={AdminContent}
           ></Route>
-          <Route component={AdminAccount}></Route>
+          <Route path={match.url + "/lecture"} component={AdminContent}></Route>
+          <Route path={match.url + "/hotspot"} component={AdminContent}></Route>
+          <Route path={match.url + "/lecture"} component={AdminContent}></Route>
+          <Route path={match.url + "/circles"} component={AdminContent}></Route>
+          <Route path={match.url + "/groups"} component={AdminContent}></Route>
+          <Route
+            path={match.url + "/residence"}
+            component={AdminContent}
+          ></Route>
+          <Route
+            path={match.url + "/domitory"}
+            component={AdminContent}
+          ></Route>
+          <Route path={match.url + "/faq"} component={AdminContent}></Route>
+          <Route path={match.url + "/ad"} component={AdminContent}></Route>
+          <Route component={AdminContent}></Route>
         </Switch>
       </div>
     );

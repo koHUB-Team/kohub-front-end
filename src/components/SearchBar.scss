@@ -1,0 +1,52 @@
+@use '../common/color.scss'as kohubColor;
+@use '../common//util.scss'as kohubUtil;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Bold.otf');
+}
+
+//검색바
+.kohub-search-bar-container {
+    border: solid 1px kohubColor.$color-koHub-primary;
+    overflow: hidden;
+    text-align: center;
+
+    input {
+        outline: none;
+        border: none;
+        color: black;
+        width: 80%;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+
+    }
+
+    .search-bar-logo {
+        @include kohubUtil.background-img('../../public/imgs/icons/search_admin.png');
+        width: 20px;
+        height: 20px;
+        float: right;
+        right: 4%;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+
+//검색바 크기조정은 새로운 클래스로 type을 추가해서 적용할 것.
+//ex) .search-bar--type
+//type = admin, main.....
+
+.search-bar--admin {
+    width: 250px;
+    height: 35px;
+
+    input {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 11pt;
+        font-weight: 600;
+    }
+}

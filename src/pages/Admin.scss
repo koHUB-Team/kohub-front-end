@@ -1,3 +1,6 @@
+@use '../common/color.scss'as kohubColor;
+
+
 .kohub-admin-container {
     height: 100%;
 }
@@ -5,8 +8,12 @@
 //layout
 $adminNav-width: 240px;
 
-.kohub-admin-content-area {
-    width: 100%;
+.kohub-admin-content-container {
+    width: 1200px;
     height: 100%;
     padding-left: $adminNav-width;
+
+    .kohub-admin-content-area {
+        padding: 150px 10%;
+    }
 }
