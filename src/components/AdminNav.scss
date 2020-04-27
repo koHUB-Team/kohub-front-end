@@ -1,0 +1,133 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-admin-nav-area {
+    position: absolute;
+    background-color: kohubColor.$color-koHub-primary;
+    color: kohubColor.$font-color-primary;
+    width: 240px;
+    height: 100%;
+    float: left;
+
+    .kohub-admin-nav__top {
+        position: absolute;
+        top: 5%;
+        width: 100%;
+
+        .kohub-admin-nav__title {
+
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 500;
+            font-size: 14pt;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .kohub-admin-nav__user-info {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 400;
+            font-size: 10pt;
+            text-align: center;
+            margin-bottom: 10px;
+
+            .kohub-admin-nav__user-info__email {
+                margin-left: 3px;
+            }
+        }
+
+        .kohub-admin-nav__user-menu {
+            overflow: hidden;
+
+            .kohub-admin-nav-btn--logout {
+                font-family: 'Noto Sans KR', sans-serif;
+                font-weight: 100;
+                font-size: 10pt;
+                color: kohubColor.$font-color-primary;
+                float: right;
+                margin-right: 23px;
+
+                &:hover {
+                    color: kohubColor.$font-color-secondary;
+                    text-decoration: underline;
+                }
+
+            }
+        }
+    }
+
+    .kohub-adming-nav__menu-area {
+        .kohub-adming-nav__menu {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 500;
+            font-size: 14pt;
+
+            ul {
+                li {
+                    text-align: center;
+                    margin-bottom: 20%;
+
+                    a {
+                        color: kohubColor.$font-color-primary;
+
+                        &:hover {
+                            color: kohubColor.$font-color-secondary;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media all and (max-height:900px) {
+    .kohub-admin-nav-area {
+        .kohub-adming-nav__menu-area {
+            .kohub-adming-nav__menu {
+                ul {
+                    li {
+                        margin-bottom: 10%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media all and (max-height:650px) {
+    .kohub-admin-nav-area {
+        .kohub-admin-nav__top {
+            .kohub-admin-nav__title {
+                font-size: 12pt;
+                margin-bottom: 8px;
+            }
+
+            .kohub-admin-nav__user-info {
+                font-size: 8pt;
+                margin-bottom: 5px;
+            }
+
+            .kohub-admin-nav__user-menu {
+                .kohub-admin-nav-btn--logout {
+                    font-size: 8pt;
+                    margin-right: 40px;
+                }
+            }
+        }
+
+        .kohub-adming-nav__menu-area {
+            .kohub-adming-nav__menu {
+                ul {
+                    li {
+                        font-size: 12pt;
+                    }
+                }
+            }
+        }
+    }
+}

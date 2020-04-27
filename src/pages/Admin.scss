@@ -1,0 +1,12 @@
+.kohub-admin-container {
+    height: 100%;
+}
+
+//layout
+$adminNav-width: 240px;
+
+.kohub-admin-content-area {
+    width: 100%;
+    height: 100%;
+    padding-left: $adminNav-width;
+}
