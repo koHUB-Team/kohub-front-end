@@ -60,7 +60,7 @@ class AdminTitle extends Component {
     let { titles } = this.state;
     let title = titles
       .filter((titleRecord) => {
-        if (titleRecord.adminMenuId === selectedMenuId) {
+        if (Number(titleRecord.adminMenuId) === Number(selectedMenuId)) {
           return titleRecord;
         }
       })

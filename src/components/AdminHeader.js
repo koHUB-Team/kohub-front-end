@@ -5,6 +5,7 @@ import "./AdminHeader.scss";
 class AdminHeader extends Component {
   render() {
     let selectedMenuId = this.props.selectedMenuId;
+
     return (
       <header>
         <div className="kohub-admin-header-area">

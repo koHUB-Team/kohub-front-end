@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import App from "../shared/App";
 import { Provider } from "react-redux";
-import store from "../store";
+import { store } from "../store";
 
 //최상위 Root 컴포넌트
 class Root extends Component {

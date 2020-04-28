@@ -73,7 +73,8 @@
                     a {
                         color: kohubColor.$font-color-primary;
 
-                        &:hover {
+                        &:hover,
+                        &:focus {
                             color: kohubColor.$font-color-secondary;
                             text-decoration: underline;
                         }

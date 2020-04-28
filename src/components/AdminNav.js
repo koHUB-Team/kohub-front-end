@@ -61,7 +61,7 @@ class AdminNav extends Component {
         <li key={menu.id}>
           <Link to={"/admin/" + menu.title.toLowerCase()}>
             <h2>
-              <span>{menu.title}</span>
+              <span data-id={menu.id}>{menu.title}</span>
             </h2>
           </Link>
         </li>,
@@ -69,6 +69,23 @@ class AdminNav extends Component {
     }, []);
 
     return menuList;
+  }
+
+  menuClickListener(e) {
+    let isEventTargetTag = false;
+    let spanTag = null;
+
+    switch (e.target.tagName.toLowerCase()) {
+      case "span":
+        isEventTargetTag = true;
+        spanTag = e.target;
+        break;
+    }
+
+    if (isEventTargetTag) {
+      let clickedMenuId = spanTag.dataset.id;
+      this.props.onClick(clickedMenuId);
+    }
   }
 
   render() {
@@ -94,7 +111,7 @@ class AdminNav extends Component {
         <div className="kohub-adming-nav__menu-area align-center-col">
           <div className="kohub-adming-nav__menu">
             <nav>
-              <ul>{menuList}</ul>
+              <ul onClick={this.menuClickListener.bind(this)}>{menuList}</ul>
             </nav>
           </div>
         </div>

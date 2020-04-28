@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { AdminNav, AdminContent } from "../components";
+import { AdminContent } from "../components";
+import AdminNav from "../containers/AdminNav";
 import "./Admin.scss";
 import { Route, Switch } from "react-router-dom";
 

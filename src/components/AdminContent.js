@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "./AdminContent.scss";
-import AdminHeader from "./AdminHeader";
+import AdminHeader from "../containers/AdminHeader";
 
 class AdminContent extends Component {
   render() {
     return (
       <div className="kohub-admin-content-container">
         <div className="kohub-admin-content-area">
-          <AdminHeader selectedMenuId={1}></AdminHeader>
+          <AdminHeader></AdminHeader>
         </div>
       </div>
     );
