@@ -1,25 +1,27 @@
 import React, { Component } from "react";
-import "./Login.scss";
+import "./SignUpComplete.scss";
 class SignUpComplete extends Component {
   render() {
     return (
-      <div className="login-area">
-        <div className="login-container">
-          <h1>koHUB</h1>
+      <div className="kohub-signupComplete">
+        <div className="kohub-signupComplete__content align-center-col">
+          <h1>
+            <span className="kohub-signupComplete__logo blind center">
+              koHUB SignUpComplete
+            </span>
+          </h1>
           <hr></hr>
-          <div>
+          <div className="kohub-signupComplete__subtitle">
             <h2>이메일 인증 완료</h2>
           </div>
           <div>
             <div>
-              <span>안녕하세요. koHUB Team입니다.</span>
+              <p>안녕하세요. koHUB Team입니다.</p>
+              <p>이메일 인증이 완료되었습니다!</p>
             </div>
-            <div>
-              <span>이메일 인증이 완료되었습니다!</span>
-            </div>
-            <span>감사합니다.</span>
+            <p>감사합니다.</p>
           </div>
-          <div>
+          <div className="kohub-signupComplete__button">
             <button>메인으로</button>
           </div>
           <hr></hr>

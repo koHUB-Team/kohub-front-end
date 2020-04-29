@@ -1,41 +1,42 @@
-$color-kohub-login: rgb(249, 249, 249);
-$color-koHub-primary: rgb(8, 43, 73);
+@use "../common/util.scss"as kohubUtil;
+@use "../common/color.scss"as kohubColor;
 
-$font-color-subtitle: rgb(51, 51, 51);
-$font-color-base: rgb(158, 158, 158);
-
-.NotFound-area {
-    background-color: $color-kohub-login;
-    padding: 100px;
+.kohub-NotFound {
+    background-color: kohubColor.$color-background-white--fade;
+    height: 100%;
 }
 
-.NotFound-container {
-    width: 100%;
+.kohub-NotFound__content {
     text-align: center;
+
+    div {
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        text-align: center;
+    }
 
     h1 {
         color: $color-koHub-primary;
         font-size: 85px;
+        font-weight: bold;
     }
 
-    h2 {
-        color: $font-color-subtitle;
-        font-size: 43px;
+    .kohub-emailauth__subtitle {
+        h2 {
+            font-size: 43px;
+            color: kohubColor.$font-color-subtitle;
+        }
     }
 
-    div {
-        width: 50%;
-        margin: 0 auto;
-        width: 376px;
-        margin-bottom: 10px;
-    }
-
-    button {
-        background-color: $color-koHub-primary;
-        color: white;
-        font-size: 15px;
-        width: 376px;
-        height: 50px;
-        border-radius: 10px;
+    .kohub-NotFound__button {
+        button {
+            background-color: kohubColor.$color-koHub-primary;
+            color: white;
+            font-size: 15px;
+            width: 165px !important;
+            height: 45px;
+            border-radius: 5px;
+        }
     }
 }
