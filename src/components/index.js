@@ -2,6 +2,7 @@ export { default as Footer } from "./Footer";
 export { default as Header } from "./Header";
 export { default as MainContent } from "./MainContent";
 export { default as SearchBar } from "./SearchBar";
+export { default as Table } from "./Table";
 export { default as AdminNav } from "./AdminNav";
 export { default as AdminContent } from "./AdminContent";
 export { default as AccountContent } from "./AccountContent";
