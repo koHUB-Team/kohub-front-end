@@ -1,0 +1,25 @@
+@use '../common/color.scss'as kohubColor;
+
+
+.kohub-admin-container {
+    height: 100%;
+}
+
+//layout
+$adminNav-width: 240px;
+
+.kohub-admin-content-container {
+    width: 1200px;
+    height: 100%;
+    padding-left: $adminNav-width;
+
+    .kohub-admin-content-area {
+        padding: 150px 10%;
+
+        .kohub-admin-content__bottom-area {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+}

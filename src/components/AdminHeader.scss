@@ -1,12 +1,34 @@
 @use '../common/color.scss'as kohubColor;
 
-.kohub-admin-header-area {
-    header {
-        position: static;
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-admin-header {
+    position: static;
+
+    .kohub-admin-header-area {
+        width: 100%;
+        height: 68px;
+        border-bottom: 2px solid kohubColor.$color-koHub-primary;
+        margin-bottom: 20px;
     }
 
-    width: 100%;
-    height: 68px;
-    border-bottom: 2px solid kohubColor.$color-koHub-primary;
-    margin-bottom: 20px;
+    .kohub-admin-header__align-btn {
+        float: right;
+
+        a {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            color: kohubColor.$font-color-third;
+            font-size: 14pt;
+            margin-left: 10px;
+
+            &:hover {
+                text-decoration: underline;
+                color: kohubColor.$color-koHub-primary;
+            }
+        }
+    }
 }
