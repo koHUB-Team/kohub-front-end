@@ -1,0 +1,24 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+
+.kohub-pagination-container {
+    button {
+        font-weight: 600;
+        color: kohubColor.$font-color-bold;
+        background-color: kohubColor.$pagination-btn-color;
+        margin: 0 2.5px;
+        width: 27px;
+        height: 27px;
+        border-radius: 4px;
+
+        &:focus {
+            background-color: kohubColor.$color-koHub-primary;
+            color: white;
+        }
+    }
+}
