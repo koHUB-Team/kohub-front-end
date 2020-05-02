@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./AdminContent.scss";
-import AdminHeader from "../containers/AdminHeader";
-import { Table, Pagination } from ".";
+import AdminTitleContainer from "../containers/AdminTitleContainer";
+import { Table, Pagination, AdminTitle, DropBox, SearchBar, Button } from ".";
 import { List, Record } from "immutable";
 import { ApiUtil } from "../common/kohubUtil";
+import { Link } from "react-router-dom";
 
 const User = Record({
   id: null,
@@ -29,10 +30,16 @@ class AdminContent extends Component {
       totalCount: 0,
       startPage: 1,
       endPage: 0,
+      totalUserCount: 0,
+      normalCount: 0,
+      warnningCount: 0,
+      forbiddenCount: 0,
     };
     this.MAX_NUM_OF_PAGE_BTN = 5;
     this.MIN_PAGE_NUM = 1;
     this.MAX_NUM_OF_TABLE_ROW = 10;
+    this.dropMenuList = List(["이메일", "닉네임"]);
+    this.selectedDropMenu = null;
   }
 
   componentDidMount() {
@@ -53,14 +60,65 @@ class AdminContent extends Component {
       .then((json) => {
         let userDatas = json.users;
         let totalCount = json.totalCount;
-        this.userApiHandler(userDatas, totalCount);
+        let totalUserCount = json.totalUserCount;
+        let normalCount = json.normalCount;
+        let warnningCount = json.warnningCount;
+        let forbiddenCount = json.forbiddenCount;
+
+        this.userApiHandler(
+          userDatas,
+          totalCount,
+          totalUserCount,
+          normalCount,
+          warnningCount,
+          forbiddenCount
+        );
       })
       .catch((err) => {
         new Error("User API Error");
       });
   }
 
-  userApiHandler(userDatas, newTotalCount) {
+  requestSearchUserApi(params = null) {
+    let url = process.env.REACT_APP_KOHUB_API_URL_GET_ADMIN_USER;
+    if (params !== null) {
+      let queryStr = ApiUtil.parseObjToQueryStr(params);
+      url += queryStr;
+    }
+
+    fetch(url)
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        let userDatas = json.users;
+        let totalCount = json.totalCount;
+        let totalUserCount = json.totalUserCount;
+        let normalCount = json.normalCount;
+        let warnningCount = json.warnningCount;
+        let forbiddenCount = json.forbiddenCount;
+        this.userApiHandler(
+          userDatas,
+          totalCount,
+          totalUserCount,
+          normalCount,
+          warnningCount,
+          forbiddenCount
+        );
+      })
+      .catch((err) => {
+        alert("조회된 데이터가 없습니다.");
+      });
+  }
+
+  userApiHandler(
+    userDatas,
+    newTotalCount,
+    newTotalUserCount,
+    newNormalCount,
+    newWarnningCount,
+    newForbiddenCount
+  ) {
     let newHeads = List([
       "No",
       "Email",
@@ -105,6 +163,10 @@ class AdminContent extends Component {
       table: newTableData,
       totalCount: newTotalCount,
       endPage: newEndPage,
+      totalUserCount: newTotalUserCount,
+      normalCount: newNormalCount,
+      warnningCount: newWarnningCount,
+      forbiddenCount: newForbiddenCount,
     });
   }
 
@@ -166,17 +228,112 @@ class AdminContent extends Component {
     this.requestUserApi(params);
   }
 
+  onSearchBarSubmitCallback(word) {
+    //유효성 검사 필요
+
+    let params;
+    switch (this.selectedDropMenu) {
+      case "이메일":
+        params = {
+          email: word,
+        };
+        break;
+
+      case "닉네임":
+        params = {
+          name: word,
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    this.requestSearchUserApi(params);
+  }
+
+  onDropMenuClickCallback(selectedDropMenu) {
+    this.selectedDropMenu = selectedDropMenu;
+  }
+
+  onWarnningBtnClickCallback() {
+    console.log("경고");
+    let checkBoxNodes = document.querySelectorAll(".kohub-table-check");
+    let checkedIds = Object.values(checkBoxNodes).filter((checkBox) => {
+      if (checkBox.checked === true) {
+        return checkBox;
+      }
+    });
+
+    if (checkedIds.length > 0) {
+      checkedIds.forEach((e) => {
+        console.log(e.value);
+      });
+    }
+  }
+
+  onForbiddenBtnClickCallback() {
+    console.log("정지");
+  }
+
+  onRecoveryBtnClickCallback() {
+    console.log("해제");
+  }
+
   render() {
     let heads = this.state.table.heads;
     let datas = this.state.table.datas;
     let startPage = this.state.startPage;
     let endPage = this.state.endPage;
+    let {
+      totalUserCount,
+      normalCount,
+      warnningCount,
+      forbiddenCount,
+    } = this.state;
 
     return (
       <div className="kohub-admin-content-container">
         <div className="kohub-admin-content-area">
-          <AdminHeader></AdminHeader>
-          <Table heads={heads} datas={datas}></Table>
+          <header className="kohub-admin-header">
+            <div className="kohub-admin-header-area">
+              <AdminTitleContainer></AdminTitleContainer>
+              <div className="kohub-admin-header__search align-center-col">
+                <DropBox
+                  onMenuClick={this.onDropMenuClickCallback.bind(this)}
+                  menus={this.dropMenuList}
+                ></DropBox>
+                <SearchBar
+                  onSubmit={this.onSearchBarSubmitCallback.bind(this)}
+                  type="admin"
+                ></SearchBar>
+              </div>
+              <div className="kohub-admin-header__info">
+                <span>총회원수:{totalUserCount}</span>
+                <span>정상:{normalCount}</span>
+                <span>경고:{warnningCount}</span>
+                <span>정지:{forbiddenCount}</span>
+              </div>
+              <div className="kohub-admin-header__align-btn">
+                <button>필터</button>
+              </div>
+            </div>
+          </header>
+          <Table heads={heads} datas={datas} checked={true}></Table>
+          <div className="kohub-admin-control__btn">
+            <Button
+              value={"경고"}
+              onClick={this.onWarnningBtnClickCallback.bind(this)}
+            ></Button>
+            <Button
+              value={"정지"}
+              onClick={this.onForbiddenBtnClickCallback.bind(this)}
+            ></Button>
+            <Button
+              value={"해제"}
+              onClick={this.onRecoveryBtnClickCallback.bind(this)}
+            ></Button>
+          </div>
           <div className="kohub-admin-content__bottom-area">
             <Pagination
               start={startPage}

@@ -6,19 +6,56 @@ import { List, Record } from "immutable";
 //props정보
 //heads : 테이블의 각 컬럼의 제목 문자열 리스트 / type : Immutable.List
 //datas : 테이블 각 행의 정보를 가진 레코드 리스트 / type : Immutable.List
+//checked : 테이블 행에 체크박스 추가 / type : boolean
 
 class Table extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.CHECK_BOX_SELECTOR = ".kohub-table-check";
+  }
+
+  componentDidUpdate() {
+    let checkBoxNodes = document.querySelectorAll(this.CHECK_BOX_SELECTOR);
+    Object.values(checkBoxNodes).forEach((checkBox) => {
+      checkBox.checked = false;
+    });
+  }
+
+  onAllCheckboxChangeListener(e) {
+    console.log("Check All!");
+    let checkBoxNodes = document.querySelectorAll(this.CHECK_BOX_SELECTOR);
+
+    let checkBox = e.target;
+    if (checkBox.checked) {
+      Object.values(checkBoxNodes).forEach((checkBox) => {
+        checkBox.checked = true;
+      });
+    } else {
+      Object.values(checkBoxNodes).forEach((checkBox) => {
+        checkBox.checked = false;
+      });
+    }
   }
 
   //테이블 제목 리스트 반환 함수
   getHeadList() {
-    let { heads } = this.props;
-    let headList = heads.reduce((acc, head, idx) => {
+    let { heads, checked } = this.props;
+    let headList = [];
+
+    if (checked === true) {
+      headList = headList.concat([
+        <th key={heads.toJS().length}>
+          <input
+            type="checkbox"
+            onChange={this.onAllCheckboxChangeListener.bind(this)}
+          ></input>
+        </th>,
+      ]);
+    }
+
+    headList = heads.reduce((acc, head, idx) => {
       return acc.concat([<th key={idx}>{head}</th>]);
-    }, []);
+    }, headList);
 
     return headList;
   }
@@ -36,9 +73,24 @@ class Table extends Component {
   //datas를 JS형식으로 바꾼후 행에 출력할 데이터의 리스트를 반환하는 함수
   getDataValueList(data) {
     data = data.toJS();
-    let dataValueList = Object.values(data).reduce((acc, value, idx) => {
+
+    let { checked } = this.props;
+    let dataValueList = [];
+    if (checked === true) {
+      dataValueList = dataValueList.concat([
+        <td key={Object.values(data).length}>
+          <input
+            className="kohub-table-check"
+            type="checkbox"
+            value={data.id}
+          ></input>
+        </td>,
+      ]);
+    }
+
+    dataValueList = Object.values(data).reduce((acc, value, idx) => {
       return acc.concat([<td key={idx}>{value}</td>]);
-    }, []);
+    }, dataValueList);
 
     return dataValueList;
   }
