@@ -6,6 +6,7 @@ export { default as Table } from "./Table";
 export { default as DropBox } from "./DropBox";
 export { default as Pagination } from "./Pagination";
 export { default as Button } from "./Button";
+export { default as DropMenu } from "./DropMenu";
 export { default as AdminNav } from "./AdminNav";
 export { default as AdminContent } from "./AdminContent";
 export { default as AccountContent } from "./AccountContent";

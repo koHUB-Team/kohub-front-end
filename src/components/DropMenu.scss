@@ -1,0 +1,62 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-dropmenu-container {
+    .kohub-dropmenu__btn {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 700;
+        color: kohubColor.$color-koHub-primary;
+        font-size: 10pt;
+        position: relative;
+    }
+
+    .kohub-dropmenu__menu {
+        background-color: white;
+        position: absolute;
+        top: 100%;
+        width: 110px;
+        border-radius: 3px;
+        border: 1px solid kohubColor.$filter-menu-border-color;
+
+        li {
+            a {
+                display: block;
+                color: kohubColor.$font-color-bold;
+                font-family: 'Noto Sans KR', sans-serif;
+                font-weight: 500;
+                font-size: 10pt;
+                padding: 5px 3px;
+                text-decoration: none;
+
+                svg {
+                    color: white;
+                    margin-right: 5px;
+                }
+
+                &:hover {
+                    background-color: kohubColor.$filter-menu-hover-color;
+
+                    svg {
+                        color: kohubColor.$filter-menu-hover-color;
+                    }
+                }
+
+
+            }
+
+            &.checked {
+                a {
+                    background-color: kohubColor.$filter-menu-hover-color;
+
+                    svg {
+                        color: kohubColor.$color-koHub-primary;
+                    }
+                }
+            }
+        }
+    }
+}

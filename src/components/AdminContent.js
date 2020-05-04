@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import "./AdminContent.scss";
 import AdminTitleContainer from "../containers/AdminTitleContainer";
-import { Table, Pagination, AdminTitle, DropBox, SearchBar, Button } from ".";
+import {
+  Table,
+  Pagination,
+  AdminTitle,
+  DropBox,
+  SearchBar,
+  Button,
+  DropMenu,
+} from ".";
 import { List, Record } from "immutable";
 import { ApiUtil } from "../common/kohubUtil";
-import { Link } from "react-router-dom";
 
 const User = Record({
   id: null,
@@ -22,6 +29,43 @@ const TableData = Record({
   datas: List(),
 });
 
+const DropMenuData = Record({
+  menu: "",
+  menuType: "",
+  menuValue: "",
+});
+
+const FILTER_TYPE = Record({
+  ALL: "ALL",
+  ROLE: "ROLE",
+  AUTH: "AUTH",
+  STATE: "STATE",
+})();
+
+const FILTER_VALUE = Record({
+  ADMIN: "ADMIN",
+  USER: "USER",
+  CERTIFIED: "CERTIFIED",
+  UNCERTIFIED: "UNCERTIFIED",
+})();
+
+const USER_STATE = Record({
+  NORMAL: "NORMAL",
+  WARRNING: "WARRNING",
+  FORBIDDEN: "FORBIDDEN",
+})();
+
+const ORDER_TYPE = Record({
+  NO: "NO",
+  CREATE_DATE: "CREATE_DATE",
+  MODIFY_DATE: "MODIFY_DATE",
+})();
+
+const ORDER_OPTION = Record({
+  ASC: "ASC",
+  DESC: "DESC",
+})();
+
 class AdminContent extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +74,10 @@ class AdminContent extends Component {
       totalCount: 0,
       startPage: 1,
       endPage: 0,
+      filterType: FILTER_TYPE.ALL,
+      filterValue: "",
+      orderType: ORDER_TYPE.NO,
+      orderOption: ORDER_OPTION.ASC,
       totalUserCount: 0,
       normalCount: 0,
       warnningCount: 0,
@@ -40,6 +88,66 @@ class AdminContent extends Component {
     this.MAX_NUM_OF_TABLE_ROW = 10;
     this.dropMenuList = List(["이메일", "닉네임"]);
     this.selectedDropMenu = null;
+    this.numOfCurrentPage = null;
+    this.filterMenuList = List([
+      DropMenuData({
+        menu: "모든 계정",
+        menuType: FILTER_TYPE.ALL,
+        filterValue: "",
+      }),
+      DropMenuData({
+        menu: "관리자 계정",
+        menuType: FILTER_TYPE.ROLE,
+        menuValue: FILTER_VALUE.ADMIN,
+      }),
+      DropMenuData({
+        menu: "회원 계정",
+        menuType: FILTER_TYPE.ROLE,
+        menuValue: FILTER_VALUE.USER,
+      }),
+      DropMenuData({
+        menu: "인증 계정",
+        menuType: FILTER_TYPE.AUTH,
+        menuValue: FILTER_VALUE.CERTIFIED,
+      }),
+      DropMenuData({
+        menu: "미인증 계정",
+        menuType: FILTER_TYPE.AUTH,
+        menuValue: FILTER_VALUE.UNCERTIFIED,
+      }),
+      DropMenuData({
+        menu: "정상 계정",
+        menuType: FILTER_TYPE.STATE,
+        menuValue: USER_STATE.NORMAL,
+      }),
+      DropMenuData({
+        menu: "경고 계정",
+        menuType: FILTER_TYPE.STATE,
+        menuValue: USER_STATE.WARRNING,
+      }),
+      DropMenuData({
+        menu: "정지 계정",
+        menuType: FILTER_TYPE.STATE,
+        menuValue: USER_STATE.FORBIDDEN,
+      }),
+    ]);
+    this.alignMenuList = List([
+      DropMenuData({
+        menu: "번호",
+        menuType: ORDER_TYPE.NO,
+        menuValue: ORDER_OPTION.ASC,
+      }),
+      DropMenuData({
+        menu: "가입 날짜",
+        menuType: ORDER_TYPE.CREATE_DATE,
+        menuValue: ORDER_OPTION.DESC,
+      }),
+      DropMenuData({
+        menu: "수정 날짜",
+        menuType: ORDER_TYPE.MODIFY_DATE,
+        menuValue: ORDER_OPTION.DESC,
+      }),
+    ]);
   }
 
   componentDidMount() {
@@ -108,6 +216,44 @@ class AdminContent extends Component {
       })
       .catch((err) => {
         alert("조회된 데이터가 없습니다.");
+      });
+  }
+
+  requestChangeUserStateApi(params = null, pathVariables = null) {
+    let url = process.env.REACT_APP_KOHUB_API_URL_PUT_ADMIN_USER_STATE;
+
+    if (pathVariables !== null) {
+      url = ApiUtil.bindPathVariable(url, pathVariables);
+      console.log(url);
+    }
+
+    fetch(url, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+      },
+      referrer: "no-referrer",
+      body: JSON.stringify(params),
+    })
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        alert("계정 상태가 변경되었습니다.");
+        let params = {
+          start: (this.numOfCurrentPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+        };
+        this.requestUserApi(params);
+      })
+      .catch((err) => {
+        alert("계정 상태를 변경하는데 문제가 발생하였습니다.");
       });
   }
 
@@ -186,9 +332,14 @@ class AdminContent extends Component {
         startPage: newStartPage,
         endPage: newEndPage,
       });
+      this.numOfCurrentPage = newStartPage;
 
       let params = {
         start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+        filterType: this.state.filterType,
+        filterValue: this.state.filterValue,
+        orderType: this.state.orderType,
+        orderOption: this.state.orderOption,
       };
       this.requestUserApi(params);
     }
@@ -212,9 +363,14 @@ class AdminContent extends Component {
         startPage: newStartPage,
         endPage: newEndPage,
       });
+      this.numOfCurrentPage = newStartPage;
 
       let params = {
         start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+        filterType: this.state.filterType,
+        filterValue: this.state.filterValue,
+        orderType: this.state.orderType,
+        orderOption: this.state.orderOption,
       };
       this.requestUserApi(params);
     }
@@ -222,8 +378,13 @@ class AdminContent extends Component {
 
   onPageBtnClickCallback(pageNum) {
     console.log("pageClick Callback!!");
+    this.numOfCurrentPage = pageNum;
     let params = {
       start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
+      filterType: this.state.filterType,
+      filterValue: this.state.filterValue,
+      orderType: this.state.orderType,
+      orderOption: this.state.orderOption,
     };
     this.requestUserApi(params);
   }
@@ -249,6 +410,14 @@ class AdminContent extends Component {
         break;
     }
 
+    this.setState({
+      filterType: FILTER_TYPE.ALL,
+      filterValue: "",
+      orderType: ORDER_TYPE.NO,
+      orderOption: ORDER_OPTION.ASC,
+      endPage: 0,
+    });
+
     this.requestSearchUserApi(params);
   }
 
@@ -256,28 +425,114 @@ class AdminContent extends Component {
     this.selectedDropMenu = selectedDropMenu;
   }
 
+  onOrderMenuClickCallback(newOrderType, newOrderOption) {
+    console.log(`newOrderType = ${newOrderType}`);
+    console.log(`newOrderOption = ${newOrderOption}`);
+    this.setState({
+      filterType: this.state.filterType,
+      filterValue: this.state.filterValue,
+      orderType: newOrderType,
+      orderOption: newOrderOption,
+      endPage: 0,
+    });
+    this.numOfCurrentPage = 1;
+
+    let params = {
+      filterType: this.state.filterType,
+      filterValue: this.state.filterValue,
+      orderType: newOrderType,
+      orderOption: newOrderOption,
+    };
+
+    this.requestUserApi(params);
+  }
+
+  onFilterMenuClickCallback(newFilterType, newFilterValue) {
+    this.setState({
+      filterType: newFilterType,
+      filterValue: newFilterValue,
+      orderType: this.state.orderType,
+      orderOption: this.state.orderOption,
+      endPage: 0,
+    });
+    this.numOfCurrentPage = 1;
+
+    let params = {
+      filterType: newFilterType,
+      filterValue: newFilterValue,
+      orderType: this.state.orderType,
+      orderOption: this.state.orderOption,
+    };
+
+    this.requestUserApi(params);
+  }
+
   onWarnningBtnClickCallback() {
     console.log("경고");
-    let checkBoxNodes = document.querySelectorAll(".kohub-table-check");
-    let checkedIds = Object.values(checkBoxNodes).filter((checkBox) => {
-      if (checkBox.checked === true) {
-        return checkBox;
-      }
-    });
+    let checkedNodes = this.getCheckedNodes();
 
-    if (checkedIds.length > 0) {
-      checkedIds.forEach((e) => {
+    if (checkedNodes.length > 0) {
+      checkedNodes.forEach((e) => {
         console.log(e.value);
+        let params = {
+          state: USER_STATE.WARRNING,
+        };
+        let pathVariables = {
+          userId: e.value,
+        };
+
+        this.requestChangeUserStateApi(params, pathVariables);
       });
     }
   }
 
   onForbiddenBtnClickCallback() {
     console.log("정지");
+    let checkedNodes = this.getCheckedNodes();
+
+    if (checkedNodes.length > 0) {
+      checkedNodes.forEach((e) => {
+        console.log(e.value);
+        let params = {
+          state: USER_STATE.FORBIDDEN,
+        };
+        let pathVariables = {
+          userId: e.value,
+        };
+
+        this.requestChangeUserStateApi(params, pathVariables);
+      });
+    }
   }
 
   onRecoveryBtnClickCallback() {
     console.log("해제");
+    let checkedNodes = this.getCheckedNodes();
+
+    if (checkedNodes.length > 0) {
+      checkedNodes.forEach((e) => {
+        console.log(e.value);
+        let params = {
+          state: USER_STATE.NORMAL,
+        };
+        let pathVariables = {
+          userId: e.value,
+        };
+
+        this.requestChangeUserStateApi(params, pathVariables);
+      });
+    }
+  }
+
+  getCheckedNodes() {
+    let checkBoxNodes = document.querySelectorAll(".kohub-table-check");
+    let checkedNodes = Object.values(checkBoxNodes).filter((checkBox) => {
+      if (checkBox.checked === true) {
+        return checkBox;
+      }
+    });
+
+    return checkedNodes;
   }
 
   render() {
@@ -291,6 +546,8 @@ class AdminContent extends Component {
       warnningCount,
       forbiddenCount,
     } = this.state;
+
+    console.log(endPage);
 
     return (
       <div className="kohub-admin-content-container">
@@ -314,8 +571,19 @@ class AdminContent extends Component {
                 <span>경고:{warnningCount}</span>
                 <span>정지:{forbiddenCount}</span>
               </div>
-              <div className="kohub-admin-header__align-btn">
-                <button>필터</button>
+              <div className="kohub-admin-header__filter">
+                <DropMenu
+                  value={"필터"}
+                  menus={this.filterMenuList}
+                  onDropMenuClick={this.onFilterMenuClickCallback.bind(this)}
+                ></DropMenu>
+              </div>
+              <div className="kohub-admin-header__align">
+                <DropMenu
+                  value={"정렬"}
+                  menus={this.alignMenuList}
+                  onDropMenuClick={this.onOrderMenuClickCallback.bind(this)}
+                ></DropMenu>
               </div>
             </div>
           </header>

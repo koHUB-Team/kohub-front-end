@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import "./DropBox.scss";
 import { DomUtil } from "../common/kohubUtil";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 //****Dropbox 컴포넌트****//
 
 class DropBox extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isClickedDropboxBtn: false,
+    };
     this.DROP_MENU_SELECTOR = ".kohub-dropbox__menu";
     this.SELECT_RESULT_SELECTOR = "#selected-menu";
   }
@@ -14,46 +19,19 @@ class DropBox extends Component {
   componentDidMount() {
     this.dropMenuNode = document.querySelector(this.DROP_MENU_SELECTOR);
     this.selectResultNode = document.querySelector(this.SELECT_RESULT_SELECTOR);
-
-    this.initEvent();
-  }
-
-  initEvent() {
-    this.dropMenuNode.addEventListener(
-      "mouseout",
-      this.onDropMenuMouseoutListener.bind(this)
-    );
-  }
-
-  onDropMenuMouseoutListener(e) {
-    let isEventTarget = false;
-    switch (e.target.tagName.toLowerCase()) {
-      case "ul":
-        isEventTarget = true;
-        break;
-    }
-    if (isEventTarget) {
-      this.hideDropMenu();
-    }
-  }
-
-  onDropMenuMouseoverListener(e) {
-    let isEventTarget = false;
-    switch (e.target.tagName.toLowerCase()) {
-      case "li":
-        isEventTarget = true;
-        break;
-    }
-    if (isEventTarget) {
-      this.showDropMenu();
-    }
   }
 
   onDropboxBtnClickListener(e) {
     if (DomUtil.hasClassByClassName(this.dropMenuNode, "hide")) {
       this.showDropMenu();
+      this.setState({
+        isClickedDropboxBtn: true,
+      });
     } else {
       this.hideDropMenu();
+      this.setState({
+        isClickedDropboxBtn: false,
+      });
     }
   }
 
@@ -62,6 +40,9 @@ class DropBox extends Component {
     this.selectResultNode.textContent = selectedMenuText;
 
     this.hideDropMenu();
+    this.setState({
+      isClickedDropboxBtn: false,
+    });
     this.props.onMenuClick(selectedMenuText);
   }
 
@@ -77,11 +58,7 @@ class DropBox extends Component {
     let { menus } = this.props;
     let dropMenuList = menus.reduce((acc, menu, idx) => {
       return acc.concat([
-        <li
-          key={idx}
-          onClick={this.onMenuClickListener.bind(this)}
-          onMouseOver={this.onDropMenuMouseoverListener.bind(this)}
-        >
+        <li key={idx} onClick={this.onMenuClickListener.bind(this)}>
           {menu}
         </li>,
       ]);
@@ -90,8 +67,18 @@ class DropBox extends Component {
     return dropMenuList;
   }
 
+  getDropboxIcon() {
+    let { isClickedDropboxBtn } = this.state;
+
+    if (isClickedDropboxBtn) {
+      return <FontAwesomeIcon icon={faCaretUp}></FontAwesomeIcon>;
+    }
+    return <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>;
+  }
+
   render() {
     let dropMenuList = this.getDropMenuList();
+    let dropMenuIcon = this.getDropboxIcon();
     return (
       <div className="kohub-dropbox-area">
         <div className="kohub-dropbox__selected-menu">
@@ -102,7 +89,9 @@ class DropBox extends Component {
         <button
           className="kohub-dropbox__btn align-center-col"
           onClick={this.onDropboxBtnClickListener.bind(this)}
-        ></button>
+        >
+          {dropMenuIcon}
+        </button>
         <div className="kohub-dropbox__menu hide">
           <ul>{dropMenuList}</ul>
         </div>

@@ -19,7 +19,7 @@ $adminNav-width: 240px;
     padding-left: $adminNav-width;
 
     .kohub-admin-content-area {
-        padding: 150px 10%;
+        padding: 10% 10%;
 
         .kohub-admin-header {
             position: static;
@@ -49,18 +49,11 @@ $adminNav-width: 240px;
                     }
                 }
 
-                .kohub-admin-header__align-btn {
+                .kohub-admin-header__filter,
+                .kohub-admin-header__align {
                     float: right;
                     position: relative;
                     top: 50%;
-
-                    button {
-                        font-family: 'Noto Sans KR', sans-serif;
-                        font-weight: 700;
-                        color: kohubColor.$color-koHub-primary;
-                        font-size: 10pt;
-                        margin-left: 10px;
-                    }
                 }
             }
         }

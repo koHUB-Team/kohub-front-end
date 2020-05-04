@@ -12,10 +12,14 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.CHECK_BOX_SELECTOR = ".kohub-table-check";
+    this.CHECK_ALL_BOX_SELECTOR = ".kohub-table-check-all";
   }
 
   componentDidUpdate() {
+    let checkAllBoxNode = document.querySelector(this.CHECK_ALL_BOX_SELECTOR);
     let checkBoxNodes = document.querySelectorAll(this.CHECK_BOX_SELECTOR);
+
+    checkAllBoxNode.checked = false;
     Object.values(checkBoxNodes).forEach((checkBox) => {
       checkBox.checked = false;
     });
@@ -48,6 +52,7 @@ class Table extends Component {
           <input
             type="checkbox"
             onChange={this.onAllCheckboxChangeListener.bind(this)}
+            className="kohub-table-check-all"
           ></input>
         </th>,
       ]);
