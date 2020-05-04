@@ -1,43 +1,24 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-import {
-  Main,
-  Account,
-  Login,
-  SignUp,
-  SignUpAuth,
-  NotFound,
-  Admin,
-  SignUpComplete,
-  FindPassword,
-  Write,
-} from "../pages";
-import { Header, Footer } from "../components";
+import { Main } from "../pages/Main";
+// import { Notice } from "../pages/Kohub";
+import { NoticeContainer } from "../containers";
+import { NotFound } from "../pages/Error";
+import { LoginForm, SignUpForm, FindPassForm } from "../pages/Login";
+import AdminApp from "./AdminApp";
+import Help from "./Help";
 
 class App extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/write" component={Write}></Route>
-        <Route path="/admin" component={Admin}></Route>
-        <Route exact path="/login" component={Login}></Route>
-        <Route exact path="/signup" component={SignUp}></Route>
-        <Route exact path="/signup_auth" component={SignUpAuth}></Route>
-        <Route exact path="/signup_complete" component={SignUpComplete}></Route>
-        <Route exact path="/help_pass" component={FindPassword}></Route>
-        <Switch>
-          <Route exact path="/">
-            <Header></Header>
-            <Main></Main>
-            <Footer></Footer>
-          </Route>
-          <Route exact path="/myaccount">
-            <Header></Header>
-            <Account></Account>
-            <Footer></Footer>
-          </Route>
-          <Route component={NotFound}></Route>
-        </Switch>
+        <Route path="/help" component={Help}></Route>
+        <Route path="/admin" component={AdminApp}></Route>
+        <Route exact path="/login" component={LoginForm}></Route>
+        <Route exact path="/signup" component={SignUpForm}></Route>
+        <Route exact path="/notice" component={NoticeContainer}></Route>
+        <Route exact path="/" component={Main}></Route>
+        <Route component={NotFound}></Route>
       </Switch>
     );
   }

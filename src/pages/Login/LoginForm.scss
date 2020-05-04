@@ -1,0 +1,91 @@
+@use "../../common/util.scss"as kohubUtil;
+@use "../../common/color.scss"as kohubColor;
+
+.kohub-login {
+  background-color: kohubColor.$color-background-white--fade;
+  height: 100%;
+}
+
+.kohub-login__content {
+
+  hr {
+    width: 376px;
+    border: none;
+    border: 1px solid kohubColor.$color-koHub-primary;
+  }
+
+  // h2 {
+  //   color: kohubColor.$font-color-subtitle;
+  // }
+
+  div {
+    width: 376px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+  }
+
+  .kohub-login__input {
+    input {
+      padding-left: 5px;
+      width: 376px;
+      height: 30px;
+    }
+  }
+
+  .kohub-login__help {
+    text-align: right;
+
+    span {
+      font-size: 16px;
+      font-weight: normal;
+      color: kohubColor.$font-color-subtitle;
+    }
+
+    a {
+      text-decoration: none;
+      color: kohubColor.$font-color-third--fade;
+
+      &:hover {
+        text-decoration: underline;
+        color: kohubColor.$color-koHub-primary;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .kohub-login__button {
+    button {
+      background-color: kohubColor.$color-koHub-primary;
+      color: white;
+      font-size: 15px;
+      width: 376px;
+      height: 50px;
+      border-radius: 5px;
+    }
+  }
+
+  // .input-area {
+  //   width: 376px;
+  // }
+
+  // .text-left {
+  //   text-align: left;
+  // }
+
+  // .text-right {
+  //   text-align: right;
+  // }
+
+  // .color-base {
+  //   color: kohubColor.$font-color-third--fade !important;
+  // }
+
+  .kohub-login__logo {
+    @include kohubUtil.background-img('../../../public/imgs/logo/koHUB_page_logo_1200.png');
+    width: 200px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+  }
+}

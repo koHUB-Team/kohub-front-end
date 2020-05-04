@@ -147,7 +147,7 @@ class Header extends Component {
           <div className="header-area">
             <div className="kohub-header__logo align-center-col">
               <h1>
-                <Link to="">
+                <Link to="/">
                   <span className="kohub-logo blind">koHUB</span>
                 </Link>
               </h1>
@@ -161,7 +161,7 @@ class Header extends Component {
               <span className="kohub-login__icon blind">koHUB 로그인</span>
               <div className="kohub-login__menu">
                 <div className="">
-                  <Link to="">
+                  <Link to="/login">
                     <span>Login</span>
                   </Link>
                   /
