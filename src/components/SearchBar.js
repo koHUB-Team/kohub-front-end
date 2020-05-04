@@ -6,6 +6,13 @@ import "./SearchBar.scss";
 //.search-bar--type
 
 class SearchBar extends Component {
+  onSubmitListener(e) {
+    e.preventDefault();
+    let formNode = e.target;
+    let word = formNode.searchWord.value;
+    this.props.onSubmit(word);
+  }
+
   render() {
     let searchBarType = this.props.type;
 
@@ -13,12 +20,9 @@ class SearchBar extends Component {
       <div
         className={`kohub-search-bar-container search-bar--${searchBarType}`}
       >
-        <input
-          id="search"
-          className=""
-          type="text"
-          placeholder="검색어를 입력하세요"
-        />
+        <form onSubmit={this.onSubmitListener.bind(this)}>
+          <input name="searchWord" type="text" />
+        </form>
         <span className="search-bar-logo blind">검색</span>
       </div>
     );

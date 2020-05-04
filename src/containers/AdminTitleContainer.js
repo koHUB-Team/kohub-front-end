@@ -1,4 +1,4 @@
-import AdminHeader from "../components/AdminHeader";
+import AdminTitle from "../components/AdminTitle";
 import { connect } from "react-redux";
 
 //container component : recux의 store와 wrabed componet의 props와 연결해줌.
@@ -20,4 +20,4 @@ function mapReduxStateToReactProps(state) {
 // }
 
 //connect인자로 함수를 전달. 리턴값이 함수. 그 함수에 인자로 wraped component를 전달해서 연결.
-export default connect(mapReduxStateToReactProps)(AdminHeader);
+export default connect(mapReduxStateToReactProps)(AdminTitle);

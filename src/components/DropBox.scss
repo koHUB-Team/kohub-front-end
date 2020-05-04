@@ -1,0 +1,69 @@
+@use '../common/color.scss'as kohubColor;
+@use '../common/util.scss'as kohubUtil;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-dropbox-area {
+    float: left;
+    width: 90px;
+    height: 35px;
+    border: 1px solid kohubColor.$color-koHub-primary;
+    position: relative;
+    overflow: visible;
+    margin-right: 5px;
+
+    .kohub-dropbox__selected-menu {
+        width: 55px;
+        height: 100%;
+        float: left;
+
+        span {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 500;
+            font-size: 10pt;
+            margin-left: 10px;
+            display: block;
+            text-align: left;
+        }
+    }
+
+    .kohub-dropbox__btn {
+        width: 34px;
+        height: 34px;
+        float: right;
+        right: 0;
+        font-size: 13pt;
+    }
+
+    .kohub-dropbox__menu {
+        background-color: white;
+        border: 1px solid kohubColor.$color-koHub-primary;
+        position: absolute;
+        top: 110%;
+        left: -1px;
+        width: 100%;
+
+
+        ul {
+            li {
+                font-family: 'Noto Sans KR', sans-serif;
+                font-weight: 500;
+                font-size: 10pt;
+                cursor: pointer;
+                text-align: center;
+                padding: 5px 5px;
+
+                &:hover {
+                    background-color: kohubColor.$dropbox-menu-hover-color;
+                }
+            }
+
+            li:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

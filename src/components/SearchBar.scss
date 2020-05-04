@@ -12,15 +12,21 @@
     overflow: hidden;
     text-align: center;
 
-    input {
-        outline: none;
-        border: none;
-        color: black;
+    form {
         width: 80%;
         position: relative;
         top: 50%;
         transform: translateY(-50%);
+        overflow: hidden;
+        float: left;
 
+        input {
+            width: 100%;
+            margin-left: 10px;
+            outline: none;
+            border: none;
+            color: black;
+        }
     }
 
     .search-bar-logo {
@@ -28,7 +34,7 @@
         width: 20px;
         height: 20px;
         float: right;
-        right: 4%;
+        right: 5%;
         position: relative;
         top: 50%;
         transform: translateY(-50%);
@@ -47,6 +53,6 @@
     input {
         font-family: 'Noto Sans KR', sans-serif;
         font-size: 11pt;
-        font-weight: 600;
+        font-weight: 500;
     }
 }
