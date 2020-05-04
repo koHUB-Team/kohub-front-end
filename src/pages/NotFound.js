@@ -8,7 +8,7 @@ class NotFound extends Component {
           <div>
             <h1>404</h1>
           </div>
-          <div className="kohub-emailauth__subtitle">
+          <div className="kohub-NotFound__subtitle">
             <h2>Page not Found</h2>
           </div>
           <div className="kohub-NotFound__button">

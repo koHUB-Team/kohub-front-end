@@ -10,6 +10,7 @@ import {
   Admin,
   SignUpComplete,
   FindPassword,
+  Write,
 } from "../pages";
 import { Header, Footer } from "../components";
 
@@ -17,6 +18,7 @@ class App extends Component {
   render() {
     return (
       <Switch>
+        <Route path="/write" component={Write}></Route>
         <Route path="/admin" component={Admin}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/signup" component={SignUp}></Route>

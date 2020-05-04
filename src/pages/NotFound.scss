@@ -1,4 +1,3 @@
-@use "../common/util.scss"as kohubUtil;
 @use "../common/color.scss"as kohubColor;
 
 .kohub-NotFound {
@@ -17,12 +16,12 @@
     }
 
     h1 {
-        color: $color-koHub-primary;
+        color: kohubColor.$color-koHub-primary;
         font-size: 85px;
         font-weight: bold;
     }
 
-    .kohub-emailauth__subtitle {
+    .kohub-NotFound__subtitle {
         h2 {
             font-size: 43px;
             color: kohubColor.$font-color-subtitle;

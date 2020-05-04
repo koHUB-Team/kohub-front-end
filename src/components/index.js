@@ -9,3 +9,5 @@ export { default as AdminContent } from "./AdminContent";
 export { default as AccountContent } from "./AccountContent";
 export { default as AdminTitle } from "./AdminTitle";
 export { default as AdminHeader } from "./AdminHeader";
+
+export { default as BoardWrite } from "./BoardWrite";

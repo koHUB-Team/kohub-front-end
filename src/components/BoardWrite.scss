@@ -1,0 +1,63 @@
+@use "../common/color.scss"as kohubColor;
+
+.kohub-boardwrite {
+}
+
+.kohub-boardwrite__content {
+  padding: 60px;
+  .kohub-boardwrite__title {
+    h2 {
+      margin-left: 15px;
+      margin-bottom: 15px;
+      color: kohubColor.$color-koHub-primary;
+      font-size: 32px;
+      font-weight: bold;
+    }
+  }
+
+  .kohub-boardwrite__hr {
+    hr {
+      margin: 0;
+      border: none;
+      border: 2px solid kohubColor.$color-koHub-primary;
+      margin-bottom: 15px;
+    }
+  }
+
+  .kohub-boardwrite__input {
+    input {
+      margin-bottom: 15px;
+      padding-left: 15px;
+      height: 68px;
+      width: 1130px;
+      font-size: 20px;
+      font-weight: bold;
+      color: kohubColor.$font-color-third--light;
+    }
+  }
+  .kohub-boardwrite__text-editor {
+    margin-bottom: 15px;
+    .kohub-boardwrite__edited-area {
+      height: 380px;
+      font-size: 15px;
+    }
+  }
+  .kohub-boardwrite___button {
+    text-align: center;
+    #register {
+      margin-right: 15px;
+      background-color: kohubColor.$color-koHub-primary;
+      color: white;
+    }
+    #cancel {
+      background-color: white;
+      color: kohubColor.$color-koHub-primary;
+      border: 1px solid kohubColor.$color-koHub-primary;
+    }
+    button {
+      width: 159px;
+      height: 40px;
+      font-size: 16px;
+    }
+  }
+}
