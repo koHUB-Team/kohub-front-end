@@ -1,11 +1,11 @@
 @use "../../common/color.scss"as kohubColor;
 
-.kohub-NotFound {
+.kohub-notfound {
     background-color: kohubColor.$color-background-white--fade;
     height: 100%;
 }
 
-.kohub-NotFound__content {
+.kohub-notfound__content {
     text-align: center;
 
     div {
@@ -21,14 +21,14 @@
         font-weight: bold;
     }
 
-    .kohub-NotFound__subtitle {
+    .kohub-notfound__subtitle {
         h2 {
             font-size: 43px;
             color: kohubColor.$font-color-subtitle;
         }
     }
 
-    .kohub-NotFound__button {
+    .kohub-notfound__button {
         button {
             background-color: kohubColor.$color-koHub-primary;
             color: white;

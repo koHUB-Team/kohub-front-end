@@ -1,11 +1,11 @@
 @use "../../common/color.scss"as kohubColor;
 
-.kohub-boardwrite {}
+.kohub-noticewrite {}
 
-.kohub-boardwrite__content {
+.kohub-noticewrite__content {
   padding: 60px;
 
-  .kohub-boardwrite__title {
+  .kohub-noticewrite__title {
     h2 {
       margin-left: 15px;
       margin-bottom: 15px;
@@ -15,7 +15,7 @@
     }
   }
 
-  .kohub-boardwrite__hr {
+  .kohub-noticewrite__hr {
     hr {
       margin: 0;
       border: none;
@@ -24,7 +24,7 @@
     }
   }
 
-  .kohub-boardwrite__input {
+  .kohub-noticewrite__input {
     input {
       margin-bottom: 15px;
       padding-left: 15px;
@@ -36,34 +36,16 @@
     }
   }
 
-  .kohub-boardwrite__text-editor {
+  .kohub-noticewrite__text-editor {
     margin-bottom: 15px;
 
-    .kohub-boardwrite__edited-area {
+    .kohub-noticewrite__edited-area {
       height: 380px;
       font-size: 15px;
     }
   }
 
-  .kohub-boardwrite___button {
+  .kohub-noticewrite___button {
     text-align: center;
-
-    #register {
-      margin-right: 15px;
-      background-color: kohubColor.$color-koHub-primary;
-      color: white;
-    }
-
-    #cancel {
-      background-color: white;
-      color: kohubColor.$color-koHub-primary;
-      border: 1px solid kohubColor.$color-koHub-primary;
-    }
-
-    button {
-      width: 159px;
-      height: 40px;
-      font-size: 16px;
-    }
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Header, Footer } from "../../components";
-import { BoardWrite } from "./";
+import { NoticeWrite } from "./";
 import { MODE } from "../../store";
 
 class Notice extends Component {
@@ -9,7 +9,7 @@ class Notice extends Component {
       case MODE.READ:
         return <h1>read</h1>;
       case MODE.CREATE:
-        return <BoardWrite></BoardWrite>;
+        return <NoticeWrite></NoticeWrite>;
     }
   }
 

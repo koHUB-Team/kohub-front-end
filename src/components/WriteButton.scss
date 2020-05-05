@@ -1,0 +1,27 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-write-btn {
+    font-family: 'Noto Sans KR',
+        sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    width: 159px;
+    height: 40px;
+}
+
+#register {
+    margin-right: 15px;
+    background-color: kohubColor.$color-koHub-primary;
+    color: white;
+}
+
+#cancel {
+    background-color: white;
+    color: kohubColor.$color-koHub-primary;
+    border: 1px solid kohubColor.$color-koHub-primary;
+}

@@ -1,2 +1,2 @@
 export { default as Notice } from "./Notice";
-export { default as BoardWrite } from "./BoardWrite";
+export { default as NoticeWrite } from "./NoticeWrite";

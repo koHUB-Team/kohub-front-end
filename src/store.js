@@ -27,7 +27,7 @@ const Admin = Record({
 
 const Kohub = Record({
   selectedMenuId: 0,
-  mode: MODE.READ,
+  mode: MODE.CREATE,
 });
 
 //Redux state 초기화
