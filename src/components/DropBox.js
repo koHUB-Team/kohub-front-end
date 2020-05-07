@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 //****Dropbox 컴포넌트****//
+//props
+//onMenuClick : Dropbox의 메뉴를 클릭했을 때, 실행할 콜백 메소드
+//menus : Dropbox의 메뉴에 넣을 리스트 / type : Immutable.List
 
 class DropBox extends Component {
   constructor(props) {
