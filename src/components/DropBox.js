@@ -46,7 +46,11 @@ class DropBox extends Component {
     this.setState({
       isClickedDropboxBtn: false,
     });
-    this.props.onMenuClick(selectedMenuText);
+
+    let { onMenuClick } = this.props;
+    if (onMenuClick !== undefined) {
+      onMenuClick(selectedMenuText);
+    }
   }
 
   hideDropMenu() {
@@ -59,6 +63,11 @@ class DropBox extends Component {
 
   getDropMenuList() {
     let { menus } = this.props;
+
+    if (menus === undefined) {
+      return [];
+    }
+
     let dropMenuList = menus.reduce((acc, menu, idx) => {
       return acc.concat([
         <li key={idx} onClick={this.onMenuClickListener.bind(this)}>
