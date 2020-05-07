@@ -92,7 +92,7 @@ class Account extends Component {
       DropMenuData({
         menu: "모든 계정",
         menuType: FILTER_TYPE.ALL,
-        filterValue: "",
+        menuValue: "",
       }),
       DropMenuData({
         menu: "관리자 계정",
