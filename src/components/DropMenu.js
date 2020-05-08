@@ -7,6 +7,18 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
+//****SearchBar 컴포넌트****//
+//props
+//value : dropmenu 버튼에 표시할 텍스트 / type : String
+//menus : dropmenu 버튼 클릭시 나타나는 서브메뉴 리스트 / type : Immutable.List
+
+//menus 는 record로 이루어짐.
+//data = Record({
+//menu : 메뉴이름
+//menuType : 필요하면 지정. menu Click시 인자로 전달됨.
+//menuValue : 필요하면 지정. menu Click시 인자로 전달됨.
+//})
+
 class DropMenu extends Component {
   constructor(props) {
     super(props);
@@ -17,17 +29,13 @@ class DropMenu extends Component {
   }
 
   onDropBtnClickListener(e) {
-    let isEventTaget = false;
     let buttonNode;
-
     switch (e.target.tagName.toLowerCase()) {
       case "button":
-        isEventTaget = true;
         buttonNode = e.target;
         this.dropMenuContainerNode = buttonNode.nextElementSibling;
         break;
       case "svg":
-        isEventTaget = true;
         buttonNode = e.target.parentElement;
         this.dropMenuContainerNode = buttonNode.nextElementSibling;
         break;
@@ -69,9 +77,7 @@ class DropMenu extends Component {
     }
 
     if (isEventTaget) {
-      console.log("Menu Click!");
-
-      this.hideDropMenu(this.dropMenuContainerNode);
+      this.hideDropMenu();
       this.setState({
         isDropBtnClicked: false,
         clickedDropMenuId: Number(liNode.dataset.id),
@@ -80,15 +86,16 @@ class DropMenu extends Component {
       let type = liNode.dataset.type;
       let value = liNode.dataset.value;
 
-      if (this.props.onDropMenuClick !== undefined) {
-        this.props.onDropMenuClick(type, value);
+      let { onDropMenuClick } = this.props;
+      if (onDropMenuClick !== undefined) {
+        onDropMenuClick(type, value);
       }
 
       e.nativeEvent.stopImmediatePropagation();
     }
   }
 
-  hideDropMenu(dropMenuContainerNode) {
+  hideDropMenu() {
     this.dropMenuContainerNode.classList.add("hide");
   }
 
@@ -118,7 +125,6 @@ class DropMenu extends Component {
         if (idx === clickedDropMenuId) {
           _className = "checked";
         }
-        console.log(_className);
 
         return acc.concat([
           <li

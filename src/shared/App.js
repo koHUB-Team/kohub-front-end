@@ -4,7 +4,7 @@ import { Main } from "../pages/Main";
 // import { Notice } from "../pages/Kohub";
 import { NoticeContainer } from "../containers";
 import { NotFound } from "../pages/Error";
-import { LoginForm, SignUpForm, FindPassForm } from "../pages/Login";
+import { LoginForm, SignUpForm } from "../pages/Login";
 import AdminApp from "./AdminApp";
 import Help from "./Help";
 

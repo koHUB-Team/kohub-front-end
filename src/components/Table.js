@@ -46,6 +46,10 @@ class Table extends Component {
     let { heads, checked } = this.props;
     let headList = [];
 
+    if (heads === undefined) {
+      return headList;
+    }
+
     if (checked === true) {
       headList = headList.concat([
         <th key={heads.toJS().length}>
@@ -68,6 +72,11 @@ class Table extends Component {
   //테이블 각 행의 리스트 반환 함수
   getDataList() {
     let { datas } = this.props;
+
+    if (datas === undefined) {
+      return [];
+    }
+
     let dataList = datas.reduce((acc, data, idx) => {
       return acc.concat([<tr key={idx}>{this.getDataValueList(data)}</tr>]);
     }, []);
