@@ -11,6 +11,7 @@ import {
 } from "../../components";
 import { List, Record } from "immutable";
 import { ApiUtil, ValidateUtil } from "../../common/kohubUtil";
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 
 const User = Record({
   id: null,
@@ -81,6 +82,7 @@ class Account extends Component {
       normalCount: 0,
       warnningCount: 0,
       forbiddenCount: 0,
+      searchFlag: false,
     };
     this.MAX_NUM_OF_PAGE_BTN = 5;
     this.MIN_PAGE_NUM = 1;
@@ -319,50 +321,74 @@ class Account extends Component {
   }
 
   onPrevBtnClickCallback(e) {
-    let { startPage } = this.state;
+    let { searchFlag } = this.state;
 
-    if (startPage > this.MIN_PAGE_NUM) {
-      let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
-      let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
+    if (!searchFlag) {
+      let { startPage } = this.state;
 
-      this.setState({
-        startPage: newStartPage,
-        endPage: newEndPage,
-      });
-      this.numOfCurrentPage = newStartPage;
+      if (startPage > this.MIN_PAGE_NUM) {
+        let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
+        let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
 
-      let params = {
-        start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
-        filterType: this.state.filterType,
-        filterValue: this.state.filterValue,
-        orderType: this.state.orderType,
-        orderOption: this.state.orderOption,
-      };
-      this.requestUserApi(params);
+        this.setState({
+          startPage: newStartPage,
+          endPage: newEndPage,
+        });
+        this.numOfCurrentPage = newStartPage;
+
+        let params = {
+          start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+        };
+        this.requestUserApi(params);
+      }
     }
   }
 
   onNextBtnClickCallback(e) {
-    let { startPage } = this.state;
-    let { endPage } = this.state;
-    let { totalCount } = this.state;
-    let maxPage = this.calculateMaxPage(totalCount);
+    let { searchFlag } = this.state;
 
-    if (endPage < maxPage) {
-      let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
-      let newEndPage = endPage + this.MAX_NUM_OF_PAGE_BTN;
-      if (newEndPage > maxPage) {
-        newEndPage = maxPage;
+    if (!searchFlag) {
+      let { startPage } = this.state;
+      let { endPage } = this.state;
+      let { totalCount } = this.state;
+      let maxPage = this.calculateMaxPage(totalCount);
+
+      if (endPage < maxPage) {
+        let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
+        let newEndPage = endPage + this.MAX_NUM_OF_PAGE_BTN;
+        if (newEndPage > maxPage) {
+          newEndPage = maxPage;
+        }
+
+        this.setState({
+          startPage: newStartPage,
+          endPage: newEndPage,
+        });
+        this.numOfCurrentPage = newStartPage;
+
+        let params = {
+          start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+        };
+        this.requestUserApi(params);
       }
+    }
+  }
 
-      this.setState({
-        startPage: newStartPage,
-        endPage: newEndPage,
-      });
-      this.numOfCurrentPage = newStartPage;
+  onPageBtnClickCallback(pageNum) {
+    let { searchFlag } = this.state;
 
+    if (!searchFlag) {
+      this.numOfCurrentPage = pageNum;
       let params = {
-        start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+        start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
         filterType: this.state.filterType,
         filterValue: this.state.filterValue,
         orderType: this.state.orderType,
@@ -370,18 +396,6 @@ class Account extends Component {
       };
       this.requestUserApi(params);
     }
-  }
-
-  onPageBtnClickCallback(pageNum) {
-    this.numOfCurrentPage = pageNum;
-    let params = {
-      start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
-      filterType: this.state.filterType,
-      filterValue: this.state.filterValue,
-      orderType: this.state.orderType,
-      orderOption: this.state.orderOption,
-    };
-    this.requestUserApi(params);
   }
 
   onSearchBarSubmitCallback(word) {
@@ -420,6 +434,7 @@ class Account extends Component {
       orderType: ORDER_TYPE.NO,
       orderOption: ORDER_OPTION.ASC,
       endPage: 0,
+      searchFlag: true,
     });
 
     this.requestSearchUserApi(params);
@@ -435,7 +450,9 @@ class Account extends Component {
       filterValue: this.state.filterValue,
       orderType: newOrderType,
       orderOption: newOrderOption,
+      startPage: 1,
       endPage: 0,
+      searchFlag: false,
     });
     this.numOfCurrentPage = 1;
 
@@ -455,7 +472,9 @@ class Account extends Component {
       filterValue: newFilterValue,
       orderType: this.state.orderType,
       orderOption: this.state.orderOption,
+      startPage: 1,
       endPage: 0,
+      searchFlag: false,
     });
     this.numOfCurrentPage = 1;
 
