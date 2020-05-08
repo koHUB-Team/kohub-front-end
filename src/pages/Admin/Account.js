@@ -10,7 +10,7 @@ import {
   DropMenu,
 } from "../../components";
 import { List, Record } from "immutable";
-import { ApiUtil } from "../../common/kohubUtil";
+import { ApiUtil, ValidateUtil } from "../../common/kohubUtil";
 
 const User = Record({
   id: null,
@@ -223,7 +223,6 @@ class Account extends Component {
 
     if (pathVariables !== null) {
       url = ApiUtil.bindPathVariable(url, pathVariables);
-      console.log(url);
     }
 
     fetch(url, {
@@ -320,7 +319,6 @@ class Account extends Component {
   }
 
   onPrevBtnClickCallback(e) {
-    console.log("prevClick Callback!");
     let { startPage } = this.state;
 
     if (startPage > this.MIN_PAGE_NUM) {
@@ -345,7 +343,6 @@ class Account extends Component {
   }
 
   onNextBtnClickCallback(e) {
-    console.log("nextClick Callback!");
     let { startPage } = this.state;
     let { endPage } = this.state;
     let { totalCount } = this.state;
@@ -376,7 +373,6 @@ class Account extends Component {
   }
 
   onPageBtnClickCallback(pageNum) {
-    console.log("pageClick Callback!!");
     this.numOfCurrentPage = pageNum;
     let params = {
       start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
@@ -389,24 +385,33 @@ class Account extends Component {
   }
 
   onSearchBarSubmitCallback(word) {
-    //유효성 검사 필요
-
     let params;
     switch (this.selectedDropMenu) {
       case "이메일":
+        if (!ValidateUtil.emailValidate(word)) {
+          alert("이메일 형식을 지켜주세요.");
+          return;
+        }
+
         params = {
           email: word,
         };
         break;
 
       case "닉네임":
+        if (!ValidateUtil.nicknameValidate(word)) {
+          alert("닉네임은 문자, 숫자로만 이루어져야 합니다.");
+          return;
+        }
+
         params = {
           name: word,
         };
         break;
 
       default:
-        break;
+        alert("검색 카테고리를 설정해주세요.");
+        return;
     }
 
     this.setState({
@@ -425,8 +430,6 @@ class Account extends Component {
   }
 
   onOrderMenuClickCallback(newOrderType, newOrderOption) {
-    console.log(`newOrderType = ${newOrderType}`);
-    console.log(`newOrderOption = ${newOrderOption}`);
     this.setState({
       filterType: this.state.filterType,
       filterValue: this.state.filterValue,
@@ -467,12 +470,10 @@ class Account extends Component {
   }
 
   onWarnningBtnClickCallback() {
-    console.log("경고");
     let checkedNodes = this.getCheckedNodes();
 
     if (checkedNodes.length > 0) {
       checkedNodes.forEach((e) => {
-        console.log(e.value);
         let params = {
           state: USER_STATE.WARRNING,
         };
@@ -486,12 +487,10 @@ class Account extends Component {
   }
 
   onForbiddenBtnClickCallback() {
-    console.log("정지");
     let checkedNodes = this.getCheckedNodes();
 
     if (checkedNodes.length > 0) {
       checkedNodes.forEach((e) => {
-        console.log(e.value);
         let params = {
           state: USER_STATE.FORBIDDEN,
         };
@@ -505,12 +504,10 @@ class Account extends Component {
   }
 
   onRecoveryBtnClickCallback() {
-    console.log("해제");
     let checkedNodes = this.getCheckedNodes();
 
     if (checkedNodes.length > 0) {
       checkedNodes.forEach((e) => {
-        console.log(e.value);
         let params = {
           state: USER_STATE.NORMAL,
         };
@@ -537,16 +534,14 @@ class Account extends Component {
   render() {
     let heads = this.state.table.heads;
     let datas = this.state.table.datas;
-    let startPage = this.state.startPage;
-    let endPage = this.state.endPage;
     let {
+      startPage,
+      endPage,
       totalUserCount,
       normalCount,
       warnningCount,
       forbiddenCount,
     } = this.state;
-
-    console.log(endPage);
 
     return (
       <div className="kohub-admin-container">

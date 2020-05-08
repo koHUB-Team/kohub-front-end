@@ -24,7 +24,7 @@ const ApiUtil = {
 //Dom 조작 관련 유틸 객체
 const DomUtil = {
   //element가 인자로 받은 class를 가지고 있는지 검사
-  hasClassByClassName(element, className) {
+  hasClassByClassName: function (element, className) {
     let hasClass = false;
     let classList = element.classList;
     let filteredClassList = Object.values(classList).filter((_className) => {
@@ -40,4 +40,26 @@ const DomUtil = {
   },
 };
 
-export { ApiUtil, DomUtil };
+//유효성 검사 유틸
+const ValidateUtil = {
+  EMAIL_PATTERN: /(?:^[a-zA-Z]\w+)@(?:\w+).(?:[a-zA-Z]+)(?:.[a-zA-Z]*[a-zA-Z]$)/,
+  NAME_PATTERN: /^\D\D*\D$/,
+  NICKNAME_PATTERN: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9][ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9]*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9]?/,
+
+  //이메일 형식이 맞는지 검사
+  emailValidate: function (email) {
+    return this.EMAIL_PATTERN.test(email);
+  },
+
+  //이름 형식이 맞는지 검사
+  nameValidate: function (name) {
+    return this.NAME_PATTERN.test(name);
+  },
+
+  //닉네임 형식이 맞는지 검사
+  nicknameValidate: function (nickname) {
+    return this.NICKNAME_PATTERN.test(nickname);
+  },
+};
+
+export { ApiUtil, DomUtil, ValidateUtil };
