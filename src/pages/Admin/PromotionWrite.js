@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "../../components";
+import { Button, FileOpenInput } from "../../components";
 
 class PromotionWrite extends Component {
   render() {
@@ -16,8 +16,7 @@ class PromotionWrite extends Component {
           </div>
           <input type="text" placeholder="닉네임을 입력하세요."></input>
         </div>
-        <Button value="이미지"></Button>
-        <input type="file" accept="image/jpg, image/png" />
+        <FileOpenInput accept={"image/jpg, image/png"}></FileOpenInput>
         <textarea></textarea>
       </div>
     );
