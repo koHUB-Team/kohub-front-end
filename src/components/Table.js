@@ -17,7 +17,7 @@ class Table extends Component {
 
   componentDidUpdate() {
     let { checked } = this.props;
-    if (checked !== undefined || checked === true) {
+    if (checked !== undefined && checked === true) {
       let checkAllBoxNode = document.querySelector(this.CHECK_ALL_BOX_SELECTOR);
       let checkBoxNodes = document.querySelectorAll(this.CHECK_BOX_SELECTOR);
 
