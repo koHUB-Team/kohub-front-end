@@ -16,13 +16,16 @@ class Table extends Component {
   }
 
   componentDidUpdate() {
-    let checkAllBoxNode = document.querySelector(this.CHECK_ALL_BOX_SELECTOR);
-    let checkBoxNodes = document.querySelectorAll(this.CHECK_BOX_SELECTOR);
+    let { checked } = this.props;
+    if (checked !== undefined || checked === true) {
+      let checkAllBoxNode = document.querySelector(this.CHECK_ALL_BOX_SELECTOR);
+      let checkBoxNodes = document.querySelectorAll(this.CHECK_BOX_SELECTOR);
 
-    checkAllBoxNode.checked = false;
-    Object.values(checkBoxNodes).forEach((checkBox) => {
-      checkBox.checked = false;
-    });
+      checkAllBoxNode.checked = false;
+      Object.values(checkBoxNodes).forEach((checkBox) => {
+        checkBox.checked = false;
+      });
+    }
   }
 
   onAllCheckboxChangeListener(e) {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import { Account, Promotion } from "../pages/Admin";
+import PromotionContainer from "../containers/PromotionContainer";
 
 class AdminApp extends Component {
   render() {
@@ -18,7 +19,10 @@ class AdminApp extends Component {
           <Route path={match.url + "/domitory"} component={Account}></Route>
           <Route path={match.url + "/faq"} component={Account}></Route>
           <Route path={match.url + "/ad"} component={Account}></Route> */}
-        <Route path={`${match.url}/promotion`} component={Promotion}></Route>
+        <Route
+          path={`${match.url}/promotion`}
+          component={PromotionContainer}
+        ></Route>
         <Route component={Account}></Route>
       </Switch>
     );

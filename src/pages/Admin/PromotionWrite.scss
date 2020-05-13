@@ -1,0 +1,75 @@
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-admin-promotion-write {
+
+
+    .kohub-admin-promotion-write__user-info {
+        overflow: hidden;
+
+        input {
+            float: left;
+            margin-right: 10px;
+            width: 456px;
+            height: 48px;
+            font-size: 12pt;
+        }
+    }
+
+    .kohub-admin-promotion-write__promo-info {
+        margin-top: 10px;
+        overflow: hidden;
+
+        .react-datepicker-wrapper {
+            float: left;
+        }
+
+        input {
+            float: left;
+            width: 216px;
+            height: 48px;
+            margin-right: 10px;
+            font-size: 12pt;
+            overflow: visible;
+        }
+
+        label {
+            &:last-child {
+                input {
+                    float: left;
+                    width: 456px;
+                    height: 48px;
+                    font-size: 12pt;
+                }
+            }
+        }
+
+    }
+
+    .kohub-admin-promotion-write__text {
+        margin-top: 10px;
+
+        textarea {
+            width: 944px;
+            height: 360px;
+            resize: none;
+        }
+    }
+
+    .kohub-admin-promotion-write__file {
+        margin-top: 10px;
+    }
+
+    .kohub-admin-promotion-write__btn {
+        margin-top: 10px;
+        text-align: center;
+
+        button {
+            width: 93px;
+            height: 27px;
+            margin-right: 10px;
+        }
+    }
+}

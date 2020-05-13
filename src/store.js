@@ -13,6 +13,7 @@ const MODE = Record({
 const ACTION = Record({
   ADMIN: Record({
     CLICK_ADMIN_MENU: "CLICK_ADMIN_MENU",
+    CLICK_PROMOTION_WRITE: "CLICK_PROMOTION_WRITE",
   })(),
 
   KOHUB: Record({})(),
@@ -38,12 +39,19 @@ const State = Record({
 const initialState = State();
 
 function reducer(state = initialState, action) {
-  console.log(ACTION.ADMIN.CLICK_ADMIN_MENU);
+  let { admin } = state;
+  let newAdmin, newState;
+
   switch (action.type) {
     case ACTION.ADMIN.CLICK_ADMIN_MENU:
-      let admin = state.admin;
-      let newAdmin = admin.set("selectedMenuId", action.selectedMenuId);
-      let newState = state.set("admin", newAdmin);
+      newAdmin = admin.set("selectedMenuId", action.selectedMenuId);
+      newState = state.set("admin", newAdmin);
+
+      return newState;
+
+    case ACTION.ADMIN.CLICK_PROMOTION_WRITE:
+      newAdmin = admin.set("mode", action.mode);
+      newState = state.set("admin", newAdmin);
 
       return newState;
   }

@@ -13,7 +13,7 @@ import { List, Record } from "immutable";
 import { ApiUtil, ValidateUtil } from "../../common/kohubUtil";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 
-const User = Record({
+const UserData = Record({
   id: null,
   email: "",
   name: "",
@@ -277,7 +277,7 @@ class Account extends Component {
     ]);
 
     let newDatas = List(userDatas).map((userData) => {
-      return User({
+      return UserData({
         id: userData.id,
         email: userData.email,
         name: userData.name,

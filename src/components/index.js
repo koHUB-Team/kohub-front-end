@@ -9,3 +9,5 @@ export { default as DropMenu } from "./DropMenu";
 export { default as AdminNav } from "./AdminNav";
 export { default as AdminTitle } from "./AdminTitle";
 export { default as WriteButton } from "./WriteButton";
+export { default as FileOpenInput } from "./FileOpenInput";
+export { default as FormInput } from "./FormInput";
