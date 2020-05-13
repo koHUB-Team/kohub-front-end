@@ -1,0 +1,83 @@
+@use "../../common/color.scss"as kohubColor;
+
+.kohub-noticedetail {}
+
+.kohub-noticedetail__content {
+    padding: 60px;
+
+    .kohub-noticedetail__header {
+        position: relative;
+        height: 50px;
+
+        h2 {
+            margin-left: 15px;
+            margin-bottom: 15px;
+            color: kohubColor.$color-koHub-primary;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .kohub-noticedetail__manage {
+            position: absolute;
+            right: 0%;
+            top: 36%;
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 15px;
+            color: kohubColor.$font-color-third--fade;
+
+            span {
+                color: kohubColor.$font-color-third--fade;
+                margin-left: 6px;
+                margin-right: 6px;
+
+                &:hover {
+                    color: kohubColor.$color-koHub-primary;
+                }
+            }
+        }
+    }
+
+    .kohub-noticedetail__hr {
+        hr {
+            margin: 0;
+            border: none;
+            border: 2px solid kohubColor.$color-koHub-primary;
+            margin-bottom: 15px;
+        }
+    }
+
+    .kohub-noticedetail__title-area {
+        margin-bottom: 15px;
+        height: 85px;
+        position: relative;
+
+        .kohub-noticedetail__title {
+            margin-left: 15px;
+            position: absolute;
+            width: 590px;
+            font-size: 23px;
+            font-weight: bolder;
+        }
+
+        .kohub-noticedetail__user-info {
+            position: absolute;
+            right: 0%;
+            margin-right: 15px;
+            font-size: 16px;
+            font-weight: bolder;
+            color: kohubColor.$font-color-third;
+        }
+    }
+
+    .kohub-noticedetail__article {
+        margin-bottom: 15px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        p {
+            font-size: 17px;
+        }
+    }
+
+}
