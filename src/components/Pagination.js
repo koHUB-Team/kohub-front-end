@@ -11,25 +11,38 @@ import "./Pagination.scss";
 
 class Pagination extends Component {
   onPrevBtnClickListener(e) {
-    this.props.onPrevBtnClick();
+    let { onPrevBtnClick } = this.props;
+    if (onPrevBtnClick !== undefined) {
+      onPrevBtnClick();
+    }
   }
 
   onNextBtnClickListener(e) {
-    this.props.onNextBtnClick();
+    let { onNextBtnClick } = this.props;
+    if (onNextBtnClick !== undefined) {
+      onNextBtnClick();
+    }
   }
 
   //콜백함수의 인자로 클릭한 페이징 버튼의 숫자 값을 전달.
   onPageBtnClickListener(e) {
     let pageNum = Number(e.target.textContent);
-    this.props.onPageBtnClick(pageNum);
+    let { onPageBtnClick } = this.props;
+    if (onPageBtnClick !== undefined) {
+      onPageBtnClick(pageNum);
+    }
   }
 
   //start ~ end개의 페이징 버튼 리스트 반환 함수
   getPagingBtnList() {
+    let pagingBtnList = [];
     let { start } = this.props;
     let { end } = this.props;
 
-    let pagingBtnList = [];
+    if (start === undefined || end === undefined) {
+      return pagingBtnList;
+    }
+
     for (let i = start; i <= end; i++) {
       pagingBtnList = pagingBtnList.concat([
         <button

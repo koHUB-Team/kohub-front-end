@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { Account } from "../pages/Admin";
+import { Account, Promotion } from "../pages/Admin";
 
 class AdminApp extends Component {
   render() {
@@ -9,8 +9,7 @@ class AdminApp extends Component {
 
     return (
       <Switch>
-        {/* <Route path={match.url + "/promotion"} component={Account}></Route>
-          <Route path={match.url + "/lecture"} component={Account}></Route>
+        {/* <Route path={match.url + "/lecture"} component={Account}></Route>
           <Route path={match.url + "/hotspot"} component={Account}></Route>
           <Route path={match.url + "/lecture"} component={Account}></Route>
           <Route path={match.url + "/circles"} component={Account}></Route>
@@ -19,6 +18,7 @@ class AdminApp extends Component {
           <Route path={match.url + "/domitory"} component={Account}></Route>
           <Route path={match.url + "/faq"} component={Account}></Route>
           <Route path={match.url + "/ad"} component={Account}></Route> */}
+        <Route path={`${match.url}/promotion`} component={Promotion}></Route>
         <Route component={Account}></Route>
       </Switch>
     );

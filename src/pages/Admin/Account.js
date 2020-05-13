@@ -10,7 +10,8 @@ import {
   DropMenu,
 } from "../../components";
 import { List, Record } from "immutable";
-import { ApiUtil } from "../../common/kohubUtil";
+import { ApiUtil, ValidateUtil } from "../../common/kohubUtil";
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 
 const User = Record({
   id: null,
@@ -81,6 +82,7 @@ class Account extends Component {
       normalCount: 0,
       warnningCount: 0,
       forbiddenCount: 0,
+      searchFlag: false,
     };
     this.MAX_NUM_OF_PAGE_BTN = 5;
     this.MIN_PAGE_NUM = 1;
@@ -92,7 +94,7 @@ class Account extends Component {
       DropMenuData({
         menu: "모든 계정",
         menuType: FILTER_TYPE.ALL,
-        filterValue: "",
+        menuValue: "",
       }),
       DropMenuData({
         menu: "관리자 계정",
@@ -223,7 +225,6 @@ class Account extends Component {
 
     if (pathVariables !== null) {
       url = ApiUtil.bindPathVariable(url, pathVariables);
-      console.log(url);
     }
 
     fetch(url, {
@@ -320,52 +321,74 @@ class Account extends Component {
   }
 
   onPrevBtnClickCallback(e) {
-    console.log("prevClick Callback!");
-    let { startPage } = this.state;
+    let { searchFlag } = this.state;
 
-    if (startPage > this.MIN_PAGE_NUM) {
-      let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
-      let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
+    if (!searchFlag) {
+      let { startPage } = this.state;
 
-      this.setState({
-        startPage: newStartPage,
-        endPage: newEndPage,
-      });
-      this.numOfCurrentPage = newStartPage;
+      if (startPage > this.MIN_PAGE_NUM) {
+        let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
+        let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
 
-      let params = {
-        start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
-        filterType: this.state.filterType,
-        filterValue: this.state.filterValue,
-        orderType: this.state.orderType,
-        orderOption: this.state.orderOption,
-      };
-      this.requestUserApi(params);
+        this.setState({
+          startPage: newStartPage,
+          endPage: newEndPage,
+        });
+        this.numOfCurrentPage = newStartPage;
+
+        let params = {
+          start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+        };
+        this.requestUserApi(params);
+      }
     }
   }
 
   onNextBtnClickCallback(e) {
-    console.log("nextClick Callback!");
-    let { startPage } = this.state;
-    let { endPage } = this.state;
-    let { totalCount } = this.state;
-    let maxPage = this.calculateMaxPage(totalCount);
+    let { searchFlag } = this.state;
 
-    if (endPage < maxPage) {
-      let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
-      let newEndPage = endPage + this.MAX_NUM_OF_PAGE_BTN;
-      if (newEndPage > maxPage) {
-        newEndPage = maxPage;
+    if (!searchFlag) {
+      let { startPage } = this.state;
+      let { endPage } = this.state;
+      let { totalCount } = this.state;
+      let maxPage = this.calculateMaxPage(totalCount);
+
+      if (endPage < maxPage) {
+        let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
+        let newEndPage = endPage + this.MAX_NUM_OF_PAGE_BTN;
+        if (newEndPage > maxPage) {
+          newEndPage = maxPage;
+        }
+
+        this.setState({
+          startPage: newStartPage,
+          endPage: newEndPage,
+        });
+        this.numOfCurrentPage = newStartPage;
+
+        let params = {
+          start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+        };
+        this.requestUserApi(params);
       }
+    }
+  }
 
-      this.setState({
-        startPage: newStartPage,
-        endPage: newEndPage,
-      });
-      this.numOfCurrentPage = newStartPage;
+  onPageBtnClickCallback(pageNum) {
+    let { searchFlag } = this.state;
 
+    if (!searchFlag) {
+      this.numOfCurrentPage = pageNum;
       let params = {
-        start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+        start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
         filterType: this.state.filterType,
         filterValue: this.state.filterValue,
         orderType: this.state.orderType,
@@ -375,38 +398,34 @@ class Account extends Component {
     }
   }
 
-  onPageBtnClickCallback(pageNum) {
-    console.log("pageClick Callback!!");
-    this.numOfCurrentPage = pageNum;
-    let params = {
-      start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
-      filterType: this.state.filterType,
-      filterValue: this.state.filterValue,
-      orderType: this.state.orderType,
-      orderOption: this.state.orderOption,
-    };
-    this.requestUserApi(params);
-  }
-
   onSearchBarSubmitCallback(word) {
-    //유효성 검사 필요
-
     let params;
     switch (this.selectedDropMenu) {
       case "이메일":
+        if (!ValidateUtil.emailValidate(word)) {
+          alert("이메일 형식을 지켜주세요.");
+          return;
+        }
+
         params = {
           email: word,
         };
         break;
 
       case "닉네임":
+        if (!ValidateUtil.nicknameValidate(word)) {
+          alert("닉네임은 문자, 숫자로만 이루어져야 합니다.");
+          return;
+        }
+
         params = {
           name: word,
         };
         break;
 
       default:
-        break;
+        alert("검색 카테고리를 설정해주세요.");
+        return;
     }
 
     this.setState({
@@ -415,6 +434,7 @@ class Account extends Component {
       orderType: ORDER_TYPE.NO,
       orderOption: ORDER_OPTION.ASC,
       endPage: 0,
+      searchFlag: true,
     });
 
     this.requestSearchUserApi(params);
@@ -425,14 +445,14 @@ class Account extends Component {
   }
 
   onOrderMenuClickCallback(newOrderType, newOrderOption) {
-    console.log(`newOrderType = ${newOrderType}`);
-    console.log(`newOrderOption = ${newOrderOption}`);
     this.setState({
       filterType: this.state.filterType,
       filterValue: this.state.filterValue,
       orderType: newOrderType,
       orderOption: newOrderOption,
+      startPage: 1,
       endPage: 0,
+      searchFlag: false,
     });
     this.numOfCurrentPage = 1;
 
@@ -452,7 +472,9 @@ class Account extends Component {
       filterValue: newFilterValue,
       orderType: this.state.orderType,
       orderOption: this.state.orderOption,
+      startPage: 1,
       endPage: 0,
+      searchFlag: false,
     });
     this.numOfCurrentPage = 1;
 
@@ -467,12 +489,10 @@ class Account extends Component {
   }
 
   onWarnningBtnClickCallback() {
-    console.log("경고");
     let checkedNodes = this.getCheckedNodes();
 
     if (checkedNodes.length > 0) {
       checkedNodes.forEach((e) => {
-        console.log(e.value);
         let params = {
           state: USER_STATE.WARRNING,
         };
@@ -486,12 +506,10 @@ class Account extends Component {
   }
 
   onForbiddenBtnClickCallback() {
-    console.log("정지");
     let checkedNodes = this.getCheckedNodes();
 
     if (checkedNodes.length > 0) {
       checkedNodes.forEach((e) => {
-        console.log(e.value);
         let params = {
           state: USER_STATE.FORBIDDEN,
         };
@@ -505,12 +523,10 @@ class Account extends Component {
   }
 
   onRecoveryBtnClickCallback() {
-    console.log("해제");
     let checkedNodes = this.getCheckedNodes();
 
     if (checkedNodes.length > 0) {
       checkedNodes.forEach((e) => {
-        console.log(e.value);
         let params = {
           state: USER_STATE.NORMAL,
         };
@@ -537,16 +553,14 @@ class Account extends Component {
   render() {
     let heads = this.state.table.heads;
     let datas = this.state.table.datas;
-    let startPage = this.state.startPage;
-    let endPage = this.state.endPage;
     let {
+      startPage,
+      endPage,
       totalUserCount,
       normalCount,
       warnningCount,
       forbiddenCount,
     } = this.state;
-
-    console.log(endPage);
 
     return (
       <div className="kohub-admin-container">

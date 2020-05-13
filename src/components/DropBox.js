@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 //****Dropbox 컴포넌트****//
+//props
+//onMenuClick : Dropbox의 메뉴를 클릭했을 때, 실행할 콜백 메소드
+//menus : Dropbox의 메뉴에 넣을 리스트 / type : Immutable.List
 
 class DropBox extends Component {
   constructor(props) {
@@ -43,7 +46,11 @@ class DropBox extends Component {
     this.setState({
       isClickedDropboxBtn: false,
     });
-    this.props.onMenuClick(selectedMenuText);
+
+    let { onMenuClick } = this.props;
+    if (onMenuClick !== undefined) {
+      onMenuClick(selectedMenuText);
+    }
   }
 
   hideDropMenu() {
@@ -56,6 +63,11 @@ class DropBox extends Component {
 
   getDropMenuList() {
     let { menus } = this.props;
+
+    if (menus === undefined) {
+      return [];
+    }
+
     let dropMenuList = menus.reduce((acc, menu, idx) => {
       return acc.concat([
         <li key={idx} onClick={this.onMenuClickListener.bind(this)}>
