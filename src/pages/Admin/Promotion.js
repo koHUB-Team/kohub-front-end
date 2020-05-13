@@ -211,7 +211,7 @@ class Promotion extends Component {
             <Table
               heads={table.heads}
               datas={table.datas}
-              checked={true}
+              checked={false}
             ></Table>
             <div className="kohub-admin-control__btn">
               <Button
@@ -250,6 +250,19 @@ class Promotion extends Component {
     );
   }
 
+  getWritePage() {
+    return (
+      <div className="kohub-admin-container">
+        <AdminNavContainer></AdminNavContainer>
+        <div className="kohub-admin-content-container">
+          <div className="kohub-admin-content-area">
+            <PromotionWrite></PromotionWrite>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     let { mode } = this.props;
     console.log(mode);
@@ -260,7 +273,7 @@ class Promotion extends Component {
         page = this.getReadPage();
         break;
       case MODE.CREATE:
-        page = <PromotionWrite></PromotionWrite>;
+        page = this.getWritePage();
         break;
     }
 
