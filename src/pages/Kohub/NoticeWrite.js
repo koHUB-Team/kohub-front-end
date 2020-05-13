@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./NoticeWrite.scss";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { WriteButton, Button } from "../../components";
+import { WriteButton } from "../../components";
 class NoticeWrite extends Component {
   render() {
     return (
