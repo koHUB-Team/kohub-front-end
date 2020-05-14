@@ -12,3 +12,4 @@ export { default as WriteButton } from "./WriteButton";
 export { default as FileOpenInput } from "./FileOpenInput";
 export { default as FormInput } from "./FormInput";
 export { default as Sidebar } from "./Sidebar";
+export { default as BoardHeader } from "./BoardHeader";
