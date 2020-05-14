@@ -11,18 +11,20 @@
   top: 203px;
   width: 228px;
 
-  h1 {
+  .kohub-sidebar__title {
     font-size: 32px;
     font-weight: 600;
     color: kohubColor.$color-koHub-primary;
     margin-bottom: 15px;
+
   }
 
-  li {
-    padding-left: 5px;
-    margin-bottom: 15px;
-    a {
-      span {
+  .kohub-sidbar__content {
+    li {
+      padding-left: 5px;
+      margin-bottom: 15px;
+
+      a {
         font-size: 20px;
         font-weight: 600;
         color: kohubColor.$font-color-third;
@@ -34,6 +36,7 @@
       }
     }
   }
+
 
   .kohub-sidebar__hr {
     hr {

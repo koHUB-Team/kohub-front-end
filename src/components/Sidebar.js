@@ -20,10 +20,13 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="kohub-sidebar">
-        <h1>koHUB</h1>
+        <div className="kohub-sidebar__title">
+          <h3>koHUB</h3>
+        </div>
         <div className="kohub-sidebar__hr">
           <hr></hr>
         </div>
+        <div className="kohub-sidbar__content"></div>
         <ul>
           <li>
             <Link to="/notice">
