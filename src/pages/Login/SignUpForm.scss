@@ -1,6 +1,11 @@
 @use "../../common/util.scss"as kohubUtil;
 @use "../../common/color.scss"as kohubColor;
 
+@font-face {
+  font-family: 'Noto Sans KR', sans-serif;
+  src: url('../../../public/fonts/NotoSansKR-Bold.otf');
+}
+
 .kohub-signup {
   background-color: kohubColor.$color-background-white--fade;
   height: 100%;
