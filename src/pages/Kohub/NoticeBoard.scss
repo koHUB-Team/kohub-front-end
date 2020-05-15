@@ -5,8 +5,7 @@
   src: url("../../../public/fonts/NotoSansKR-Medium.otf");
 }
 
-.kohub-noticeboard {
-}
+.kohub-noticeboard {}
 
 .kohub-noticeboard__content {
   padding: 50px;
@@ -59,22 +58,16 @@
       height: 50px;
       border-bottom: 2px solid kohubColor.$color-koHub-primary;
       margin-bottom: 20px;
+      padding-left: 10px;
 
-      .kohub-noticeboard__title {
-        padding-left: 10px;
-
-        h1 {
-          font-size: 32px;
-          color: kohubColor.$color-koHub-primary;
-          font-weight: bold;
-        }
-      }
-
-      .kohub-noticeboard__search {
-        float: right;
-        top: -20%;
+      h2 {
+        font-size: 32px;
+        color: kohubColor.$color-koHub-primary;
+        font-weight: bold;
       }
     }
+
+    .kohub-noticeboard_table {}
 
     .kohub-noticeboard-content__bottom-area {
       margin-top: 20px;
