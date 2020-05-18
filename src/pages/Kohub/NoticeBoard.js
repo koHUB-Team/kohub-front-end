@@ -7,6 +7,7 @@ import { List, Record } from "immutable";
 import Moment from "moment";
 import { ApiUtil } from "../../common/kohubUtil";
 
+//카멜케이스로
 const NoticeBoardData = Record({
   id: null,
   title: "",
@@ -38,7 +39,6 @@ class NoticeBoard extends Component {
     if (params != null) {
       let queryStr = ApiUtil.parseObjToQueryStr(params);
       url += queryStr;
-      console.log(url);
     }
     fetch(url)
       .then((result) => {
@@ -70,7 +70,7 @@ class NoticeBoard extends Component {
 
     let { endPage } = this.state;
     let newEndPage;
-    if (endPage == 0) {
+    if (endPage === 0) {
       newEndPage = Math.ceil(totalNoticeCount / 10);
       if (newEndPage > this.MAX_NUM_OF_PAGE_BTN) {
         newEndPage = this.MAX_NUM_OF_PAGE_BTN;
@@ -84,6 +84,7 @@ class NoticeBoard extends Component {
       endPage: newEndPage,
     });
   }
+
   onPageBtnClickCallback(pageNum) {
     this.numofCurrentPage = pageNum;
     let params = {
@@ -91,10 +92,9 @@ class NoticeBoard extends Component {
     };
     this.requestNoticeApi(params);
   }
+
   onNextBtnClickCallback() {
-    let { startPage } = this.state;
-    let { endPage } = this.state;
-    let { totalNoticeCount } = this.state;
+    let { startPage, endPage, totalNoticeCount } = this.state;
     let maxPage = Math.ceil(totalNoticeCount / 10);
 
     if (endPage < maxPage) {
@@ -116,14 +116,16 @@ class NoticeBoard extends Component {
       this.requestNoticeApi(params);
     }
   }
+
   onPrevBtnClickCallback() {
     let { startPage } = this.state;
-    if (startPage != this.MIN_PAGE_NUM) {
+    if (startPage !== this.MIN_PAGE_NUM) {
       let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
       let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
       if (newStartPage < 0) {
         newStartPage = this.MIN_PAGE_NUM;
       }
+
       this.setState({
         startPage: newStartPage,
         endPage: newEndPage,
@@ -142,6 +144,7 @@ class NoticeBoard extends Component {
       onWriteBtnClick();
     }
   }
+
   render() {
     let { heads, datas, startPage, endPage } = this.state;
 

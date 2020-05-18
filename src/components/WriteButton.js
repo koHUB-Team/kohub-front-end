@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import "./WriteButton.scss";
 
 class WriteButton extends Component {
-  //   onBtnClickListener(e) {
-  //     this.props.onClick();
-  //   }
+  onBtnClickListener(e) {
+    e.preventDefault();
+    this.props.onClick();
+  }
 
   render() {
     let { value } = this.props;
@@ -12,7 +13,7 @@ class WriteButton extends Component {
     console.log(this.props.type);
     return (
       <button
-        //onClick={this.onBtnClickListener.bind(this)}
+        onClick={this.onBtnClickListener.bind(this)}
         className="kohub-write-btn"
         id={type}
       >

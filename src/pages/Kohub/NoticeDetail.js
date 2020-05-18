@@ -26,11 +26,12 @@ class NoticeDetail extends Component {
   componentDidMount() {
     this.requestNoticeApi();
   }
+
   requestNoticeApi() {
     let params = {
-      noticeId: 81,
+      noticeId: 53,
     };
-    let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE_ID;
+    let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
     url += queryStr;
     console.log(url);
@@ -40,7 +41,7 @@ class NoticeDetail extends Component {
         return result.json();
       })
       .then((json) => {
-        let noticeBoard = json.noticeBoard;
+        let noticeBoard = json;
         this.noticeApiHandler(noticeBoard);
       })
       .catch((err) => {
@@ -57,7 +58,6 @@ class NoticeDetail extends Component {
       content: noticeBoard.content,
     });
 
-    console.log(newData);
     this.setState({
       detailData: newData,
     });
@@ -101,8 +101,11 @@ class NoticeDetail extends Component {
           <div className="kohub-noticedetail__hr">
             <hr></hr>
           </div>
-          <div className="kohub-noticedetail__article">
-            <p>{detailData.content}</p>
+          <div
+            className="kohub-noticedetail__article"
+            dangerouslySetInnerHTML={{ __html: detailData.content }}
+          >
+            {/* <p>{}</p> */}
           </div>
           <div className="kohub-noticedetail__hr">
             <hr></hr>

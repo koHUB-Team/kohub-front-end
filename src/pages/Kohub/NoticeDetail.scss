@@ -5,7 +5,9 @@
     src: url('../../../public/fonts/NotoSansKR-Bold.otf');
 }
 
-.kohub-noticedetail {}
+.kohub-noticedetail {
+    height: 100%;
+}
 
 .kohub-noticedetail__content {
     padding: 60px;
