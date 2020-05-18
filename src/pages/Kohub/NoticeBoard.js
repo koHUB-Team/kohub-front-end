@@ -15,6 +15,11 @@ const NoticeBoardData = Record({
   createDate: "",
 });
 
+const ColgroupData = Record({
+  span: 0,
+  class: "",
+});
+
 class NoticeBoard extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +34,24 @@ class NoticeBoard extends Component {
     this.MIN_PAGE_NUM = 1;
     this.MAX_NUM_OF_TABLE_ROW = 10;
     this.numOfCurrentPage = null;
+    this.colgroupDatas = List([
+      ColgroupData({
+        span: 1,
+        class: "kohub-notice-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-notice-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-notice-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-notice-board-col",
+      }),
+    ]);
   }
 
   componentDidMount() {
@@ -145,6 +168,10 @@ class NoticeBoard extends Component {
     }
   }
 
+  onTableRowClickCallback(boardId) {
+    console.log(boardId);
+  }
+
   render() {
     let { heads, datas, startPage, endPage } = this.state;
 
@@ -155,7 +182,13 @@ class NoticeBoard extends Component {
           <div className="kohub-noticeboard__board">
             <BoardHeader value={"공지사항"}></BoardHeader>
             <div className="kohub-noticeboard_table">
-              <Table heads={heads} datas={datas} checked={false}></Table>
+              <Table
+                heads={heads}
+                datas={datas}
+                checked={false}
+                colgroupDatas={this.colgroupDatas}
+                onTableRowClick={this.onTableRowClickCallback.bind(this)}
+              ></Table>
             </div>
             <div className="kohub-noticeboard-content__bottom-area">
               <Pagination

@@ -7,6 +7,7 @@
 }
 
 .kohub-table {
+    table-layout: fixed;
 
     .kohub-table__head {
         tr {
@@ -28,8 +29,16 @@
 
         tr {
             border-bottom: 1px solid kohubColor.$table-line-color;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f9f9f9;
+            }
 
             td {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
                 font-family: 'Noto Sans KR', sans-serif;
                 font-weight: 500;
                 color: kohubColor.$font-color-bold;
