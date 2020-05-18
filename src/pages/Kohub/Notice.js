@@ -7,8 +7,8 @@ class Notice extends Component {
   getArticle() {
     switch (this.props.mode) {
       case MODE.READ:
-        return <NoticeDetail></NoticeDetail>;
-      // return <NoticeBoardContainer></NoticeBoardContainer>;
+        // return <NoticeDetail></NoticeDetail>;
+        return <NoticeBoardContainer></NoticeBoardContainer>;
       case MODE.CREATE:
         return <NoticeWrite></NoticeWrite>;
     }

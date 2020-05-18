@@ -5,7 +5,29 @@
   src: url("../../../public/fonts/NotoSansKR-Medium.otf");
 }
 
-.kohub-noticeboard {}
+.kohub-noticeboard {
+  .kohub-notice-board-col {
+    &:nth-child(1) {
+      width: 70px;
+    }
+
+    &:nth-child(2) {
+      width: 550px;
+    }
+  }
+
+  table {
+    tbody {
+      td {
+        &:nth-child(2) {
+          text-align: left !important;
+        }
+      }
+    }
+  }
+}
+
+
 
 .kohub-noticeboard__content {
   padding: 50px;
