@@ -102,7 +102,7 @@ class FormInput extends Component {
     //콜백함수가 있으면 실행.
     let { onChange } = this.props;
     if (onChange !== undefined) {
-      onChange();
+      onChange(e.target.value);
     }
   }
 
