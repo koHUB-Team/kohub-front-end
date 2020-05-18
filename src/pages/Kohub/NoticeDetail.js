@@ -10,8 +10,8 @@ import Moment from "moment";
 const DetailData = Record({
   id: null,
   title: "",
-  user_name: "",
-  modify_date: "",
+  userName: "",
+  modifyDate: "",
   content: "",
 });
 
@@ -23,9 +23,7 @@ class NoticeDetail extends Component {
     };
   }
 
-  componentDidMount() {
-    this.requestNoticeApi();
-  }
+  componentDidMount() {}
 
   requestNoticeApi() {
     let params = {
@@ -53,8 +51,8 @@ class NoticeDetail extends Component {
     let newData = DetailData({
       id: noticeBoard.id,
       title: noticeBoard.title,
-      user_name: noticeBoard.userName,
-      modify_date: Moment(noticeBoard.modifyDate).format("YYYY.MM.DD hh:mm:ss"),
+      userName: noticeBoard.userName,
+      modifyDate: Moment(noticeBoard.modifyDate).format("YYYY.MM.DD hh:mm:ss"),
       content: noticeBoard.content,
     });
 
@@ -93,9 +91,9 @@ class NoticeDetail extends Component {
               <span>{detailData.title}</span>
             </div>
             <div className="kohub-noticedetail__user-info align-center-col">
-              <span>작성자 : {detailData.user_name}</span>
+              <span>작성자 : {detailData.userName}</span>
               <br></br>
-              <span>{detailData.modify_date}</span>
+              <span>{detailData.modifyDate}</span>
             </div>
           </div>
           <div className="kohub-noticedetail__hr">
@@ -104,9 +102,7 @@ class NoticeDetail extends Component {
           <div
             className="kohub-noticedetail__article"
             dangerouslySetInnerHTML={{ __html: detailData.content }}
-          >
-            {/* <p>{}</p> */}
-          </div>
+          ></div>
           <div className="kohub-noticedetail__hr">
             <hr></hr>
           </div>

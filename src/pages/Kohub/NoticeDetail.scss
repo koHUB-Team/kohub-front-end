@@ -62,7 +62,7 @@
         .kohub-noticedetail__title {
             margin-left: 15px;
             position: absolute;
-            width: 590px;
+            width: 800px;
             font-size: 23px;
             font-weight: bolder;
         }
@@ -80,10 +80,11 @@
     .kohub-noticedetail__article {
         margin-bottom: 15px;
         padding: 15px;
-        height: 400px;
+        height: 700px;
 
         p {
             font-size: 20px;
+            margin-bottom: 5px;
         }
     }
 

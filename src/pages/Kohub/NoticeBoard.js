@@ -11,8 +11,8 @@ import { ApiUtil } from "../../common/kohubUtil";
 const NoticeBoardData = Record({
   id: null,
   title: "",
-  user_name: "",
-  create_date: "",
+  userName: "",
+  createDate: "",
 });
 
 class NoticeBoard extends Component {
@@ -28,7 +28,7 @@ class NoticeBoard extends Component {
     this.MAX_NUM_OF_PAGE_BTN = 5;
     this.MIN_PAGE_NUM = 1;
     this.MAX_NUM_OF_TABLE_ROW = 10;
-    this.numofCurrentPage = null;
+    this.numOfCurrentPage = null;
   }
 
   componentDidMount() {
@@ -62,8 +62,8 @@ class NoticeBoard extends Component {
         NoticeBoardData({
           id: noticeBoardData.id,
           title: noticeBoardData.title,
-          user_name: noticeBoardData.userName,
-          create_date: Moment(noticeBoardData.createDate).format("YYYY.MM.DD"),
+          userName: noticeBoardData.userName,
+          createDate: Moment(noticeBoardData.createDate).format("YYYY.MM.DD"),
         })
       );
     });
@@ -86,7 +86,7 @@ class NoticeBoard extends Component {
   }
 
   onPageBtnClickCallback(pageNum) {
-    this.numofCurrentPage = pageNum;
+    this.numOfCurrentPage = pageNum;
     let params = {
       start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
     };
@@ -108,7 +108,7 @@ class NoticeBoard extends Component {
         endPage: newEndPage,
       });
 
-      this.numofCurrentPage = newStartPage;
+      this.numOfCurrentPage = newStartPage;
 
       let params = {
         start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
@@ -130,7 +130,7 @@ class NoticeBoard extends Component {
         startPage: newStartPage,
         endPage: newEndPage,
       });
-      this.numofCurrentPage = newStartPage;
+      this.numOfCurrentPage = newStartPage;
 
       let params = {
         start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
