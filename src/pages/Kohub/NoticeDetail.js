@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./NoticeDetail.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 import { Record } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
@@ -80,6 +79,13 @@ class NoticeDetail extends Component {
       });
     alert("삭제되었습니다.");
   }
+
+  onUpdateBtnClickCallback() {
+    let { onUpdateBtnClick } = this.props;
+    if (onUpdateBtnClick !== undefined) {
+      onUpdateBtnClick();
+    }
+  }
   render() {
     let { detailData } = this.state;
     return (
@@ -88,11 +94,9 @@ class NoticeDetail extends Component {
           <div className="kohub-noticedetail__header">
             <h2>공지사항</h2>
             <div className="kohub-noticedetail__manage">
-              <Link to="/">
-                <span>
-                  <FontAwesomeIcon icon={faEdit} flip="horizontal" /> {""}수정
-                </span>
-              </Link>
+              <span onClick={this.onUpdateBtnClickCallback.bind(this)}>
+                <FontAwesomeIcon icon={faEdit} flip="horizontal" /> {""}수정
+              </span>
               |
               <span onClick={this.onDeleteBtnClick.bind(this)}>
                 {" "}
