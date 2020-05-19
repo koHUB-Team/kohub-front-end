@@ -23,11 +23,13 @@ class NoticeDetail extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.requestNoticeApi();
+  }
 
   requestNoticeApi() {
     let params = {
-      noticeId: 53,
+      noticeId: 49,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -60,6 +62,24 @@ class NoticeDetail extends Component {
       detailData: newData,
     });
   }
+  onDeleteBtnClick() {
+    let params = {
+      noticeId: this.state.detailData.id,
+    };
+    let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE_DELETE;
+    let queryStr = ApiUtil.parseObjToQueryStr(params);
+    url += queryStr;
+    console.log(url);
+
+    fetch(url)
+      .then((result) => {
+        alert("삭제되었습니다.");
+      })
+      .catch((err) => {
+        new Error("NoticeDetail Error");
+      });
+    alert("삭제되었습니다.");
+  }
   render() {
     let { detailData } = this.state;
     return (
@@ -74,13 +94,11 @@ class NoticeDetail extends Component {
                 </span>
               </Link>
               |
-              <Link to="/">
-                <span>
-                  {" "}
-                  <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" /> {""}
-                  삭제
-                </span>
-              </Link>
+              <span onClick={this.onDeleteBtnClick.bind(this)}>
+                {" "}
+                <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" /> {""}
+                삭제
+              </span>
             </div>
           </div>
           <div className="kohub-noticedetail__hr">
