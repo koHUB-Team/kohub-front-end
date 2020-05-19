@@ -37,7 +37,11 @@
       width: 1130px;
       font-size: 20px;
       font-weight: bold;
-      color: kohubColor.$font-color-third--light;
+
+      ::placeholder {
+        color: kohubColor.$font-color-third--light;
+      }
+
     }
   }
 

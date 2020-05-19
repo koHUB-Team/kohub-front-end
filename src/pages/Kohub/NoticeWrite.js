@@ -20,7 +20,7 @@ class NoticeWrite extends Component {
 
   onSumitBtnClickCallback() {
     if (this.title === "" || this.content === null) {
-      //에러 처리
+      alert("제목과 내용 모두 입력하여주세요.");
       return;
     }
 
