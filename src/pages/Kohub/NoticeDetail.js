@@ -10,7 +10,7 @@ const DetailData = Record({
   id: null,
   title: "",
   userName: "",
-  modifyDate: "",
+  createDate: "",
   content: "",
 });
 
@@ -28,7 +28,7 @@ class NoticeDetail extends Component {
 
   requestNoticeApi() {
     let params = {
-      noticeId: 49,
+      noticeId: 114,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -53,7 +53,7 @@ class NoticeDetail extends Component {
       id: noticeBoard.id,
       title: noticeBoard.title,
       userName: noticeBoard.userName,
-      modifyDate: Moment(noticeBoard.modifyDate).format("YYYY.MM.DD hh:mm:ss"),
+      createDate: Moment(noticeBoard.createDate).format("YYYY.MM.DD hh:mm:ss"),
       content: noticeBoard.content,
     });
 
@@ -115,7 +115,7 @@ class NoticeDetail extends Component {
             <div className="kohub-noticedetail__user-info align-center-col">
               <span>작성자 : {detailData.userName}</span>
               <br></br>
-              <span>{detailData.modifyDate}</span>
+              <span>{detailData.createDate}</span>
             </div>
           </div>
           <div className="kohub-noticedetail__hr">

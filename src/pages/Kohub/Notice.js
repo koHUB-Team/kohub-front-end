@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import { Header, Footer } from "../../components";
-import { NoticeWrite, NoticeDetail, NoticeBoard } from "./";
+import { NoticeWrite, NoticeDetail, NoticeBoard, NoticeUpdate } from "./";
 import { MODE } from "../../store";
-import { NoticeBoardContainer } from "../../containers";
+import {
+  NoticeBoardContainer,
+  NoticeDetailContainer,
+  NoticeUpdateContainer,
+  NoticeWriteContainer,
+} from "../../containers";
 class Notice extends Component {
   getArticle() {
     switch (this.props.mode) {
       case MODE.READ:
-        // return <NoticeDetail></NoticeDetail>;
-        return <NoticeBoardContainer></NoticeBoardContainer>;
+        return <NoticeDetailContainer></NoticeDetailContainer>;
+      // return <NoticeBoardContainer></NoticeBoardContainer>;
       case MODE.CREATE:
-        return <NoticeWrite></NoticeWrite>;
+        return <NoticeWriteContainer></NoticeWriteContainer>;
+      case MODE.UPDATE:
+        return <NoticeUpdateContainer></NoticeUpdateContainer>;
     }
   }
   render() {
