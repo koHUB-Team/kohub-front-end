@@ -18,6 +18,8 @@ class Notice extends Component {
         return <NoticeWriteContainer></NoticeWriteContainer>;
       case MODE.UPDATE:
         return <NoticeUpdateContainer></NoticeUpdateContainer>;
+      case MODE.DELETE:
+        return <NoticeBoardContainer></NoticeBoardContainer>;
     }
   }
   render() {

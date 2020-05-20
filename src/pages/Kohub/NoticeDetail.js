@@ -28,7 +28,7 @@ class NoticeDetail extends Component {
 
   requestNoticeApi() {
     let params = {
-      noticeId: 114,
+      noticeId: 6,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -61,7 +61,7 @@ class NoticeDetail extends Component {
       detailData: newData,
     });
   }
-  onDeleteBtnClick() {
+  onDeleteApiHandler() {
     let params = {
       noticeId: this.state.detailData.id,
     };
@@ -74,16 +74,24 @@ class NoticeDetail extends Component {
       .then((result) => {
         alert("삭제되었습니다.");
       })
+      .then(() => {
+        this.onDeleteBtnClickCallback();
+      })
       .catch((err) => {
         new Error("NoticeDetail Error");
       });
-    alert("삭제되었습니다.");
   }
 
   onUpdateBtnClickCallback() {
     let { onUpdateBtnClick } = this.props;
     if (onUpdateBtnClick !== undefined) {
       onUpdateBtnClick();
+    }
+  }
+  onDeleteBtnClickCallback() {
+    let { onDeleteBtnClick } = this.props;
+    if (onDeleteBtnClick !== undefined) {
+      onDeleteBtnClick();
     }
   }
   render() {
@@ -98,7 +106,7 @@ class NoticeDetail extends Component {
                 <FontAwesomeIcon icon={faEdit} flip="horizontal" /> {""}수정
               </span>
               |
-              <span onClick={this.onDeleteBtnClick.bind(this)}>
+              <span onClick={this.onDeleteApiHandler.bind(this)}>
                 {" "}
                 <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" /> {""}
                 삭제

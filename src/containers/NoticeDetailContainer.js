@@ -10,6 +10,12 @@ function mapReduxDispatchToReactProps(dispatch) {
         mode: MODE.UPDATE,
       });
     },
+    onDeleteBtnClick: () => {
+      dispatch({
+        type: ACTION.KOHUB.CLICK_CHANGE_MODE,
+        mode: MODE.DELETE,
+      });
+    },
   };
 }
 export default connect(null, mapReduxDispatchToReactProps)(NoticeDetail);
