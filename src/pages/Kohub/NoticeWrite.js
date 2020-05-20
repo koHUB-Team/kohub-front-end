@@ -48,9 +48,25 @@ class NoticeWrite extends Component {
       .then((result) => {
         alert("게시물이 등록되었습니다.");
       })
+      .then(() => {
+        this.onRegisterBtnClickCallback();
+      })
+
       .catch((err) => {
         alert("게시물을 등록하는데 문제가 발생했습니다.");
       });
+  }
+  onRegisterBtnClickCallback() {
+    let { onRegisterBtnClick } = this.props;
+    if (onRegisterBtnClick !== undefined) {
+      onRegisterBtnClick();
+    }
+  }
+  onCancelBtnClickCallback() {
+    let { onCancelBtnClick } = this.props;
+    if (onCancelBtnClick !== undefined) {
+      onCancelBtnClick();
+    }
   }
 
   render() {
@@ -90,7 +106,11 @@ class NoticeWrite extends Component {
               type={"register"}
               onClick={this.onSumitBtnClickCallback.bind(this)}
             ></WriteButton>
-            <WriteButton value={"취소"} type={"cancel"}></WriteButton>
+            <WriteButton
+              value={"취소"}
+              type={"cancel"}
+              onClick={this.onCancelBtnClickCallback.bind(this)}
+            ></WriteButton>
           </div>
         </div>
       </form>
