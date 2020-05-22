@@ -81,7 +81,7 @@ class FormInput extends Component {
             name={name}
             placeholder={placeholder}
             selected={this.state.date}
-            onChange={this.onEmailChange.bind(this)}
+            onChange={this.onDateChange.bind(this)}
           />
         );
       default:
@@ -93,8 +93,18 @@ class FormInput extends Component {
             onBlur={this.onBlurListener.bind(this)}
             onFocus={this.onFocusListener.bind(this)}
             onChange={this.onChangeListener.bind(this)}
+            onSubmit={this.onSubmitListener.bind(this)}
           ></Cleave>
         );
+    }
+  }
+
+  onSubmitListener(e) {
+    e.preventDefault();
+
+    let { onSubmit } = this.props;
+    if (onSubmit !== undefined) {
+      onSubmit();
     }
   }
 
@@ -106,7 +116,7 @@ class FormInput extends Component {
     }
   }
 
-  onEmailChange(newDate) {
+  onDateChange(newDate) {
     this.setState({
       date: newDate,
     });
@@ -114,7 +124,8 @@ class FormInput extends Component {
     //콜백함수가 있으면 실행.
     let { onChange } = this.props;
     if (onChange !== undefined) {
-      onChange();
+      let isValid = true;
+      onChange(newDate, isValid);
     }
   }
 
@@ -130,22 +141,23 @@ class FormInput extends Component {
     //유효성 옵션에 따라 이벤트 리스너 호출
     let { validOption } = this.props;
     let inputNode;
+    let isValid = false;
     switch (validOption) {
       case this.VALID_OPTION.TITLE:
         inputNode = e.target;
-        this.onTitleBlur(inputNode, inputNode.value);
+        isValid = this.onTitleBlur(inputNode, inputNode.value);
         break;
       case this.VALID_OPTION.NAME:
         inputNode = e.target;
-        this.onNameBlur(inputNode, inputNode.value);
+        isValid = this.onNameBlur(inputNode, inputNode.value);
         break;
       case this.VALID_OPTION.NICKNAME:
         inputNode = e.target;
-        this.onNicknameBlur(inputNode, inputNode.value);
+        isValid = this.onNicknameBlur(inputNode, inputNode.value);
         break;
       case this.VALID_OPTION.EMAIL:
         inputNode = e.target;
-        this.onEmailBlur(inputNode, inputNode.value);
+        isValid = this.onEmailBlur(inputNode, inputNode.value);
         break;
       default:
         break;
@@ -154,42 +166,65 @@ class FormInput extends Component {
     //콜백함수가 있으면 실행.
     let { onBlur } = this.props;
     if (onBlur !== undefined) {
-      onBlur();
+      onBlur(isValid); //유효성 검증 결과를 인자로 보내줌.
     }
   }
 
   onTitleBlur(inputNode, title) {
+    let isValid = true;
     if (title.length < 3) {
       inputNode.value = "제목은 3자 이상 입력해야합니다.";
+      isValid = false;
     }
+
+    return isValid;
   }
 
   onNameBlur(inputNode, name) {
+    let isValid = true;
+
     if (name.length < 3) {
       inputNode.value = "이름은 3자 이상 입력해야합니다.";
-      return;
+      isValid = false;
+
+      return isValid;
     }
 
     if (!ValidateUtil.nameValidate(name) && name !== "") {
       inputNode.value = "이름은 문자로만 이루어져야 합니다.";
+      isValid = false;
     }
+
+    return isValid;
   }
 
   onNicknameBlur(inputNode, nickname) {
+    let isValid = true;
+
     if (nickname.length < 2) {
       inputNode.value = "이름은 2자 이상 입력해야합니다.";
-      return;
+      isValid = false;
+
+      return isValid;
     }
 
     if (!ValidateUtil.nicknameValidate(nickname) && nickname !== "") {
       inputNode.value = "닉네임은 문자, 숫자로만 이루어져야 합니다.";
+      isValid = false;
     }
+
+    return isValid;
   }
 
   onEmailBlur(inputNode, email) {
+    let isValid = true;
+
     if (!ValidateUtil.emailValidate(email) && email !== "") {
       inputNode.value = "이메일 형식에 맞지 않습니다.";
+      isValid = false;
     }
+
+    return isValid;
   }
 
   render() {
