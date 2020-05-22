@@ -31,6 +31,14 @@ class FormInput extends Component {
     };
   }
 
+  componentDidUpdate() {
+    let { focus } = this.props;
+
+    if (focus !== undefined && focus === true) {
+      this.focusInput();
+    }
+  }
+
   getId() {
     let { id } = this.props;
     if (id !== undefined) {
@@ -67,10 +75,24 @@ class FormInput extends Component {
     return "";
   }
 
+  getValue() {
+    let { value } = this.props;
+    if (value !== undefined) {
+      return value;
+    }
+
+    return "";
+  }
+
+  focusInput() {
+    this.ccInput.focus();
+  }
+
   getInput() {
     let type = this.getType();
     let name = this.getName();
     let placeholder = this.getPlaceholder();
+    let value = this.getValue();
 
     let { validOption } = this.props;
     switch (validOption) {
@@ -90,6 +112,10 @@ class FormInput extends Component {
             type={type}
             name={name}
             placeholder={placeholder}
+            value={value}
+            htmlRef={(ref) => {
+              this.ccInput = ref;
+            }}
             onBlur={this.onBlurListener.bind(this)}
             onFocus={this.onFocusListener.bind(this)}
             onChange={this.onChangeListener.bind(this)}
@@ -102,7 +128,9 @@ class FormInput extends Component {
     //콜백함수가 있으면 실행.
     let { onChange } = this.props;
     if (onChange !== undefined) {
-      onChange(e.target.value);
+      let inputNode = e.target;
+      let value = inputNode.value;
+      onChange(value);
     }
   }
 
