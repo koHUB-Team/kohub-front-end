@@ -28,7 +28,7 @@ class NoticeDetail extends Component {
 
   requestNoticeApi() {
     let params = {
-      noticeId: 6,
+      noticeId: 12,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -87,6 +87,7 @@ class NoticeDetail extends Component {
     if (onUpdateBtnClick !== undefined) {
       onUpdateBtnClick();
     }
+    console.log("click!!");
   }
   onDeleteBtnClickCallback() {
     let { onDeleteBtnClick } = this.props;

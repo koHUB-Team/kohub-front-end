@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./NoticeUpdate.scss";
-import ReactQuill, { Quill } from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { WriteButton, FormInput } from "../../components";
+import { WriteButton, FormInput, Editor } from "../../components";
 import { Record } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 
@@ -17,10 +15,9 @@ class NoticeUpdate extends Component {
     super(props);
     this.state = {
       detailData: DetailData(),
+      isTitleChange: false,
+      isContentChange: false,
     };
-    this.noticeId = null;
-    this.title = "";
-    this.content = null;
   }
   componentDidMount() {
     this.requestNoticeApi();
@@ -28,7 +25,7 @@ class NoticeUpdate extends Component {
 
   requestNoticeApi() {
     let params = {
-      noticeId: 114,
+      noticeId: 12,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -60,32 +57,48 @@ class NoticeUpdate extends Component {
   }
 
   onTitleChangeListener(newTitle) {
-    this.title = newTitle;
+    let { detailData } = this.state;
+    let newDetailData = detailData.set("title", newTitle);
+
+    this.setState({
+      detailData: newDetailData,
+      isTitleChange: true,
+      isContentChange: false,
+    });
   }
 
-  onContentChangeListener(content, delta, source, editor) {
-    this.content = editor.getHTML();
+  onContentChangeCallback(content, delta, source, editor) {
+    let { detailData } = this.state;
+    let newDetailData = detailData.set("content", content);
+
+    this.setState({
+      detailData: newDetailData,
+      isTitleChange: false,
+      isContentChange: true,
+    });
   }
 
   onSumitBtnClickCallback() {
-    if (this.title === "" || this.content === null) {
-      alert("제목과 내용 모두 입력하여주세요.");
-      return;
-    }
+    // if (this.title === "" || this.content === null) {
+    //   alert("제목과 내용 모두 입력하여주세요.");
+    //   return;
+    // }
 
     this.requestPutNoticeApi();
   }
 
   requestPutNoticeApi() {
+    let { detailData } = this.state;
+
     let data = {
-      title: this.title,
-      content: this.content,
+      title: detailData.title,
+      content: detailData.content,
       userId: 1,
     };
     let pathVariable = {
       noticeId: this.state.detailData.id,
     };
-    let url = process.env.REACT_APP_KOHUB_API_URL_PUT_NOTICE_UPDATE;
+    let url = process.env.REACT_APP_KOHUB_API_URL_PUT_NOTICE;
     url = ApiUtil.bindPathVariable(url, pathVariable);
     console.log(url);
 
@@ -123,7 +136,8 @@ class NoticeUpdate extends Component {
   }
 
   render() {
-    let { title, content } = this.state.detailData;
+    let { isTitleChange, isContentChange, detailData } = this.state;
+
     return (
       <form className="kohub-noticeupdate container">
         <div className="kohub-noticeupdate__content content-area">
@@ -138,7 +152,8 @@ class NoticeUpdate extends Component {
             <FormInput
               type="text"
               name="title"
-              placeholder={title}
+              value={detailData.title}
+              focus={isTitleChange}
               onChange={this.onTitleChangeListener.bind(this)}
               validOption={"title"}
             ></FormInput>
@@ -146,14 +161,11 @@ class NoticeUpdate extends Component {
           <div className="kohub-noticeupdate__hr">
             <hr></hr>
           </div>
-          <div className="kohub-noticeupdate__text-editor">
-            <ReactQuill
-              onChange={this.onContentChangeListener.bind(this)}
-              value={content}
-            >
-              <div className="kohub-noticeupdate__edited-area"></div>
-            </ReactQuill>
-          </div>
+          <Editor
+            onContentChange={this.onContentChangeCallback.bind(this)}
+            value={detailData.content}
+            focus={isContentChange}
+          ></Editor>
           <div className="kohub-noticeupdate__hr">
             <hr></hr>
           </div>
