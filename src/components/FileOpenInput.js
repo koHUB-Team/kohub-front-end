@@ -87,7 +87,7 @@ class FileOpenInput extends Component {
     let thumbImgList = [];
     for (let i = 0; i < numOfFiles; i++) {
       thumbImgList = thumbImgList.concat([
-        <li key={i} className="kohub-file__thumb-img hide">
+        <li key={i} data-id={i} className="kohub-file__thumb-img hide">
           <img src=""></img>
           <button className="kohub-file__thumb-img__btn--delete">x</button>
         </li>,
@@ -107,6 +107,11 @@ class FileOpenInput extends Component {
       numOfFiles: loadedFiles.length,
       files: loadedFiles,
     });
+
+    let { onFileChange } = this.props;
+    if (onFileChange !== undefined) {
+      onFileChange(loadedFiles);
+    }
   }
 
   onDeleteBtnClickListener(e) {
@@ -125,8 +130,15 @@ class FileOpenInput extends Component {
     }
 
     if (isEventNode) {
-      console.log(btnNode.tagName);
-      //파일 삭제하는 거 구현필요
+      let liNode = btnNode.parentElement;
+      this.hideThumbImgContainer(liNode);
+
+      let fileId = liNode.dataset.id;
+      let ulNode = liNode.parentElement;
+      let inputNode = ulNode.previousElementSibling.firstElementChild;
+
+      //파일을 여러개 올리고 일부만 삭제하는 경우는 어떻게 할지 고려필요.
+      inputNode.value = "";
     }
   }
 
