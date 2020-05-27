@@ -16,15 +16,23 @@
     font-weight: 600;
     color: kohubColor.$color-koHub-primary;
     margin-bottom: 15px;
-
   }
 
-  .kohub-sidbar__content {
+  .kohub-sidebar__hr {
+    hr {
+      margin: 0;
+      border: none;
+      border: 1px solid kohubColor.$color-koHub-primary;
+      margin-bottom: 15px;
+    }
+  }
+
+  .kohub-sidebar__content {
     li {
       padding-left: 5px;
       margin-bottom: 15px;
 
-      a {
+      span {
         font-size: 20px;
         font-weight: 600;
         color: kohubColor.$font-color-third;
@@ -35,15 +43,6 @@
         }
       }
     }
-  }
 
-
-  .kohub-sidebar__hr {
-    hr {
-      margin: 0;
-      border: none;
-      border: 1px solid kohubColor.$color-koHub-primary;
-      margin-bottom: 15px;
-    }
   }
 }
