@@ -28,7 +28,7 @@ class NoticeDetail extends Component {
 
   requestNoticeApi() {
     let params = {
-      noticeId: 12,
+      noticeId: 2,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -62,15 +62,17 @@ class NoticeDetail extends Component {
     });
   }
   onDeleteApiHandler() {
-    let params = {
+    let pathVariable = {
       noticeId: this.state.detailData.id,
     };
-    let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE_DELETE;
-    let queryStr = ApiUtil.parseObjToQueryStr(params);
-    url += queryStr;
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_DELETE_NOTICE;
+    url = ApiUtil.bindPathVariable(url, pathVariable);
     console.log(url);
 
-    fetch(url)
+    fetch(url, {
+      method: "DELETE",
+    })
       .then((result) => {
         alert("삭제되었습니다.");
       })
