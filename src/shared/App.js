@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Main } from "../pages/Main";
-// import { Notice } from "../pages/Kohub";
 import { NoticeContainer } from "../containers";
 import { NotFound } from "../pages/Error";
 import { LoginForm, SignUpForm } from "../pages/Login";
 import AdminApp from "./AdminApp";
 import Help from "./Help";
+import { Faq } from "../pages/Kohub";
 
 class App extends Component {
   render() {
@@ -16,6 +16,7 @@ class App extends Component {
         <Route path="/admin" component={AdminApp}></Route>
         <Route exact path="/login" component={LoginForm}></Route>
         <Route exact path="/signup" component={SignUpForm}></Route>
+        <Route exact path="/faq" component={Faq}></Route>
         <Route exact path="/notice" component={NoticeContainer}></Route>
         <Route exact path="/" component={Main}></Route>
         <Route component={NotFound}></Route>
