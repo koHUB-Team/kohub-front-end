@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./NoticeUpdate.scss";
-import { WriteButton, FormInput, Editor } from "../../components";
+import { Button, FormInput, Editor } from "../../components";
 import { Record } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 
@@ -18,6 +18,8 @@ class NoticeUpdate extends Component {
       isTitleChange: false,
       isContentChange: false,
     };
+    this.title = "";
+    this.content = null;
   }
   componentDidMount() {
     this.requestNoticeApi();
@@ -25,7 +27,7 @@ class NoticeUpdate extends Component {
 
   requestNoticeApi() {
     let params = {
-      noticeId: 12,
+      noticeId: 2,
     };
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
@@ -57,44 +59,29 @@ class NoticeUpdate extends Component {
   }
 
   onTitleChangeListener(newTitle) {
-    let { detailData } = this.state;
-    let newDetailData = detailData.set("title", newTitle);
-
-    this.setState({
-      detailData: newDetailData,
-      isTitleChange: true,
-      isContentChange: false,
-    });
+    this.title = newTitle;
   }
 
   onContentChangeCallback(content, delta, source, editor) {
-    let { detailData } = this.state;
-    let newDetailData = detailData.set("content", content);
-
-    this.setState({
-      detailData: newDetailData,
-      isTitleChange: false,
-      isContentChange: true,
-    });
+    this.content = content;
   }
 
   onSumitBtnClickCallback() {
-    // if (this.title === "" || this.content === null) {
-    //   alert("제목과 내용 모두 입력하여주세요.");
-    //   return;
-    // }
+    if (this.title === "" || this.content === null) {
+      alert("제목과 내용 모두 입력하여주세요.");
+      return;
+    }
 
     this.requestPutNoticeApi();
   }
 
   requestPutNoticeApi() {
-    let { detailData } = this.state;
-
     let data = {
-      title: detailData.title,
-      content: detailData.content,
+      title: this.title,
+      content: this.content,
       userId: 1,
     };
+
     let pathVariable = {
       noticeId: this.state.detailData.id,
     };
@@ -122,12 +109,14 @@ class NoticeUpdate extends Component {
         alert("게시물을 등록하는데 문제가 발생했습니다.");
       });
   }
+
   onUpdateBtnClickCallback() {
     let { onUpdateBtnClick } = this.props;
     if (onUpdateBtnClick !== undefined) {
       onUpdateBtnClick();
     }
   }
+
   onCancelBtnClickCallback() {
     let { onCancelBtnClick } = this.props;
     if (onCancelBtnClick !== undefined) {
@@ -136,7 +125,7 @@ class NoticeUpdate extends Component {
   }
 
   render() {
-    let { isTitleChange, isContentChange, detailData } = this.state;
+    let { detailData } = this.state;
 
     return (
       <form className="kohub-noticeupdate container">
@@ -153,7 +142,6 @@ class NoticeUpdate extends Component {
               type="text"
               name="title"
               value={detailData.title}
-              focus={isTitleChange}
               onChange={this.onTitleChangeListener.bind(this)}
               validOption={"title"}
             ></FormInput>
@@ -164,22 +152,21 @@ class NoticeUpdate extends Component {
           <Editor
             onContentChange={this.onContentChangeCallback.bind(this)}
             value={detailData.content}
-            focus={isContentChange}
           ></Editor>
           <div className="kohub-noticeupdate__hr">
             <hr></hr>
           </div>
           <div className="kohub-noticeupdate___button">
-            <WriteButton
+            <Button
               value={"수정"}
-              type={"register"}
+              btnType={"register"}
               onClick={this.onSumitBtnClickCallback.bind(this)}
-            ></WriteButton>
-            <WriteButton
+            ></Button>
+            <Button
               value={"취소"}
-              type={"cancel"}
+              btnType={"cancel"}
               onClick={this.onCancelBtnClickCallback.bind(this)}
-            ></WriteButton>
+            ></Button>
           </div>
         </div>
       </form>

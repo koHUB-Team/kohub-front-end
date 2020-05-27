@@ -1,28 +1,40 @@
 import React, { Component } from "react";
 import "./NoticeWrite.scss";
-import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { WriteButton, BoardHeader, FormInput } from "../../components";
+import { Button, FormInput, Editor } from "../../components";
 class NoticeWrite extends Component {
   constructor(props) {
     super(props);
     this.title = "";
     this.content = null;
+    this.titleValid = false;
+    this.contentValid = false;
   }
 
   onTitleChangeListener(newTitle) {
     this.title = newTitle;
+    this.titleValid = true;
+  }
+  onTitleBlur(isValid) {
+    // this.titleValid = isValid;
   }
 
-  onContentChangeListener(content, delta, source, editor) {
-    this.content = editor.getHTML();
+  onContentChangeCallback(content, delta, source, editor) {
+    this.content = content;
+    this.contentValid = true;
   }
 
-  onSumitBtnClickCallback() {
+  onSubmitBtnClickCallback(e) {
     if (this.title === "" || this.content === null) {
       alert("제목과 내용 모두 입력하여주세요.");
       return;
     }
+    // let formNode = e.target;
+    // let formData = new FormData();
+
+    // formData.append("title", formNode.title.value);
+    // formData.append("content", this.content);
+    // formData.append("userId", 1);
 
     this.requestPostNoticeApi();
   }
@@ -46,14 +58,14 @@ class NoticeWrite extends Component {
       body: JSON.stringify(data),
     })
       .then((result) => {
-        alert("게시물이 등록되었습니다.");
+        return result.json();
       })
       .then(() => {
+        alert("게시물이 등록되었습니다.");
         this.onRegisterBtnClickCallback();
       })
-
       .catch((err) => {
-        alert("게시물을 등록하는데 문제가 발생했습니다.");
+        alert("게시물을 등록하는데 문제가 발생했습니다." + err);
       });
   }
   onRegisterBtnClickCallback() {
@@ -69,10 +81,17 @@ class NoticeWrite extends Component {
     }
   }
 
+  isFormDataValid() {
+    return this.titleValid && this.contentValid;
+  }
+
   render() {
     return (
       <form className="kohub-noticewrite container">
-        <div className="kohub-noticewrite__content content-area">
+        <div
+          className="kohub-noticewrite__content content-area"
+          // onSubmit={this.onSubmitListener.bind(this)}
+        >
           <div className="kohub-noticewrite__title">
             <h2>공지사항</h2>
           </div>
@@ -87,30 +106,31 @@ class NoticeWrite extends Component {
               placeholder="제목을 입력하세요."
               onChange={this.onTitleChangeListener.bind(this)}
               validOption={"title"}
+              onBlur={this.onTitleBlur.bind(this)}
             ></FormInput>
           </div>
           <div className="kohub-noticewrite__hr">
             <hr></hr>
           </div>
           <div className="kohub-noticewrite__text-editor">
-            <ReactQuill onChange={this.onContentChangeListener.bind(this)}>
-              <div className="kohub-noticewrite__edited-area"></div>
-            </ReactQuill>
+            <Editor
+              onContentChange={this.onContentChangeCallback.bind(this)}
+            ></Editor>
           </div>
           <div className="kohub-noticewrite__hr">
             <hr></hr>
           </div>
           <div className="kohub-noticewrite___button">
-            <WriteButton
+            <Button
               value={"등록"}
-              type={"register"}
-              onClick={this.onSumitBtnClickCallback.bind(this)}
-            ></WriteButton>
-            <WriteButton
+              btnType={"register"}
+              onClick={this.onSubmitBtnClickCallback.bind(this)}
+            ></Button>
+            <Button
               value={"취소"}
-              type={"cancel"}
+              btnType={"cancel"}
               onClick={this.onCancelBtnClickCallback.bind(this)}
-            ></WriteButton>
+            ></Button>
           </div>
         </div>
       </form>
