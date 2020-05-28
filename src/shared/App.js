@@ -26,4 +26,4 @@ class App extends Component {
 
 export default App;
 
-//서버, 클라이언트 공용사용 컴포넌트
+//서버, 클라이언트 공용사용 컴포넌트!
