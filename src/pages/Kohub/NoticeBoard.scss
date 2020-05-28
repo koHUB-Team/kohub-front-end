@@ -6,6 +6,10 @@
 }
 
 .kohub-noticeboard {
+  .kohub-noticeboard_table {
+    margin-top: 20px;
+  }
+
   .kohub-notice-board-col {
     &:nth-child(1) {
       width: 70px;
