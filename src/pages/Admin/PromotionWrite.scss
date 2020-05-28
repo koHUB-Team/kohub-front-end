@@ -12,9 +12,21 @@
         input {
             float: left;
             margin-right: 10px;
-            width: 456px;
+            width: 461px;
             height: 48px;
             font-size: 12pt;
+
+            &:nth-last-of-type() {
+                margin-right: 0;
+            }
+        }
+
+        label {
+            &:last-child {
+                input {
+                    margin-right: 0;
+                }
+            }
         }
     }
 
@@ -28,33 +40,31 @@
 
         input {
             float: left;
-            width: 216px;
+            width: 461px;
             height: 48px;
             margin-right: 10px;
             font-size: 12pt;
             overflow: visible;
+
+            &:nth-last-of-type() {
+                margin-right: 0;
+            }
         }
 
         label {
             &:last-child {
                 input {
-                    float: left;
-                    width: 456px;
-                    height: 48px;
-                    font-size: 12pt;
+                    margin-right: 0;
                 }
             }
         }
-
     }
 
-    .kohub-admin-promotion-write__text {
+    .kohub-admin-promotion-write__text-editor {
         margin-top: 10px;
 
-        textarea {
-            width: 944px;
-            height: 360px;
-            resize: none;
+        .kohub-admin-promotion-write__edited-area {
+            height: 440px;
         }
     }
 

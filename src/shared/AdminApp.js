@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import { Account, Promotion } from "../pages/Admin";
-import PromotionContainer from "../containers/PromotionContainer";
+import { PromotionContainer } from "../containers";
 
 class AdminApp extends Component {
   render() {
