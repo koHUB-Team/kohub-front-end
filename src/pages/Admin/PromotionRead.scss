@@ -1,0 +1,25 @@
+.kohub-promotion-board-col {
+    &:nth-child(1) {
+        width: 30px;
+    }
+
+    &:nth-child(2) {
+        width: 40px;
+    }
+
+    &:nth-child(3) {
+        width: 200px;
+    }
+
+    &:nth-child(4) {
+        width: 80px;
+    }
+
+    &:nth-child(5) {
+        width: 175px;
+    }
+
+    &:nth-child(6) {
+        width: 95px;
+    }
+}
