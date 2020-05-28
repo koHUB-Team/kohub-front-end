@@ -94,11 +94,7 @@ class Faq extends Component {
     let dataList = datas.reduce((acc, data, idx) => {
       return acc.concat([
         <div key={idx}>
-          <button
-            data-id={data.id}
-            className="accordion"
-            onClick={this.onAccordionBtnClickListener.bind(this)}
-          >
+          <button data-id={data.id} className="accordion">
             {data.title}
             <span>
               <FontAwesomeIcon icon={faAngleDown} flip="horizontal" />
@@ -115,21 +111,76 @@ class Faq extends Component {
   }
 
   onAccordionBtnClickListener(e) {
-    let panel = e.target.nextElementSibling;
-    if (DomUtil.hasClassByClassName(panel, "hide")) {
-      this.showPanel(panel);
-    } else {
-      this.hidePanel(panel);
+    let isEventTarget = false;
+    let panel;
+    let spanNode;
+    let buttonNode;
+    let svgNode;
+    let pathNode;
+    switch (e.target.tagName.toLowerCase()) {
+      case "button":
+        buttonNode = e.target;
+        panel = buttonNode.nextElementSibling;
+
+        isEventTarget = true;
+        break;
+      case "span":
+        spanNode = e.target;
+        buttonNode = spanNode.parentElement;
+        panel = buttonNode.nextElementSibling;
+
+        isEventTarget = true;
+        break;
+      case "svg":
+        svgNode = e.target;
+        spanNode = svgNode.parentElement;
+        buttonNode = spanNode.parentElement;
+        panel = buttonNode.nextElementSibling;
+
+        isEventTarget = true;
+        break;
+      case "path":
+        pathNode = e.target;
+        svgNode = pathNode.parentElement;
+        spanNode = svgNode.parentElement;
+        buttonNode = spanNode.parentElement;
+        panel = buttonNode.nextElementSibling;
+
+        isEventTarget = true;
+        break;
+      default:
+        break;
+    }
+
+    if (isEventTarget) {
+      if (DomUtil.hasClassByClassName(panel, "hide")) {
+        this.showPanel(panel);
+      } else {
+        this.hidePanel(panel);
+      }
     }
   }
+
   hidePanel(panel) {
     panel.classList.add("hide");
   }
+
   showPanel(panel) {
     panel.classList.remove("hide");
   }
 
+  initiatePanel() {
+    let panelNodes = document.querySelectorAll(".panel");
+    panelNodes.forEach((panelNode) => {
+      if (!DomUtil.hasClassByClassName(panelNode, "hide")) {
+        this.hidePanel(panelNode);
+      }
+    });
+  }
+
   onPageBtnClickCallback(pageNum) {
+    this.initiatePanel();
+
     this.numOfCurrentPage = pageNum;
     let params = {
       start: (pageNum - 1) * this.MAX_NUM_OF_ROW,
@@ -138,6 +189,8 @@ class Faq extends Component {
   }
 
   onNextBtnClickCallback() {
+    this.initiatePanel();
+
     let { startPage, endPage, totalFaqCount } = this.state;
     let maxPage = Math.ceil(totalFaqCount / 5);
 
@@ -164,6 +217,8 @@ class Faq extends Component {
   }
 
   onPrevBtnClickCallback() {
+    this.initiatePanel();
+
     let { startPage } = this.state;
     if (startPage !== this.MIN_PAGE_NUM) {
       let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
@@ -197,7 +252,12 @@ class Faq extends Component {
             <Sidebar></Sidebar>
             <div className="kohub-faq__content">
               <BoardHeader value={"FAQ"}></BoardHeader>
-              <div className="kohub-faq-accordion">{dataList}</div>
+              <div
+                className="kohub-faq-accordion"
+                onClick={this.onAccordionBtnClickListener.bind(this)}
+              >
+                {dataList}
+              </div>
               <div className="kohub-faq-content__bottom-area">
                 <Pagination
                   start={startPage}

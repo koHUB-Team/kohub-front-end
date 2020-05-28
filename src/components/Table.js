@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Table.scss";
 import { List, Record } from "immutable";
+import { Link } from "react-router-dom";
 
 //****Table 컴포넌트****//
 //props정보
