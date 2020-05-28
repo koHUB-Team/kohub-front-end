@@ -7,7 +7,7 @@ const MODE = Record({
   CREATE: "CREATE",
   READ: "READ",
   UPDATE: "UPDATE",
-  DELETE: "DELETE",
+  READ_DETAIL: "READ_DETAIL",
 })();
 
 const ACTION = Record({
@@ -18,6 +18,7 @@ const ACTION = Record({
 
   KOHUB: Record({
     CLICK_CHANGE_MODE: "CLICK_CHANGE_MODE",
+    CLICK_DETAIL: "CLICK_DATAIL",
   })(),
 })();
 
@@ -29,7 +30,7 @@ const Admin = Record({
 });
 
 const Kohub = Record({
-  selectedMenuId: 0,
+  selectedDetailId: 0,
   mode: MODE.READ,
 });
 
@@ -59,6 +60,13 @@ function reducer(state = initialState, action) {
 
     case ACTION.KOHUB.CLICK_CHANGE_MODE:
       newKohub = kohub.set("mode", action.mode);
+      newState = state.set("kohub", newKohub);
+
+      return newState;
+
+    case ACTION.KOHUB.CLICK_DETAIL:
+      newKohub = kohub.set("mode", action.mode);
+      newKohub = newKohub.set("selectedDetailId", action.selectedDetailId);
       newState = state.set("kohub", newKohub);
 
       return newState;

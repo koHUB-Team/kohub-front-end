@@ -23,13 +23,20 @@ class NoticeDetail extends Component {
   }
 
   componentDidMount() {
-    this.requestNoticeApi();
+    let { selectedDetailId } = this.props;
+    console.log(selectedDetailId);
+
+    let params = {
+      noticeId: selectedDetailId,
+    };
+    this.requestNoticeApi(params);
   }
 
-  requestNoticeApi() {
-    let params = {
-      noticeId: 2,
-    };
+  requestNoticeApi(params = null) {
+    if (params == null) {
+      return;
+    }
+
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
     url += queryStr;

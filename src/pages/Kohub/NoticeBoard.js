@@ -169,8 +169,13 @@ class NoticeBoard extends Component {
   }
 
   onTableRowClickCallback(boardId) {
-    console.log(boardId);
+    let { onDetailClick } = this.props;
+    if (onDetailClick !== undefined) {
+      onDetailClick(boardId);
+    }
   }
+
+  onDetailClick() {}
 
   render() {
     let { heads, datas, startPage, endPage } = this.state;

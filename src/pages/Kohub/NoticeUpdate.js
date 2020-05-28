@@ -22,13 +22,17 @@ class NoticeUpdate extends Component {
     this.content = null;
   }
   componentDidMount() {
-    this.requestNoticeApi();
+    let { selectedDetailId } = this.props;
+    let params = {
+      noticeId: selectedDetailId,
+    };
+    this.requestNoticeApi(params);
   }
 
-  requestNoticeApi() {
-    let params = {
-      noticeId: 2,
-    };
+  requestNoticeApi(params = null) {
+    if (params === null) {
+      return;
+    }
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
     url += queryStr;
@@ -66,7 +70,10 @@ class NoticeUpdate extends Component {
     this.content = content;
   }
 
-  onSumitBtnClickCallback() {
+  onSumitBtnClickCallback(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (this.title === "" || this.content === null) {
       alert("제목과 내용 모두 입력하여주세요.");
       return;

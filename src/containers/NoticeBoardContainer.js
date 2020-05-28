@@ -10,6 +10,13 @@ function mapReduxDispatchToReactProps(dispatch) {
         mode: MODE.CREATE,
       });
     },
+    onDetailClick: (selectedDetailId) => {
+      dispatch({
+        selectedDetailId: selectedDetailId,
+        type: ACTION.KOHUB.CLICK_DETAIL,
+        mode: MODE.READ_DETAIL,
+      });
+    },
   };
 }
 export default connect(null, mapReduxDispatchToReactProps)(NoticeBoard);

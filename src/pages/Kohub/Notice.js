@@ -11,14 +11,13 @@ class Notice extends Component {
   getArticle() {
     switch (this.props.mode) {
       case MODE.READ:
-        // return <NoticeDetailContainer></NoticeDetailContainer>;
         return <NoticeBoardContainer></NoticeBoardContainer>;
       case MODE.CREATE:
         return <NoticeWriteContainer></NoticeWriteContainer>;
       case MODE.UPDATE:
         return <NoticeUpdateContainer></NoticeUpdateContainer>;
-      case MODE.DELETE:
-        return <NoticeBoardContainer></NoticeBoardContainer>;
+      case MODE.READ_DETAIL:
+        return <NoticeDetailContainer></NoticeDetailContainer>;
     }
   }
   render() {
