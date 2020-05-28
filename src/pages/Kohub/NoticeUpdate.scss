@@ -5,12 +5,12 @@
   src: url('../../../public/fonts/NotoSansKR-Bold.otf');
 }
 
-.kohub-noticewrite {}
+.kohub-noticeupdate {}
 
-.kohub-noticewrite__content {
+.kohub-noticeupdate__content {
   padding: 60px;
 
-  .kohub-noticewrite__title {
+  .kohub-noticeupdate__title {
     h2 {
       margin-left: 15px;
       margin-bottom: 15px;
@@ -20,7 +20,7 @@
     }
   }
 
-  .kohub-noticewrite__hr {
+  .kohub-noticeupdate__hr {
     hr {
       margin: 0;
       border: none;
@@ -29,7 +29,7 @@
     }
   }
 
-  .kohub-noticewrite__input {
+  .kohub-noticeupdate__input {
     input {
       margin-bottom: 15px;
       padding-left: 15px;
@@ -45,16 +45,7 @@
     }
   }
 
-  .kohub-noticewrite__text-editor {
-    margin-bottom: 15px;
-
-    .kohub-noticewrite__edited-area {
-      height: 380px;
-      font-size: 15px;
-    }
-  }
-
-  .kohub-noticewrite___button {
+  .kohub-noticeupdate___button {
     text-align: center;
   }
 }

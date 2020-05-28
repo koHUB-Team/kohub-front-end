@@ -43,6 +43,33 @@ class Table extends Component {
       });
     }
   }
+  onTableRowClickListener(e) {
+    e.preventDefault();
+
+    let isEventTarget = false;
+    let trNode;
+    switch (e.target.tagName.toLowerCase()) {
+      case "tr":
+        isEventTarget = true;
+        trNode = e.target;
+        break;
+      case "td":
+        isEventTarget = true;
+        trNode = e.target.parentElement;
+        break;
+      default:
+        break;
+    }
+
+    if (isEventTarget) {
+      let { onTableRowClick } = this.props;
+
+      if (onTableRowClick !== undefined) {
+        let boardId = trNode.dataset.id;
+        onTableRowClick(boardId);
+      }
+    }
+  }
 
   //테이블 제목 리스트 반환 함수
   getHeadList() {
@@ -81,7 +108,15 @@ class Table extends Component {
     }
 
     let dataList = datas.reduce((acc, data, idx) => {
-      return acc.concat([<tr key={idx}>{this.getDataValueList(data)}</tr>]);
+      return acc.concat([
+        <tr
+          data-id={data.id}
+          key={idx}
+          onClick={this.onTableRowClickListener.bind(this)}
+        >
+          {this.getDataValueList(data)}
+        </tr>,
+      ]);
     }, []);
 
     return dataList;
@@ -112,12 +147,29 @@ class Table extends Component {
     return dataValueList;
   }
 
+  getColgroup() {
+    let { colgroupDatas } = this.props;
+    let colgroupList = [];
+    if (colgroupDatas === undefined) {
+      return colgroupList;
+    }
+    colgroupList = colgroupDatas.reduce((acc, cur, idx) => {
+      return acc.concat([
+        <col key={idx} span={cur.span} className={cur.class}></col>,
+      ]);
+    }, colgroupList);
+
+    return colgroupList;
+  }
+
   render() {
+    let colgroup = this.getColgroup();
     let headList = this.getHeadList();
     let dataList = this.getDataList();
 
     return (
       <table className="kohub-table table--admin">
+        <colgroup>{colgroup}</colgroup>
         <thead className="kohub-table__head">
           <tr>{headList}</tr>
         </thead>

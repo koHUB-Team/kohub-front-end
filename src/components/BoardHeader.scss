@@ -1,0 +1,19 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Bold.otf');
+}
+
+.kohub-boardheader {
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid kohubColor.$color-koHub-primary;
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: 32px;
+        color: kohubColor.$color-koHub-primary;
+        font-weight: bold;
+    }
+}

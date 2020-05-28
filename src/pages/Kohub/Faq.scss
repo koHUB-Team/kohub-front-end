@@ -1,0 +1,60 @@
+@use "../../common/color.scss"as kohubColor;
+
+@font-face {
+    font-family: "Noto Sans KR", sans-serif;
+    src: url("../../../public/fonts/NotoSansKR-Medium.otf");
+}
+
+.kohub-faq {
+    padding: 50px;
+
+    .kohub-faq__content {
+        padding-left: 300px;
+
+        .kohub-faq-accordion {
+            // border-bottom: 2px solid kohubColor.$color-koHub-primary;
+
+            .accordion {
+                border-bottom: 1px solid kohubColor.$font-color-third;
+                background-color: white;
+                font-size: 20px;
+                font-weight: 600;
+                color: kohubColor.$font-color-third;
+                cursor: pointer;
+                padding: 18px;
+                height: 90px;
+                width: 100%;
+                text-align: left;
+                outline: none;
+                transition: 0.4s;
+
+                &:hover {
+                    background-color: #ccc;
+                    color: kohubColor.$color-koHub-primary;
+                }
+
+                span {
+                    float: right;
+                }
+            }
+
+            .panel {
+                background-color: white;
+                font-size: 18px;
+                padding: 40px;
+                border-bottom: 1px solid kohubColor.$font-color-third;
+
+                p {
+                    line-height: 120%
+                }
+            }
+        }
+
+        .kohub-faq-content__bottom-area {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+    }
+}

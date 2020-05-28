@@ -1,6 +1,13 @@
 @use "../../common/color.scss"as kohubColor;
 
-.kohub-noticedetail {}
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../../public/fonts/NotoSansKR-Bold.otf');
+}
+
+.kohub-noticedetail {
+    height: 100%;
+}
 
 .kohub-noticedetail__content {
     padding: 60px;
@@ -32,6 +39,7 @@
                 margin-right: 6px;
 
                 &:hover {
+                    cursor: pointer;
                     color: kohubColor.$color-koHub-primary;
                 }
             }
@@ -55,7 +63,7 @@
         .kohub-noticedetail__title {
             margin-left: 15px;
             position: absolute;
-            width: 590px;
+            width: 800px;
             font-size: 23px;
             font-weight: bolder;
         }
@@ -72,11 +80,12 @@
 
     .kohub-noticedetail__article {
         margin-bottom: 15px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding: 15px;
+        height: 700px;
 
         p {
-            font-size: 17px;
+            font-size: 20px;
+            margin-bottom: 5px;
         }
     }
 

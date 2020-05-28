@@ -16,7 +16,9 @@ const ACTION = Record({
     CLICK_PROMOTION_WRITE: "CLICK_PROMOTION_WRITE",
   })(),
 
-  KOHUB: Record({})(),
+  KOHUB: Record({
+    CLICK_CHANGE_MODE: "CLICK_CHANGE_MODE",
+  })(),
 })();
 
 //Redux state 정의
@@ -39,8 +41,8 @@ const State = Record({
 const initialState = State();
 
 function reducer(state = initialState, action) {
-  let { admin } = state;
-  let newAdmin, newState;
+  let { admin, kohub } = state;
+  let newAdmin, newState, newKohub;
 
   switch (action.type) {
     case ACTION.ADMIN.CLICK_ADMIN_MENU:
@@ -52,6 +54,12 @@ function reducer(state = initialState, action) {
     case ACTION.ADMIN.CLICK_PROMOTION_WRITE:
       newAdmin = admin.set("mode", action.mode);
       newState = state.set("admin", newAdmin);
+
+      return newState;
+
+    case ACTION.KOHUB.CLICK_CHANGE_MODE:
+      newKohub = kohub.set("mode", action.mode);
+      newState = state.set("kohub", newKohub);
 
       return newState;
   }

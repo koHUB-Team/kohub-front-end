@@ -15,3 +15,27 @@
     background-color: kohubColor.$color-koHub-primary;
     border-radius: 4px;
 }
+
+.register {
+    font-family: 'Noto Sans KR',
+        sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    width: 159px;
+    height: 40px;
+    margin-right: 15px;
+    background-color: kohubColor.$color-koHub-primary;
+    color: white;
+}
+
+.cancel {
+    font-family: 'Noto Sans KR',
+        sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    width: 159px;
+    height: 40px;
+    background-color: white;
+    color: kohubColor.$color-koHub-primary;
+    border: 1px solid kohubColor.$color-koHub-primary;
+}

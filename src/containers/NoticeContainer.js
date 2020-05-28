@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { Notice } from "../pages/Kohub";
-
 function mapReduxStateToReactProps(state) {
   let { kohub } = state;
 
@@ -10,4 +9,4 @@ function mapReduxStateToReactProps(state) {
   };
 }
 
-export default connect(mapReduxStateToReactProps)(Notice);
+export default connect(mapReduxStateToReactProps, null)(Notice);

@@ -20,37 +20,41 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="kohub-sidebar">
-        <h1>koHUB</h1>
+        <div className="kohub-sidebar__title">
+          <h3>koHUB</h3>
+        </div>
         <div className="kohub-sidebar__hr">
           <hr></hr>
         </div>
-        <ul>
-          <li>
-            <Link to="/notice">
-              <span>공지사항</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <span>FAQ</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <span>Q&amp;A</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <span>자유게시판</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <span>실험실</span>
-            </Link>
-          </li>
-        </ul>
+        <div className="kohub-sidebar__content">
+          <ul>
+            <li>
+              <Link to="/notice">
+                <span>공지사항</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/faq">
+                <span>FAQ</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/">
+                <span>Q&amp;A</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/">
+                <span>자유게시판</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/">
+                <span>실험실</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
