@@ -70,7 +70,7 @@ class NoticeUpdate extends Component {
     this.content = content;
   }
 
-  onSumitBtnClickCallback(e) {
+  onSubmitListener(e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -135,7 +135,10 @@ class NoticeUpdate extends Component {
     let { detailData } = this.state;
 
     return (
-      <form className="kohub-noticeupdate container">
+      <form
+        className="kohub-noticeupdate container"
+        onSubmit={this.onSubmitListener.bind(this)}
+      >
         <div className="kohub-noticeupdate__content content-area">
           <div className="kohub-noticeupdate__title">
             <h2>공지사항</h2>
@@ -166,8 +169,8 @@ class NoticeUpdate extends Component {
           <div className="kohub-noticeupdate___button">
             <Button
               value={"수정"}
+              type={"submit"}
               btnType={"register"}
-              onClick={this.onSumitBtnClickCallback.bind(this)}
             ></Button>
             <Button
               value={"취소"}
