@@ -3,6 +3,7 @@ import { AdminTitleContainer, AdminNavContainer } from "../../containers";
 import { Table, DropMenu, Button, Pagination } from "../../components";
 import { Record, List } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
+import Moment from "moment";
 import "./PromotionRead.scss";
 
 const PromotionData = Record({
@@ -39,49 +40,85 @@ const ColgroupData = Record({
   class: "",
 });
 
+const PROMOTION_STATE = Record({
+  WAITING: "WAITING",
+  PROMOTING: "PROMOTING",
+})();
+
+const ORDER_TYPE = Record({
+  NO: "NO",
+  CREATE_DATE: "CREATE_DATE",
+  MODIFY_DATE: "MODIFY_DATE",
+  START_DATE: "START_DATE",
+})();
+
+const ORDER_OPTION = Record({
+  ASC: "ASC",
+  DESC: "DESC",
+})();
+
+const FILTER_TYPE = Record({
+  ALL: "ALL",
+  STATE: "STATE",
+})();
+
 class PromotionRead extends Component {
   constructor(props) {
     super(props);
     this.state = {
       table: TableData(),
+      totalCount: 0,
+      startPage: 1,
+      endPage: 0,
+      totalPromotionCount: 0,
+      promotingCount: 0,
+      waitingCount: 0,
+      orderType: ORDER_TYPE.NO,
+      orderOption: ORDER_OPTION.ASC,
+      filterType: FILTER_TYPE.ALL,
+      filterValue: "",
     };
+    this.MAX_NUM_OF_TABLE_ROW = 10;
+    this.MAX_NUM_OF_PAGE_BTN = 5;
+    this.MIN_PAGE_NUM = 1;
+    this.numOfCurrentPage = 1;
     this.alignMenus = List([
       DropMenuData({
         menu: "번호",
-        menuType: "",
-        menuValue: "",
+        menuType: ORDER_TYPE.NO,
+        menuValue: ORDER_OPTION.ASC,
       }),
       DropMenuData({
         menu: "신청 날짜",
-        menuType: "",
-        menuValue: "",
+        menuType: ORDER_TYPE.CREATE_DATE,
+        menuValue: ORDER_OPTION.DESC,
       }),
       DropMenuData({
         menu: "수정 날짜",
-        menuType: "",
-        menuValue: "",
+        menuType: ORDER_TYPE.MODIFY_DATE,
+        menuValue: ORDER_OPTION.DESC,
       }),
       DropMenuData({
         menu: "홍보 날짜",
-        menuType: "",
-        menuValue: "",
+        menuType: ORDER_TYPE.START_DATE,
+        menuValue: ORDER_OPTION.DESC,
       }),
     ]);
     this.filterMenus = List([
       DropMenuData({
-        menu: "모든계정",
-        menuType: "",
+        menu: "모든신청",
+        menuType: FILTER_TYPE.ALL,
         menuValue: "",
       }),
       DropMenuData({
         menu: "홍보중",
-        menuType: "",
-        menuValue: "",
+        menuType: FILTER_TYPE.STATE,
+        menuValue: PROMOTION_STATE.PROMOTING,
       }),
       DropMenuData({
-        menu: "홍보종료",
-        menuType: "",
-        menuValue: "",
+        menu: "홍보대기중",
+        menuType: FILTER_TYPE.STATE,
+        menuValue: PROMOTION_STATE.WAITING,
       }),
     ]);
     this.colgroupDatas = List([
@@ -133,14 +170,68 @@ class PromotionRead extends Component {
       })
       .then((json) => {
         let promotionDatas = json.promotions;
-        this.promotionApiHandler(promotionDatas);
+        let totalCount = json.totalCount;
+        let totalPromotionCount = json.totalPromotionCount;
+        let promotingCount = json.totalPromotingCount;
+        let waitingCount = json.totalWaitingCount;
+        this.promotionApiHandler(
+          promotionDatas,
+          totalCount,
+          totalPromotionCount,
+          promotingCount,
+          waitingCount
+        );
       })
       .catch((err) => {
         new Error("Promotion API Error");
       });
   }
 
-  promotionApiHandler(promotionDatas) {
+  requestChangePromotionStateApi(params = null, pathVariables = null) {
+    if (params == null || pathVariables == null) {
+      return;
+    }
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_PUT_ADMIN_PROMOTION_STATE;
+    url = ApiUtil.bindPathVariable(url, pathVariables);
+
+    fetch(url, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+      },
+      referrer: "no-referrer",
+      body: JSON.stringify(params),
+    })
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        alert("홍보 상태가 변경되었습니다.");
+        let params = {
+          start: (this.numOfCurrentPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+        };
+        this.requestPromotionApi(params);
+      })
+      .catch((err) => {
+        alert("홍보 상태를 변경하는데 문제가 발생하였습니다.");
+      });
+  }
+
+  promotionApiHandler(
+    promotionDatas,
+    newTotalCount,
+    newTotalPromotionCount,
+    newPromotingCount,
+    newWaitingCount
+  ) {
     let newHeads = List([
       "No",
       "Email",
@@ -156,7 +247,9 @@ class PromotionRead extends Component {
         id: promotionData.id,
         email: promotionData.email,
         name: promotionData.userName,
-        period: "2020.00.00~2020.00.00",
+        period: `${Moment(promotionData.startDate).format(
+          "YYYY.MM.DD"
+        )}~${Moment(promotionData.endDate).format("YYYY.MM.DD")}`,
         state: promotionData.state === "waiting" ? "홍보대기중" : "홍보중",
         createDate: promotionData.createDate,
         modifyDate: promotionData.modifyDate,
@@ -168,9 +261,29 @@ class PromotionRead extends Component {
       datas: newDatas,
     });
 
+    let { endPage } = this.state;
+    let newEndPage;
+    if (endPage === 0) {
+      newEndPage = this.calculateMaxPage(newTotalCount);
+      if (newEndPage > this.MAX_NUM_OF_PAGE_BTN) {
+        newEndPage = this.MAX_NUM_OF_PAGE_BTN;
+      }
+    } else {
+      newEndPage = endPage;
+    }
+
     this.setState({
       table: newTableData,
+      endPage: newEndPage,
+      totalCount: newTotalCount,
+      totalPromotionCount: newTotalPromotionCount,
+      promotingCount: newPromotingCount,
+      waitingCount: newWaitingCount,
     });
+  }
+
+  calculateMaxPage(totalCount) {
+    return Math.ceil(totalCount / 10);
   }
 
   onWriteBtnClickCallback() {
@@ -181,26 +294,187 @@ class PromotionRead extends Component {
     }
   }
 
+  onPrevBtnClickCallback(e) {
+    let { startPage } = this.state;
+
+    if (startPage > this.MIN_PAGE_NUM) {
+      let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
+      let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
+
+      this.setState({
+        startPage: newStartPage,
+        endPage: newEndPage,
+      });
+      this.numOfCurrentPage = newStartPage;
+
+      let params = {
+        start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+        orderType: this.state.orderType,
+        orderOption: this.state.orderOption,
+        filterType: this.state.filterType,
+        filterValue: this.state.filterValue,
+      };
+      this.requestPromotionApi(params);
+    }
+  }
+
+  onNextBtnClickCallback(e) {
+    let { startPage, endPage, totalCount } = this.state;
+    let maxPage = this.calculateMaxPage(totalCount);
+
+    if (endPage < maxPage) {
+      let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
+      let newEndPage = endPage + this.MAX_NUM_OF_PAGE_BTN;
+      if (newEndPage > maxPage) {
+        newEndPage = maxPage;
+      }
+
+      this.setState({
+        startPage: newStartPage,
+        endPage: newEndPage,
+      });
+      this.numOfCurrentPage = newStartPage;
+
+      let params = {
+        start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+        orderType: this.state.orderType,
+        orderOption: this.state.orderOption,
+        filterType: this.state.filterType,
+        filterValue: this.state.filterValue,
+      };
+      this.requestPromotionApi(params);
+    }
+  }
+
+  onPageBtnClickCallback(pageNum) {
+    this.numOfCurrentPage = pageNum;
+    let params = {
+      start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
+      orderType: this.state.orderType,
+      orderOption: this.state.orderOption,
+      filterType: this.state.filterType,
+      filterValue: this.state.filterValue,
+    };
+    this.requestPromotionApi(params);
+  }
+
+  onPromotionStartClickCallback() {
+    let checkedNodes = this.getCheckedNodes();
+    if (checkedNodes.length > 0) {
+      checkedNodes.forEach((e) => {
+        let params = {
+          state: PROMOTION_STATE.PROMOTING,
+        };
+        let pathVariables = {
+          promotionId: e.value,
+        };
+
+        this.requestChangePromotionStateApi(params, pathVariables);
+      });
+    }
+  }
+
+  onPromotionStopClickCallback() {
+    let checkedNodes = this.getCheckedNodes();
+    if (checkedNodes.length > 0) {
+      checkedNodes.forEach((e) => {
+        let params = {
+          state: PROMOTION_STATE.WAITING,
+        };
+        let pathVariables = {
+          promotionId: e.value,
+        };
+
+        this.requestChangePromotionStateApi(params, pathVariables);
+      });
+    }
+  }
+
+  getCheckedNodes() {
+    let checkBoxNodes = document.querySelectorAll(".kohub-table-check");
+    let checkedNodes = Object.values(checkBoxNodes).filter((checkBox) => {
+      if (checkBox.checked === true) {
+        return checkBox;
+      }
+    });
+
+    return checkedNodes;
+  }
+
+  onOrderMenuClickCallback(newOrderType, newOrderOption) {
+    this.setState({
+      filterType: this.state.filterType,
+      filterValue: this.state.filterValue,
+      orderType: newOrderType,
+      orderOption: newOrderOption,
+      startPage: 1,
+      endPage: 0,
+    });
+    this.numOfCurrentPage = 1;
+
+    let params = {
+      filterType: this.state.filterType,
+      filterValue: this.state.filterValue,
+      orderType: newOrderType,
+      orderOption: newOrderOption,
+    };
+
+    this.requestPromotionApi(params);
+  }
+
+  onFilterMenuClickCallback(newFilterType, newFilterValue) {
+    this.setState({
+      filterType: newFilterType,
+      filterValue: newFilterValue,
+      orderType: this.state.orderType,
+      orderOption: this.state.orderOption,
+      startPage: 1,
+      endPage: 0,
+    });
+    this.numOfCurrentPage = 1;
+
+    let params = {
+      filterType: newFilterType,
+      filterValue: newFilterValue,
+      orderType: this.state.orderType,
+      orderOption: this.state.orderOption,
+    };
+
+    this.requestPromotionApi(params);
+  }
+
   render() {
-    let { table } = this.state;
+    let {
+      table,
+      startPage,
+      endPage,
+      totalPromotionCount,
+      promotingCount,
+      waitingCount,
+    } = this.state;
 
     return (
       <div>
         <header className="kohub-admin-header">
           <div className="kohub-admin-header-area">
             <AdminTitleContainer></AdminTitleContainer>
+            <div className="kohub-admin-header__info">
+              <span>총신청수:{totalPromotionCount}</span>
+              <span>홍보중:{promotingCount}</span>
+              <span>홍보대기중:{waitingCount}</span>
+            </div>
             <div className="kohub-admin-header__filter">
               <DropMenu
                 value={"필터"}
                 menus={this.filterMenus}
-                // onDropMenuClick={this.onFilterMenuClickCallback.bind(this)}
+                onDropMenuClick={this.onFilterMenuClickCallback.bind(this)}
               ></DropMenu>
             </div>
             <div className="kohub-admin-header__align">
               <DropMenu
                 value={"정렬"}
                 menus={this.alignMenus}
-                // onDropMenuClick={this.onOrderMenuClickCallback.bind(this)}
+                onDropMenuClick={this.onOrderMenuClickCallback.bind(this)}
               ></DropMenu>
             </div>
           </div>
@@ -217,29 +491,29 @@ class PromotionRead extends Component {
             onClick={this.onWriteBtnClickCallback.bind(this)}
           ></Button>
           <Button
-            value={"내용"}
-            // onClick={this.onForbiddenBtnClickCallback.bind(this)}
-          ></Button>
-          <Button
             value={"수정"}
             // onClick={this.onRecoveryBtnClickCallback.bind(this)}
           ></Button>
           <Button
             value={"시작"}
-            // onClick={this.onRecoveryBtnClickCallback.bind(this)}
+            onClick={this.onPromotionStartClickCallback.bind(this)}
           ></Button>
           <Button
             value={"종료"}
-            // onClick={this.onRecoveryBtnClickCallback.bind(this)}
+            onClick={this.onPromotionStopClickCallback.bind(this)}
+          ></Button>
+          <Button
+            value={"삭제"}
+            // onClick={this.onPromotionStopClickCallback.bind(this)}
           ></Button>
         </div>
         <div className="kohub-admin-content__bottom-area">
           <Pagination
-            start={1}
-            end={5}
-            // onPrevBtnClick={this.onPrevBtnClickCallback.bind(this)}
-            // onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
-            // onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
+            start={startPage}
+            end={endPage}
+            onPrevBtnClick={this.onPrevBtnClickCallback.bind(this)}
+            onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
+            onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
           ></Pagination>
         </div>
       </div>

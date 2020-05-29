@@ -66,6 +66,11 @@ const ORDER_OPTION = Record({
   DESC: "DESC",
 })();
 
+const ColgroupData = Record({
+  span: 0,
+  class: "",
+});
+
 class Account extends Component {
   constructor(props) {
     super(props);
@@ -89,7 +94,7 @@ class Account extends Component {
     this.MAX_NUM_OF_TABLE_ROW = 10;
     this.dropMenuList = List(["이메일", "닉네임"]);
     this.selectedDropMenu = null;
-    this.numOfCurrentPage = null;
+    this.numOfCurrentPage = 1;
     this.filterMenuList = List([
       DropMenuData({
         menu: "모든 계정",
@@ -147,6 +152,40 @@ class Account extends Component {
         menu: "수정 날짜",
         menuType: ORDER_TYPE.MODIFY_DATE,
         menuValue: ORDER_OPTION.DESC,
+      }),
+    ]);
+    this.colgroupDatas = List([
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
+      }),
+      ColgroupData({
+        span: 1,
+        class: "kohub-admin-account-board-col",
       }),
     ]);
   }
@@ -602,7 +641,12 @@ class Account extends Component {
                 </div>
               </div>
             </header>
-            <Table heads={heads} datas={datas} checked={true}></Table>
+            <Table
+              heads={heads}
+              datas={datas}
+              checked={true}
+              colgroupDatas={this.colgroupDatas}
+            ></Table>
             <div className="kohub-admin-control__btn">
               <Button
                 value={"경고"}

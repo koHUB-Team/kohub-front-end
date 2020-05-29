@@ -4,3 +4,4 @@ export { default as AdminTitleContainer } from "./AdminTitleContainer";
 export { default as NoticeBoardContainer } from "./NoticeBoardContainer";
 export { default as PromotionContainer } from "./PromotionContainer";
 export { default as PromotionReadContainer } from "./PromotionReadContainer";
+export { default as PromotionWriteContainer } from "./PromotionWriteContainer";

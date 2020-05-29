@@ -100,6 +100,13 @@ class PromotionWrite extends Component {
     this.emailValid = isValid;
   }
 
+  onCancelBtnClickCallback() {
+    let { onCancelBtnClick } = this.props;
+    if (onCancelBtnClick !== undefined) {
+      onCancelBtnClick();
+    }
+  }
+
   //현재날짜보다 이전값 받으면 안됨 -- 유효성검사
   onStartDateChangeCallback(newStartDate, isValid) {
     if (this.endDate !== "") {
@@ -214,7 +221,10 @@ class PromotionWrite extends Component {
         </div>
         <div className="kohub-admin-promotion-write__btn">
           <Button type={"submit"} value={"추가"}></Button>
-          <Button value={"취소"}></Button>
+          <Button
+            value={"취소"}
+            onClick={this.onCancelBtnClickCallback.bind(this)}
+          ></Button>
         </div>
       </form>
     );

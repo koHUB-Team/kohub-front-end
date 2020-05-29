@@ -14,6 +14,7 @@ const ACTION = Record({
   ADMIN: Record({
     CLICK_ADMIN_MENU: "CLICK_ADMIN_MENU",
     CLICK_PROMOTION_WRITE: "CLICK_PROMOTION_WRITE",
+    CHANGE_MODE: "CHANGE_MODE",
   })(),
 
   KOHUB: Record({
@@ -57,11 +58,20 @@ function reducer(state = initialState, action) {
 
       return newState;
 
+    case ACTION.ADMIN.CHANGE_MODE:
+      newAdmin = admin.set("mode", action.mode);
+      newState = state.set("admin", newAdmin);
+
+      return newState;
+
     case ACTION.KOHUB.CLICK_CHANGE_MODE:
       newKohub = kohub.set("mode", action.mode);
       newState = state.set("kohub", newKohub);
 
       return newState;
+
+    default:
+      return state;
   }
 
   return state;

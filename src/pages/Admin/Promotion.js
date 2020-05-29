@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "./Promotion.scss";
-import { AdminNavContainer, PromotionReadContainer } from "../../containers";
+import {
+  AdminNavContainer,
+  PromotionReadContainer,
+  PromotionWriteContainer,
+} from "../../containers";
 import { MODE } from "../../store";
 import PromotionWrite from "./PromotionWrite";
 
@@ -24,7 +28,7 @@ class Promotion extends Component {
         <AdminNavContainer></AdminNavContainer>
         <div className="kohub-admin-content-container">
           <div className="kohub-admin-content-area">
-            <PromotionWrite></PromotionWrite>
+            <PromotionWriteContainer></PromotionWriteContainer>
           </div>
         </div>
       </div>

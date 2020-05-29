@@ -44,8 +44,6 @@ class Table extends Component {
     }
   }
   onTableRowClickListener(e) {
-    e.preventDefault();
-
     let isEventTarget = false;
     let trNode;
     switch (e.target.tagName.toLowerCase()) {
