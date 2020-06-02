@@ -225,6 +225,43 @@ class PromotionRead extends Component {
       });
   }
 
+  requestDeletePromotionApi(pathVariables = null) {
+    if (pathVariables == null) {
+      return;
+    }
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_DELETE_PROMOTION;
+    url = ApiUtil.bindPathVariable(url, pathVariables);
+
+    fetch(url, {
+      method: "DELETE",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+      },
+      referrer: "no-referrer",
+    })
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        alert("홍보가 삭제되었습니다.");
+        let params = {
+          start: (this.numOfCurrentPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
+          orderType: this.state.orderType,
+          orderOption: this.state.orderOption,
+          filterType: this.state.filterType,
+          filterValue: this.state.filterValue,
+        };
+        this.requestPromotionApi(params);
+      })
+      .catch((err) => {
+        alert("홍보를 삭제하는데 문제가 발생하였습니다.");
+      });
+  }
+
   promotionApiHandler(
     promotionDatas,
     newTotalCount,
@@ -443,6 +480,22 @@ class PromotionRead extends Component {
     this.requestPromotionApi(params);
   }
 
+  onDeleteBtnClickCallback() {
+    let checkedNodes = this.getCheckedNodes();
+
+    if (checkedNodes.length > 0) {
+      if (window.confirm("정말 삭제하시겠습니까?")) {
+        checkedNodes.forEach((e) => {
+          let pathVariables = {
+            promotionId: e.value,
+          };
+
+          this.requestDeletePromotionApi(pathVariables);
+        });
+      }
+    }
+  }
+
   render() {
     let {
       table,
@@ -504,7 +557,7 @@ class PromotionRead extends Component {
           ></Button>
           <Button
             value={"삭제"}
-            // onClick={this.onPromotionStopClickCallback.bind(this)}
+            onClick={this.onDeleteBtnClickCallback.bind(this)}
           ></Button>
         </div>
         <div className="kohub-admin-content__bottom-area">
