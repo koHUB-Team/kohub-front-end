@@ -1,0 +1,94 @@
+@use "../../common/color.scss"as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../../public/fonts/NotoSansKR-Bold.otf');
+}
+
+.kohub-qnadetail {
+    height: 100%;
+
+
+    .kohub-qnadetail__content {
+        padding: 60px;
+
+        .kohub-qnadetail__header {
+            position: relative;
+            height: 50px;
+
+            h2 {
+                margin-left: 15px;
+                margin-bottom: 15px;
+                color: kohubColor.$color-koHub-primary;
+                font-size: 32px;
+                font-weight: bold;
+            }
+
+            .kohub-qnadetail__manage {
+                position: absolute;
+                right: 0%;
+                top: 36%;
+                font-size: 18px;
+                font-weight: bold;
+                margin-right: 15px;
+                color: kohubColor.$font-color-third--fade;
+
+                span {
+                    color: kohubColor.$font-color-third--fade;
+                    margin-left: 6px;
+                    margin-right: 6px;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: kohubColor.$color-koHub-primary;
+                    }
+                }
+            }
+        }
+
+        .kohub-qnadetail__hr {
+            hr {
+                margin: 0;
+                border: none;
+                border: 2px solid kohubColor.$color-koHub-primary;
+                margin-bottom: 15px;
+            }
+        }
+
+        .kohub-qnadetail__title-area {
+            margin-bottom: 15px;
+            height: 85px;
+            position: relative;
+
+            .kohub-qnadetail__title {
+                margin-left: 15px;
+                position: absolute;
+                width: 800px;
+                font-size: 23px;
+                font-weight: bolder;
+            }
+
+            .kohub-qnadetail__user-info {
+                position: absolute;
+                right: 0%;
+                line-height: 22px;
+                margin-right: 15px;
+                font-size: 17px;
+                font-weight: bolder;
+                color: kohubColor.$font-color-third;
+            }
+        }
+
+        .kohub-qnadetail__article {
+            margin-bottom: 15px;
+            padding: 15px;
+            height: 100%;
+
+            p {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+        }
+
+    }
+}
