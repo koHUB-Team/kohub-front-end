@@ -175,8 +175,6 @@ class NoticeBoard extends Component {
     }
   }
 
-  onDetailClick() {}
-
   render() {
     let { heads, datas, startPage, endPage } = this.state;
 
@@ -186,7 +184,7 @@ class NoticeBoard extends Component {
           <Sidebar></Sidebar>
           <div className="kohub-noticeboard__board">
             <BoardHeader value={"공지사항"}></BoardHeader>
-            <div className="kohub-noticeboard_table">
+            <div className="kohub-noticeboard__table">
               <Table
                 heads={heads}
                 datas={datas}

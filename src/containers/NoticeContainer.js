@@ -4,7 +4,7 @@ function mapReduxStateToReactProps(state) {
   let { kohub } = state;
 
   return {
-    selectedMenuId: kohub.selectedMenuId,
+    selectedDetailId: kohub.selectedDetailId,
     mode: kohub.mode,
   };
 }
