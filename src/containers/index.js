@@ -7,3 +7,7 @@ export { default as NoticeUpdateContainer } from "./NoticeUpdateContainer";
 export { default as NoticeWriteContainer } from "./NoticeWriteContainer";
 export { default as PromotionContainer } from "./PromotionContainer";
 export { default as PromotionReadContainer } from "./PromotionReadContainer";
+export { default as QnaContainer } from "./QnaContainer";
+export { default as QnaBoardContainer } from "./QnaBoardContainer";
+export { default as QnaDetailContainer } from "./QnaDetailContainer";
+export { default as QnaWriteContainer } from "./QnaWriteContainer";
