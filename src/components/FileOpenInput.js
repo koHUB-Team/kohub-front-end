@@ -14,6 +14,7 @@ class FileOpenInput extends Component {
     this.state = {
       numOfFiles: 0,
       files: [],
+      thumbImageUrls: null,
     };
     this.OPTION = {
       FILE_NAME: "fileName",
@@ -23,6 +24,16 @@ class FileOpenInput extends Component {
       IMAGE: /^(?:image\/)((?:png)|(?:jpg))/,
     };
     this.checkProps();
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.urls !== state.thumbImageUrls) {
+      return {
+        numOfFiles: 1,
+        thumbImageUrls: props.urls,
+      };
+    }
+    return null; //null은 state 갱신 x
   }
 
   componentDidUpdate() {
@@ -83,12 +94,22 @@ class FileOpenInput extends Component {
   }
 
   getThumbImgList() {
-    let { numOfFiles } = this.state;
+    let { numOfFiles, thumbImageUrls } = this.state;
     let thumbImgList = [];
+
     for (let i = 0; i < numOfFiles; i++) {
       thumbImgList = thumbImgList.concat([
-        <li key={i} data-id={i} className="kohub-file__thumb-img hide">
-          <img src=""></img>
+        <li
+          key={i}
+          data-id={i}
+          className={`kohub-file__thumb-img ${
+            thumbImageUrls !== null ? "" : "hide"
+          }`}
+        >
+          <img
+            src={thumbImageUrls !== null ? thumbImageUrls.get(i) : ""}
+            alt="img"
+          ></img>
           <button className="kohub-file__thumb-img__btn--delete">x</button>
         </li>,
       ]);

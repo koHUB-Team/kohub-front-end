@@ -17,8 +17,19 @@ function mapReduxDispatchToReactProps(dispatch) {
   return {
     onWriteBtnClick: () => {
       dispatch({
-        type: ACTION.ADMIN.CLICK_PROMOTION_WRITE,
+        type: ACTION.ADMIN.CHANGE_MODE,
         mode: MODE.CREATE,
+      });
+    },
+    onUpdateBtnClick: (promotionId) => {
+      dispatch({
+        type: ACTION.ADMIN.CHANGE_MODE,
+        mode: MODE.UPDATE,
+      });
+
+      dispatch({
+        type: ACTION.ADMIN.CHANGE_PROMOTION_ID,
+        selectedPromotionId: promotionId,
       });
     },
   };

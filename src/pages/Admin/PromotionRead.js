@@ -324,10 +324,27 @@ class PromotionRead extends Component {
   }
 
   onWriteBtnClickCallback() {
-    console.log("write!!");
     let { onWriteBtnClick } = this.props;
     if (onWriteBtnClick !== undefined) {
       onWriteBtnClick();
+    }
+  }
+
+  onUpdateBtnClickCallback() {
+    let { onUpdateBtnClick } = this.props;
+    let checkedNodes = this.getCheckedNodes();
+
+    if (checkedNodes.length === 0) {
+      alert("수정할 홍보 정보를 체크하세요!");
+      return;
+    } else if (checkedNodes.length > 1) {
+      alert("수정할 홍보 정보는 하나만 체크해주세요!");
+      return;
+    }
+
+    let promotionId = checkedNodes[0].value;
+    if (onUpdateBtnClick !== undefined) {
+      onUpdateBtnClick(promotionId);
     }
   }
 
@@ -545,7 +562,7 @@ class PromotionRead extends Component {
           ></Button>
           <Button
             value={"수정"}
-            // onClick={this.onRecoveryBtnClickCallback.bind(this)}
+            onClick={this.onUpdateBtnClickCallback.bind(this)}
           ></Button>
           <Button
             value={"시작"}
