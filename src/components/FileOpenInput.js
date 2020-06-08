@@ -109,6 +109,10 @@ class FileOpenInput extends Component {
           <img
             src={thumbImageUrls !== null ? thumbImageUrls.get(i) : ""}
             alt="img"
+            onLoad={(e) => {
+              let url = e.target.src;
+              URL.revokeObjectURL(url);
+            }}
           ></img>
           <button className="kohub-file__thumb-img__btn--delete">x</button>
         </li>,
