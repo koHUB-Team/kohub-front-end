@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import "./Promotion.scss";
-import { AdminNavContainer, PromotionReadContainer } from "../../containers";
+import {
+  AdminNavContainer,
+  PromotionReadContainer,
+  PromotionWriteContainer,
+} from "../../containers";
 import { MODE } from "../../store";
-import PromotionWrite from "./PromotionWrite";
 
 class Promotion extends Component {
   getReadPage() {
@@ -24,7 +27,7 @@ class Promotion extends Component {
         <AdminNavContainer></AdminNavContainer>
         <div className="kohub-admin-content-container">
           <div className="kohub-admin-content-area">
-            <PromotionWrite></PromotionWrite>
+            <PromotionWriteContainer></PromotionWriteContainer>
           </div>
         </div>
       </div>
@@ -33,14 +36,14 @@ class Promotion extends Component {
 
   render() {
     let { mode } = this.props;
-    console.log(mode);
-
     let page;
+
     switch (mode) {
       case MODE.READ:
         page = this.getReadPage();
         break;
       case MODE.CREATE:
+      case MODE.UPDATE:
         page = this.getWritePage();
         break;
     }

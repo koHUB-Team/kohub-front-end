@@ -10,6 +10,36 @@
     height: 100%;
 }
 
+.kohub-admin-account-board-col {
+    &:nth-child(1) {
+        width: 30px;
+    }
+
+    &:nth-child(2) {
+        width: 40px;
+    }
+
+    &:nth-child(3) {
+        width: 220px;
+    }
+
+    &:nth-child(4) {
+        width: 140px;
+    }
+
+    &:nth-child(5) {
+        width: 70px;
+    }
+
+    &:nth-child(6) {
+        width: 70px;
+    }
+
+    &:nth-child(7) {
+        width: 70px;
+    }
+}
+
 //layout
 $adminNav-width: 240px;
 

@@ -13,3 +13,4 @@ export { default as FormInput } from "./FormInput";
 export { default as Sidebar } from "./Sidebar";
 export { default as BoardHeader } from "./BoardHeader";
 export { default as Editor } from "./Editor";
+export { default as ModalPopup } from "./ModalPopup";

@@ -7,3 +7,4 @@ export { default as NoticeUpdateContainer } from "./NoticeUpdateContainer";
 export { default as NoticeWriteContainer } from "./NoticeWriteContainer";
 export { default as PromotionContainer } from "./PromotionContainer";
 export { default as PromotionReadContainer } from "./PromotionReadContainer";
+export { default as PromotionWriteContainer } from "./PromotionWriteContainer";

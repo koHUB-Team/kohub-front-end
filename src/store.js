@@ -13,7 +13,8 @@ const MODE = Record({
 const ACTION = Record({
   ADMIN: Record({
     CLICK_ADMIN_MENU: "CLICK_ADMIN_MENU",
-    CLICK_PROMOTION_WRITE: "CLICK_PROMOTION_WRITE",
+    CHANGE_MODE: "CHANGE_MODE",
+    CHANGE_PROMOTION_ID: "CHANGE_PROMOTION_ID",
   })(),
 
   KOHUB: Record({
@@ -26,6 +27,7 @@ const ACTION = Record({
 //Admin page 관련 state
 const Admin = Record({
   selectedMenuId: 1,
+  selectedPromotionId: 0,
   mode: MODE.READ,
 });
 
@@ -52,8 +54,14 @@ function reducer(state = initialState, action) {
 
       return newState;
 
-    case ACTION.ADMIN.CLICK_PROMOTION_WRITE:
+    case ACTION.ADMIN.CHANGE_MODE:
       newAdmin = admin.set("mode", action.mode);
+      newState = state.set("admin", newAdmin);
+
+      return newState;
+
+    case ACTION.ADMIN.CHANGE_PROMOTION_ID:
+      newAdmin = admin.set("selectedPromotionId", action.selectedPromotionId);
       newState = state.set("admin", newAdmin);
 
       return newState;
@@ -70,6 +78,9 @@ function reducer(state = initialState, action) {
       newState = state.set("kohub", newKohub);
 
       return newState;
+
+    default:
+      return state;
   }
 
   return state;

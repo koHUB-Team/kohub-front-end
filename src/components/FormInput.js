@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 //onBlur : onBlur 이벤트 콜백함수
 //onFocus : onFocus 이벤트 콜백함수
 //onChange : onChange 이벤트 콜백함수
+//selected : Datepicker에 설정할 초기 날짜 선택값, 사용하지 않을 경우 반드시 null을 전달해야함.
 
 class FormInput extends Component {
   constructor(props) {
@@ -37,6 +38,20 @@ class FormInput extends Component {
     if (focus !== undefined && focus === true) {
       this.focusInput();
     }
+
+  //props인 selected로 state를 설정할 경우.
+  //초기 렌더링 -> getDerivedStateFromProps -> componentDidMount -> 다시 렌더링 -> getDerivedStateFromProps 순서.
+  //이 함수가 불릴 때마다 props로 전달한 값과 state값을 비교해 state값을 비교가능하다.
+  //return 값은 갱신할 state.
+  //반드시 사용하지 않을 경우 null을 전달해야 함. 안그러면 매번 불려서 오작동 일으킴.
+  static getDerivedStateFromProps(props, state) {
+    if (props.selected !== state.date && props.selected !== null) {
+      return {
+        date: props.selected,
+      };
+    }
+
+    return null; //null은 state 갱신 x
   }
 
   getId() {
@@ -106,6 +121,20 @@ class FormInput extends Component {
             onChange={this.onDateChange.bind(this)}
           />
         );
+      case this.VALID_OPTION.TITLE:
+        return (
+          <Cleave
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            onBlur={this.onBlurListener.bind(this)}
+            onFocus={this.onFocusListener.bind(this)}
+            onChange={this.onChangeListener.bind(this)}
+            onSubmit={this.onSubmitListener.bind(this)}
+            options={{ blocks: [99999], delimiter: "" }}
+          ></Cleave>
+        );
       default:
         return (
           <Cleave
@@ -116,6 +145,7 @@ class FormInput extends Component {
             htmlRef={(ref) => {
               this.ccInput = ref;
             }}
+
             onBlur={this.onBlurListener.bind(this)}
             onFocus={this.onFocusListener.bind(this)}
             onChange={this.onChangeListener.bind(this)}
@@ -145,15 +175,18 @@ class FormInput extends Component {
   }
 
   onDateChange(newDate) {
-    this.setState({
-      date: newDate,
-    });
-
     //콜백함수가 있으면 실행.
     let { onChange } = this.props;
+    let shouldDateChange = true;
     if (onChange !== undefined) {
       let isValid = true;
-      onChange(newDate, isValid);
+      shouldDateChange = onChange(newDate, isValid);
+    }
+
+    if (shouldDateChange) {
+      this.setState({
+        date: newDate,
+      });
     }
   }
 

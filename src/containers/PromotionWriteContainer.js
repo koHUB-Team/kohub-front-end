@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { PromotionRead } from "../pages/Admin";
+import { PromotionWrite } from "../pages/Admin";
 import { ACTION, MODE } from "../store";
 
 function mapReduxStateToReactProps(state) {
@@ -7,6 +7,7 @@ function mapReduxStateToReactProps(state) {
 
   return {
     mode: admin.mode,
+    selectedPromotionId: admin.selectedPromotionId,
   };
 }
 
@@ -15,24 +16,21 @@ function mapReduxStateToReactProps(state) {
 //리턴값을 wraped component의 props에서 사용.
 function mapReduxDispatchToReactProps(dispatch) {
   return {
-    onWriteBtnClick: () => {
+    onBtnClick: () => {
       dispatch({
         type: ACTION.ADMIN.CHANGE_MODE,
-        mode: MODE.CREATE,
-      });
-    },
-    onUpdateBtnClick: (promotionId) => {
-      dispatch({
-        type: ACTION.ADMIN.CHANGE_MODE,
-        mode: MODE.UPDATE,
+        mode: MODE.READ,
       });
 
       dispatch({
         type: ACTION.ADMIN.CHANGE_PROMOTION_ID,
-        selectedPromotionId: promotionId,
+        selectedPromotionId: 0,
       });
     },
   };
 }
 
-export default connect(null, mapReduxDispatchToReactProps)(PromotionRead);
+export default connect(
+  mapReduxStateToReactProps,
+  mapReduxDispatchToReactProps
+)(PromotionWrite);
