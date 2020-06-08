@@ -12,6 +12,7 @@ const DetailData = Record({
   userName: "",
   createDate: "",
   content: "",
+  category: "",
 });
 
 class QnaDetail extends Component {
@@ -57,11 +58,45 @@ class QnaDetail extends Component {
       userName: qna.userName,
       createDate: qna.createDate,
       content: qna.content,
+      category: qna.category,
     });
 
     this.setState({
       detailData: newData,
     });
+  }
+  onDeleteApiHandler() {
+    let pathVariable = {
+      qnaId: this.state.detailData.id,
+    };
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_POST_QNAS;
+    url = ApiUtil.bindPathVariable(url, pathVariable);
+
+    fetch(url, {
+      method: "DELETE",
+    })
+      .then((result) => {
+        alert("삭제되었습니다.");
+      })
+      .then(() => {
+        this.onDeleteBtnClickCallback();
+      })
+      .catch((err) => {
+        new Error("Qna Error");
+      });
+  }
+  onDeleteBtnClickCallback() {
+    let { onDeleteBtnClick } = this.props;
+    if (onDeleteBtnClick !== undefined) {
+      onDeleteBtnClick();
+    }
+  }
+  onUpdateBtnClickCallback() {
+    let { onUpdateBtnClick } = this.props;
+    if (onUpdateBtnClick !== undefined) {
+      onUpdateBtnClick();
+    }
   }
 
   render() {
@@ -72,12 +107,12 @@ class QnaDetail extends Component {
           <div className="kohub-qnadetail__header">
             <h2>Q&amp;A</h2>
             <div className="kohub-qnadetail__manage">
-              <span>
+              <span onClick={this.onUpdateBtnClickCallback.bind(this)}>
                 <FontAwesomeIcon icon={faEdit} flip="horizontal" />
                 {""}수정
               </span>
               |
-              <span>
+              <span onClick={this.onDeleteApiHandler.bind(this)}>
                 <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
                 {""}삭제
               </span>
@@ -88,7 +123,9 @@ class QnaDetail extends Component {
           </div>
           <div className="kohub-qnadetail__title-area">
             <div className="kohub-qnadetail__title align-center-col">
-              <span>{detailData.title}</span>
+              <span>
+                [{detailData.category}] {detailData.title}
+              </span>
             </div>
             <div className="kohub-qnadetail__user-info align-center-col">
               <span>작성자 : {detailData.userName}</span>

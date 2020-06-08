@@ -10,4 +10,23 @@ function mapReduxStateToReactProps(state) {
   };
 }
 
-export default connect(mapReduxStateToReactProps, null)(QnaDetail);
+function mapReduxDispatchToReactProps(dispatch) {
+  return {
+    onUpdateBtnClick: () => {
+      dispatch({
+        type: ACTION.KOHUB.CLICK_CHANGE_MODE,
+        mode: MODE.UPDATE,
+      });
+    },
+    onDeleteBtnClick: () => {
+      dispatch({
+        type: ACTION.KOHUB.CLICK_CHANGE_MODE,
+        mode: MODE.READ,
+      });
+    },
+  };
+}
+export default connect(
+  mapReduxStateToReactProps,
+  mapReduxDispatchToReactProps
+)(QnaDetail);

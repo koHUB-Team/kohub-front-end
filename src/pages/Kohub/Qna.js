@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Header, Footer } from "../../components";
 import { MODE } from "../../store";
-import { QnaWrite } from "./";
+import {} from "./";
 import {
   QnaBoardContainer,
   QnaDetailContainer,
@@ -13,6 +13,8 @@ class Qna extends Component {
       case MODE.READ:
         return <QnaBoardContainer></QnaBoardContainer>;
       case MODE.CREATE:
+        return <QnaWriteContainer></QnaWriteContainer>;
+      case MODE.UPDATE:
         return <QnaWriteContainer></QnaWriteContainer>;
       case MODE.READ_DETAIL:
         return <QnaDetailContainer></QnaDetailContainer>;

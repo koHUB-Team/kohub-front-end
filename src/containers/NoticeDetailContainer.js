@@ -21,7 +21,7 @@ function mapReduxDispatchToReactProps(dispatch) {
     onDeleteBtnClick: () => {
       dispatch({
         type: ACTION.KOHUB.CLICK_CHANGE_MODE,
-        mode: MODE.DELETE,
+        mode: MODE.READ,
       });
     },
   };
