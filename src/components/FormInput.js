@@ -110,6 +110,20 @@ class FormInput extends Component {
             onChange={this.onDateChange.bind(this)}
           />
         );
+      case this.VALID_OPTION.TITLE:
+        return (
+          <Cleave
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            onBlur={this.onBlurListener.bind(this)}
+            onFocus={this.onFocusListener.bind(this)}
+            onChange={this.onChangeListener.bind(this)}
+            onSubmit={this.onSubmitListener.bind(this)}
+            options={{ blocks: [99999], delimiter: "" }}
+          ></Cleave>
+        );
       default:
         return (
           <Cleave
