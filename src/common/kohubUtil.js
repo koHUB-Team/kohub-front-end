@@ -43,8 +43,8 @@ const DomUtil = {
 //유효성 검사 유틸
 const ValidateUtil = {
   EMAIL_PATTERN: /(?:^[a-zA-Z]\w+)@(?:\w+).(?:[a-zA-Z]+)(?:.[a-zA-Z]*[a-zA-Z]$)/,
-  NAME_PATTERN: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z][ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z]*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z]$/,
-  NICKNAME_PATTERN: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9][ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9]*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9]$/,
+  NAME_PATTERN: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z][ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z\S]*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z]$/,
+  NICKNAME_PATTERN: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9][ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9\S]*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9]$/,
 
   //이메일 형식이 맞는지 검사
   emailValidate: function (email) {

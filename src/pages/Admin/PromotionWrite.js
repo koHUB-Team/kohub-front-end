@@ -164,6 +164,11 @@ class PromotionWrite extends Component {
       })
       .then((json) => {
         alert("홍보 게시물이 수정되었습니다.");
+
+        let { onBtnClick } = this.props;
+        if (onBtnClick !== undefined) {
+          onBtnClick();
+        }
       })
       .catch((err) => {
         alert("홍보 게시물을 수정하는데 문제가 발생했습니다.");
@@ -228,6 +233,11 @@ class PromotionWrite extends Component {
       })
       .then((json) => {
         alert("홍보 게시물이 등록되었습니다.");
+
+        let { onBtnClick } = this.props;
+        if (onBtnClick !== undefined) {
+          onBtnClick();
+        }
       })
       .catch((err) => {
         alert("홍보 게시물을 등록하는데 문제가 발생했습니다.");
@@ -252,9 +262,9 @@ class PromotionWrite extends Component {
   }
 
   onCancelBtnClickCallback() {
-    let { onCancelBtnClick } = this.props;
-    if (onCancelBtnClick !== undefined) {
-      onCancelBtnClick();
+    let { onBtnClick } = this.props;
+    if (onBtnClick !== undefined) {
+      onBtnClick();
     }
   }
 

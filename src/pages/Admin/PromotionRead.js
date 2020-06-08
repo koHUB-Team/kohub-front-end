@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { AdminTitleContainer, AdminNavContainer } from "../../containers";
-import { Table, DropMenu, Button, Pagination } from "../../components";
+import {
+  Table,
+  DropMenu,
+  Button,
+  Pagination,
+  ModalPopup,
+} from "../../components";
 import { Record, List } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
@@ -62,6 +68,13 @@ const FILTER_TYPE = Record({
   STATE: "STATE",
 })();
 
+const ModalData = Record({
+  isShow: false,
+  title: "",
+  content: "",
+  imageUrl: "",
+});
+
 class PromotionRead extends Component {
   constructor(props) {
     super(props);
@@ -77,6 +90,7 @@ class PromotionRead extends Component {
       orderOption: ORDER_OPTION.ASC,
       filterType: FILTER_TYPE.ALL,
       filterValue: "",
+      modal: ModalData(),
     };
     this.MAX_NUM_OF_TABLE_ROW = 10;
     this.MAX_NUM_OF_PAGE_BTN = 5;
@@ -513,6 +527,97 @@ class PromotionRead extends Component {
     }
   }
 
+  requestGetPromotionDetailApi(pathVariables = null) {
+    if (pathVariables === null) {
+      return;
+    }
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_GET_PROMOTION;
+    url = ApiUtil.bindPathVariable(url, pathVariables);
+
+    fetch(url)
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        let promotionData = json.promotions[0];
+        let promotionImages = json.promotionImages;
+        this.promotionDetailApiHandler(promotionData, promotionImages);
+      })
+      .catch((err) => {
+        new Error("Promotion API Error");
+      });
+  }
+
+  promotionDetailApiHandler(promotionData, promotionImages) {
+    let { modal } = this.state;
+    let newModal = modal.set("title", promotionData.title);
+    newModal = newModal.set("content", promotionData.content);
+
+    this.setState({
+      modal: newModal,
+    });
+
+    let mainImage = promotionImages.filter((image) => {
+      if (image.type === "ma") {
+        return image;
+      }
+    })[0];
+
+    let pathVariables = {
+      promotionImageId: mainImage.id,
+    };
+    this.requestDownloadPromotionImageApi(pathVariables);
+  }
+
+  requestDownloadPromotionImageApi(pathVariables = null) {
+    if (pathVariables == null) {
+      return;
+    }
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_DOWNLOAD_PROMOTION;
+    url = ApiUtil.bindPathVariable(url, pathVariables);
+
+    fetch(url)
+      .then((result) => {
+        return result.blob();
+      })
+      .then((blob) => {
+        let objectURL = URL.createObjectURL(blob);
+        this.downloadImageHandler(objectURL);
+      })
+      .catch((err) => {
+        new Error("Promotion Image Api Error!");
+      });
+  }
+
+  downloadImageHandler(promotionImageUrl) {
+    let { modal } = this.state;
+    let newModal = modal.set("imageUrl", promotionImageUrl);
+    newModal = newModal.set("isShow", true);
+
+    this.setState({
+      modal: newModal,
+    });
+  }
+
+  onTableRowClickCallback(dataId) {
+    console.log("table Click!!");
+    let pathVariables = {
+      promotionId: dataId,
+    };
+    this.requestGetPromotionDetailApi(pathVariables);
+  }
+
+  onCloseModalPopupCallback() {
+    let { modal } = this.state;
+    let newModal = modal.set("isShow", false);
+
+    this.setState({
+      modal: newModal,
+    });
+  }
+
   render() {
     let {
       table,
@@ -521,6 +626,7 @@ class PromotionRead extends Component {
       totalPromotionCount,
       promotingCount,
       waitingCount,
+      modal,
     } = this.state;
 
     return (
@@ -554,6 +660,7 @@ class PromotionRead extends Component {
           datas={table.datas}
           checked={true}
           colgroupDatas={this.colgroupDatas}
+          onTableRowClick={this.onTableRowClickCallback.bind(this)}
         ></Table>
         <div className="kohub-admin-control__btn">
           <Button
@@ -586,6 +693,13 @@ class PromotionRead extends Component {
             onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
           ></Pagination>
         </div>
+        <ModalPopup
+          isShow={modal.isShow}
+          title={modal.title}
+          content={modal.content}
+          imageUrl={modal.imageUrl}
+          onClosePopup={this.onCloseModalPopupCallback.bind(this)}
+        ></ModalPopup>
       </div>
     );
   }

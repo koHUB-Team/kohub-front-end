@@ -16,7 +16,7 @@ function mapReduxStateToReactProps(state) {
 //리턴값을 wraped component의 props에서 사용.
 function mapReduxDispatchToReactProps(dispatch) {
   return {
-    onCancelBtnClick: () => {
+    onBtnClick: () => {
       dispatch({
         type: ACTION.ADMIN.CHANGE_MODE,
         mode: MODE.READ,
