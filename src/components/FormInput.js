@@ -32,13 +32,6 @@ class FormInput extends Component {
     };
   }
 
-  componentDidUpdate() {
-    let { focus } = this.props;
-
-    if (focus !== undefined && focus === true) {
-      this.focusInput();
-    }
-
   //props인 selected로 state를 설정할 경우.
   //초기 렌더링 -> getDerivedStateFromProps -> componentDidMount -> 다시 렌더링 -> getDerivedStateFromProps 순서.
   //이 함수가 불릴 때마다 props로 전달한 값과 state값을 비교해 state값을 비교가능하다.
@@ -52,6 +45,14 @@ class FormInput extends Component {
     }
 
     return null; //null은 state 갱신 x
+  }
+
+  componentDidUpdate() {
+    let { focus } = this.props;
+
+    if (focus !== undefined && focus === true) {
+      this.focusInput();
+    }
   }
 
   getId() {
@@ -145,7 +146,6 @@ class FormInput extends Component {
             htmlRef={(ref) => {
               this.ccInput = ref;
             }}
-
             onBlur={this.onBlurListener.bind(this)}
             onFocus={this.onFocusListener.bind(this)}
             onChange={this.onChangeListener.bind(this)}

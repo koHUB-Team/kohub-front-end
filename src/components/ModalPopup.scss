@@ -343,7 +343,7 @@ $modal-scale-transform: scale(1.02) !default;
     font-weight: 500;
     font-size: 12pt;
     color: kohubColor.$font-color-bold;
-    height: 300px;
+    height: 400px;
     overflow: scroll;
     overflow-x: hidden;
 
@@ -384,7 +384,7 @@ $modal-scale-transform: scale(1.02) !default;
     display: flex;
     flex-wrap: wrap;
     align-items: center; // vertically center
-    justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
+    justify-content: center; // Right align buttons with flex property because text-align doesn't work on flex items
     padding: $modal-inner-padding - $modal-footer-margin-between / 2;
     border-top: $modal-footer-border-width solid $modal-footer-border-color;
     @include border-bottom-radius($modal-content-inner-border-radius);

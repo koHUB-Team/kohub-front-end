@@ -602,7 +602,6 @@ class PromotionRead extends Component {
   }
 
   onTableRowClickCallback(dataId) {
-    console.log("table Click!!");
     let pathVariables = {
       promotionId: dataId,
     };

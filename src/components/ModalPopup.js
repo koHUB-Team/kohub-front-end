@@ -73,6 +73,7 @@ class ModalPopup extends Component {
             <Button
               onClick={this.closePopup.bind(this)}
               value={"닫기"}
+              btnType={"close--admin"}
             ></Button>
           </Modal.Footer>
         </Modal>
