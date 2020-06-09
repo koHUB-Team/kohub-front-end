@@ -21,7 +21,7 @@ class FileOpenInput extends Component {
       THUMBNAIL: "thumbnail",
     };
     this.FILE_TYPE_PATTERN = {
-      IMAGE: /^(?:image\/)((?:png)|(?:jpg))/,
+      IMAGE: /^(?:image\/)(jpg|jpeg|png)/,
     };
     this.checkProps();
   }
@@ -173,7 +173,7 @@ class FileOpenInput extends Component {
     switch (option) {
       case this.OPTION.THUMBNAIL:
         if (!this.validImageType(files)) {
-          alert("이미지 파일은 png, jpg파일만 등록가능합니다.");
+          alert("이미지 파일은 png, jpg, jpeg파일만 등록가능합니다.");
           return;
         }
         break;
