@@ -30,7 +30,7 @@ const Admin = Record({
 });
 
 const Kohub = Record({
-  selectedDetailId: 0,
+  selectedDetailId: 1,
   mode: MODE.READ,
 });
 

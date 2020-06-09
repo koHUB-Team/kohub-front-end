@@ -14,13 +14,21 @@ const DetailData = Record({
   content: "",
   category: "",
 });
+const AnswerData = Record({
+  id: null,
+  userName: "",
+  comment: "",
+  createDate: "",
+});
 
 class QnaDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       detailData: DetailData({}),
+      answerData: AnswerData({}),
     };
+    this.isAnswer = false;
   }
 
   componentDidMount() {
@@ -29,6 +37,13 @@ class QnaDetail extends Component {
       qnaId: selectedDetailId,
     };
     this.requestQnaApi(params);
+    // if (this.isAnswer === false) {
+    //   let answerNode = document.querySelector(".kohub-qnadetail__answer");
+    //   answerNode.classList.add("hide");
+    // } else if (this.isAnswer === true) {
+    //   let answerNode = document.querySelector(".kohub-qnadetail__answer");
+    //   answerNode.classList.remove("hide");
+    // }
   }
   requestQnaApi(params = null) {
     if (params === null) {
@@ -44,7 +59,22 @@ class QnaDetail extends Component {
         return result.json();
       })
       .then((json) => {
-        let qna = json;
+        let qna = json.qna;
+        if (json.qnaComment !== null) {
+          let answerNode = document.querySelector(".kohub-qnadetail__answer");
+          answerNode.classList.remove("hide");
+          let qnaComment = json.qnaComment;
+          let newData = AnswerData({
+            id: qnaComment.id,
+            userName: qnaComment.userName,
+            comment: qnaComment.comment,
+            createDate: qnaComment.createDate,
+          });
+          this.setState({
+            answerData: newData,
+          });
+        }
+
         this.qnaApiHandler(qna);
       })
       .catch((err) => {
@@ -100,7 +130,7 @@ class QnaDetail extends Component {
   }
 
   render() {
-    let { detailData } = this.state;
+    let { detailData, answerData } = this.state;
     return (
       <div className="kohub-qnadetail container">
         <div className="content-area kohub-qnadetail__content">
@@ -142,6 +172,25 @@ class QnaDetail extends Component {
           ></div>
           <div className="kohub-qnadetail__hr">
             <hr></hr>
+          </div>
+          <div className="kohub-qnadetail__answer hide">
+            <div className="kohub-qnadetail__answer-header-area">
+              <div className="kohub-qnadetail__answer-header align-center-col">
+                <h3>답변</h3>
+              </div>
+              <div className="kohub-qnadetail__answer-user-info align-center-col">
+                <span>작성자 : {answerData.userName}</span>
+                <br></br>
+                <span>{answerData.createDate}</span>
+              </div>
+            </div>
+            <div
+              className="kohub-qnadetail__answer-article"
+              dangerouslySetInnerHTML={{ __html: answerData.comment }}
+            ></div>
+            <div className="kohub-qnadetail__hr">
+              <hr></hr>
+            </div>
           </div>
         </div>
       </div>
