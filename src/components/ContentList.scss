@@ -1,0 +1,81 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-content-list {
+    width: 500px;
+
+    .kohub-content-list-title-area {
+        overflow: hidden;
+        height: 34px;
+        box-sizing: border-box;
+
+        .kohub-content-list__title {
+            float: left;
+            font-size: 17pt;
+            color: kohubColor.$color-koHub-primary;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 600;
+        }
+
+        .kohub-content-list__more {
+            float: right;
+            right: 0;
+            height: 100%;
+
+            span {
+                box-sizing: border-box;
+                font-size: 11pt;
+                color: kohubColor.$font-color-bold;
+                font-family: 'Noto Sans KR', sans-serif;
+                font-weight: 500;
+                cursor: pointer;
+                position: relative;
+                top: 25%;
+
+                &:hover {
+                    color: kohubColor.$color-koHub-primary;
+                    text-decoration: underline;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        padding: 0px 0px 10px 0px;
+        border-bottom: 2px solid kohubColor.$color-koHub-primary;
+    }
+
+    .kohub-conent-list__contents {
+        ul {
+            li {
+                margin-bottom: 10px;
+                padding: 0px 5px;
+
+                &:first-of-type {
+                    margin-top: 10px;
+                }
+
+                &:last-of-type {
+                    margin: 0;
+                }
+
+                span {
+                    color: kohubColor.$font-color-bold;
+                    font-size: 12pt;
+                    font-family: 'Noto Sans KR', sans-serif;
+                    font-weight: 500;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: kohubColor.$color-koHub-primary;
+                        text-decoration: underline;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}

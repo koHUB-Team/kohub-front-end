@@ -1,0 +1,19 @@
+.kohub-main-board-container {
+    overflow: hidden;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    .kohub-main-first-board-area {
+        float: left;
+    }
+
+    .kohub-main-second-board-area {
+        float: right;
+    }
+}
+
+.kohub-main-link-nav {
+    position: fixed;
+    top: 200px;
+    right: 120px;
+}
