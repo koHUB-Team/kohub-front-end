@@ -101,6 +101,7 @@ class DropBox extends Component {
         <button
           className="kohub-dropbox__btn align-center-col"
           onClick={this.onDropboxBtnClickListener.bind(this)}
+          type="button"
         >
           {dropMenuIcon}
         </button>

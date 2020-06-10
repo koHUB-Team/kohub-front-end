@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./NotFound.scss";
+import { Link } from "react-router-dom";
 class NotFound extends Component {
   render() {
     return (
@@ -12,7 +13,9 @@ class NotFound extends Component {
             <h2>Page not Found</h2>
           </div>
           <div className="kohub-notfound__button">
-            <button>Main Page</button>
+            <button>
+              <Link to="">Main Page</Link>
+            </button>
           </div>
         </div>
       </div>
