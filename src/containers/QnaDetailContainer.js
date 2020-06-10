@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { NoticeDetail } from "../pages/Kohub";
+import { QnaDetail } from "../pages/Kohub";
 import { ACTION, MODE } from "../store";
 
 function mapReduxStateToReactProps(state) {
@@ -29,4 +29,4 @@ function mapReduxDispatchToReactProps(dispatch) {
 export default connect(
   mapReduxStateToReactProps,
   mapReduxDispatchToReactProps
-)(NoticeDetail);
+)(QnaDetail);

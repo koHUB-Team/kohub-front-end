@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Notice } from "../pages/Kohub";
+import { Qna } from "../pages/Kohub";
 function mapReduxStateToReactProps(state) {
   let { kohub } = state;
 
@@ -9,4 +9,4 @@ function mapReduxStateToReactProps(state) {
   };
 }
 
-export default connect(mapReduxStateToReactProps, null)(Notice);
+export default connect(mapReduxStateToReactProps, null)(Qna);

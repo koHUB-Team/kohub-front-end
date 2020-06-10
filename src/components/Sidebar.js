@@ -39,7 +39,7 @@ class Sidebar extends Component {
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/qna">
                 <span>Q&amp;A</span>
               </Link>
             </li>

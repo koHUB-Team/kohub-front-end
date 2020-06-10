@@ -1,0 +1,88 @@
+@use "../../common/color.scss"as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../../public/fonts/NotoSansKR-Bold.otf');
+}
+
+.kohub-qnawrite {
+
+    .kohub-qnawrite__content {
+        padding: 60px;
+
+        .kohub-qnawrite__header {
+            h2 {
+                margin-left: 15px;
+                margin-bottom: 15px;
+                color: kohubColor.$color-koHub-primary;
+                font-size: 32px;
+                font-weight: bold;
+            }
+        }
+
+        .kohub-qnawrite__hr {
+            hr {
+                margin: 0;
+                border: none;
+                border: 2px solid kohubColor.$color-koHub-primary;
+                margin-bottom: 15px;
+            }
+        }
+
+        .kohub-qnawrite__input {
+            .kohub-qnawrite__drop-box {
+                div {
+                    width: 175px;
+                    height: 68px;
+
+                    span {
+                        font-size: 20px;
+                    }
+
+                    button {
+                        position: relative;
+
+                        svg {
+                            position: absolute;
+                            top: -182%;
+                            left: 23%;
+                            font-size: 23px;
+                        }
+                    }
+                }
+
+            }
+
+            .kohub-qnawrite__title {
+                input {
+                    margin-bottom: 15px;
+                    padding-left: 15px;
+                    height: 68px;
+                    width: 940px;
+                    font-size: 20px;
+                    font-weight: bold;
+
+                    ::placeholder {
+                        color: kohubColor.$font-color-third--light;
+                    }
+
+                }
+            }
+
+        }
+
+
+        .kohub-qnawrite__text-editor {
+            margin-bottom: 15px;
+
+            .kohub-qnawrite__edited-area {
+                height: 380px;
+                font-size: 15px;
+            }
+        }
+
+        .kohub-qnawrite___button {
+            text-align: center;
+        }
+    }
+}

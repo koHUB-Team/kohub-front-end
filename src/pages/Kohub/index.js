@@ -3,5 +3,8 @@ export { default as NoticeWrite } from "./NoticeWrite";
 export { default as NoticeDetail } from "./NoticeDetail";
 export { default as NoticeBoard } from "./NoticeBoard";
 export { default as NoticeUpdate } from "./NoticeUpdate";
-
+export { default as Qna } from "./Qna";
 export { default as Faq } from "./Faq";
+export { default as QnaBoard } from "./QnaBoard";
+export { default as QnaDetail } from "./QnaDetail";
+export { default as QnaWrite } from "./QnaWrite";

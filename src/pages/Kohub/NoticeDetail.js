@@ -24,7 +24,6 @@ class NoticeDetail extends Component {
 
   componentDidMount() {
     let { selectedDetailId } = this.props;
-    console.log(selectedDetailId);
 
     let params = {
       noticeId: selectedDetailId,
@@ -40,7 +39,6 @@ class NoticeDetail extends Component {
     let url = process.env.REACT_APP_KOHUB_API_URL_GET_NOTICE;
     let queryStr = ApiUtil.parseObjToQueryStr(params);
     url += queryStr;
-    console.log(url);
 
     fetch(url)
       .then((result) => {

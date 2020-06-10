@@ -1,24 +1,23 @@
 import { connect } from "react-redux";
-import { NoticeDetail } from "../pages/Kohub";
+import { QnaWrite } from "../pages/Kohub";
 import { ACTION, MODE } from "../store";
-
 function mapReduxStateToReactProps(state) {
   let { kohub } = state;
 
   return {
+    mode: kohub.mode,
     selectedDetailId: kohub.selectedDetailId,
   };
 }
-
 function mapReduxDispatchToReactProps(dispatch) {
   return {
-    onUpdateBtnClick: () => {
+    onRegisterBtnClick: () => {
       dispatch({
         type: ACTION.KOHUB.CLICK_CHANGE_MODE,
-        mode: MODE.UPDATE,
+        mode: MODE.READ,
       });
     },
-    onDeleteBtnClick: () => {
+    onCancelBtnClick: () => {
       dispatch({
         type: ACTION.KOHUB.CLICK_CHANGE_MODE,
         mode: MODE.READ,
@@ -29,4 +28,4 @@ function mapReduxDispatchToReactProps(dispatch) {
 export default connect(
   mapReduxStateToReactProps,
   mapReduxDispatchToReactProps
-)(NoticeDetail);
+)(QnaWrite);
