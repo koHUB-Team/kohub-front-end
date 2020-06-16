@@ -1,0 +1,181 @@
+@use "../../common/color.scss"as kohubColor;
+@use "../../common/style.scss"as kohubStyle;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../../public/fonts/NotoSansKR-Bold.otf');
+}
+
+.kohub-freedetail {
+    height: 100%;
+
+
+    .kohub-freedetail__content {
+        padding: 60px;
+
+        .kohub-freedetail__header {
+            position: relative;
+            height: 50px;
+
+            h2 {
+                margin-left: 15px;
+                margin-bottom: 15px;
+                color: kohubColor.$color-koHub-primary;
+                font-size: 32px;
+                font-weight: bold;
+            }
+
+            .kohub-freedetail__manage {
+                position: absolute;
+                right: 0%;
+                top: 36%;
+                font-size: 18px;
+                font-weight: bold;
+                margin-right: 15px;
+                color: kohubColor.$font-color-third--fade;
+
+                span {
+                    color: kohubColor.$font-color-third--fade;
+                    margin-left: 6px;
+                    margin-right: 6px;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: kohubColor.$color-koHub-primary;
+                    }
+                }
+            }
+        }
+
+        .kohub-freedetail__hr {
+            hr {
+                margin: 0;
+                border: none;
+                border: 1.5px solid kohubColor.$color-koHub-primary;
+                //margin-bottom: 15px;
+            }
+        }
+
+        .kohub-freedetail__title-area {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            height: 85px;
+            position: relative;
+
+            .kohub-freedetail__title {
+                margin-left: 15px;
+                position: absolute;
+                width: 800px;
+                font-size: 23px;
+                font-weight: bolder;
+            }
+
+            .kohub-freedetail__user-info {
+                position: absolute;
+                right: 0%;
+                line-height: 22px;
+                margin-right: 15px;
+                font-size: 17px;
+                font-weight: bolder;
+                color: kohubColor.$font-color-third;
+            }
+        }
+
+        .kohub-freedetail__article {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            min-height: kohubStyle.$board-min-height;
+
+            p {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+        }
+
+        .kohub-freedetail__reply-input-area {
+            margin-top: 40px;
+
+            span {
+                margin-left: 10px;
+                color: kohubColor.$color-koHub-primary;
+                font-size: 23px;
+                font-weight: 600;
+            }
+
+            .kohub-freedetail__reply-input {
+                margin-top: 15px;
+
+                input {
+                    padding: 5px;
+                    width: 1136px;
+                    height: 90px;
+                }
+            }
+
+            .kohub-freedetail__reply-register-btn {
+                margin-top: 15px;
+                text-align: center;
+
+                button {
+                    font-size: 16px;
+                    width: 185px;
+                    height: 40px;
+                }
+            }
+        }
+
+        .kohub-freedetail__replies {
+            .kohub-freedetail__reply {
+                margin-top: 20px;
+                padding-left: 10px;
+                border-left: 1px solid kohubColor.$filter-menu-border-color;
+
+                .kohub-freedetail__reply-header {
+                    position: relative;
+
+                    .kohub-freedetail__reply-header-userinfo {
+                        #reply-date {
+                            font-size: 14px;
+                            color: kohubColor.$reply-date-color;
+                        }
+
+                        #reply-username {
+                            font-size: 17px;
+                            font-weight: 600;
+                            color: kohubColor.$font-color-subtitle;
+                        }
+                    }
+
+                    .kohub-freedetail__reply__manage {
+                        position: absolute;
+                        right: 0%;
+                        top: 36%;
+                        font-weight: bold;
+                        margin-right: 15px;
+                        color: kohubColor.$font-color-third--fade;
+
+                        span {
+                            margin-left: 6px;
+                            margin-right: 6px;
+
+                            &:hover {
+                                cursor: pointer;
+                                color: kohubColor.$color-koHub-primary;
+                            }
+                        }
+                    }
+                }
+
+                .kohub-freedetail__reply-article {
+                    margin-top: 10px;
+
+                    p {
+                        line-height: 22px;
+                        font-size: 17px;
+                    }
+                }
+            }
+        }
+    }
+}
