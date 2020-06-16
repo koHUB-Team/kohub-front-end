@@ -44,7 +44,7 @@ class Sidebar extends Component {
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/free">
                 <span>자유게시판</span>
               </Link>
             </li>

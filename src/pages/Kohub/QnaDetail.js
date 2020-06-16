@@ -37,13 +37,6 @@ class QnaDetail extends Component {
       qnaId: selectedDetailId,
     };
     this.requestQnaApi(params);
-    // if (this.isAnswer === false) {
-    //   let answerNode = document.querySelector(".kohub-qnadetail__answer");
-    //   answerNode.classList.add("hide");
-    // } else if (this.isAnswer === true) {
-    //   let answerNode = document.querySelector(".kohub-qnadetail__answer");
-    //   answerNode.classList.remove("hide");
-    // }
   }
   requestQnaApi(params = null) {
     if (params === null) {
@@ -100,7 +93,7 @@ class QnaDetail extends Component {
       qnaId: this.state.detailData.id,
     };
 
-    let url = process.env.REACT_APP_KOHUB_API_URL_POST_QNAS;
+    let url = process.env.REACT_APP_KOHUB_API_URL_DELETE_QNA;
     url = ApiUtil.bindPathVariable(url, pathVariable);
 
     fetch(url, {

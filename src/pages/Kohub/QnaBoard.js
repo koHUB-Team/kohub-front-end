@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Record, List } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
+import Moment from "moment";
 
 const QnaBoardData = Record({
   id: null,
@@ -122,7 +123,7 @@ class QnaBoard extends Component {
           id: qna.id,
           title: newTitle,
           userName: qna.userName,
-          createDate: qna.createDate,
+          createDate: Moment(qna.createDate).format("YYYY.MM.DD"),
         })
       );
     });

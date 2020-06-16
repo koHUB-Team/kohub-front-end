@@ -12,12 +12,13 @@
 
     .kohub-qna-board-col {
         &:nth-child(1) {
-            width: 70px;
+            width: 100px;
         }
 
         &:nth-child(2) {
             width: 550px;
         }
+
     }
 
     table {
@@ -42,7 +43,7 @@
             position: relative;
             width: 100%;
             height: 50px;
-            border-bottom: 2px solid kohubColor.$color-koHub-primary;
+            border-bottom: 1px solid kohubColor.$color-koHub-primary;
 
             h2 {
                 font-size: 32px;
