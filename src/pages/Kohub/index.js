@@ -8,3 +8,7 @@ export { default as Faq } from "./Faq";
 export { default as QnaBoard } from "./QnaBoard";
 export { default as QnaDetail } from "./QnaDetail";
 export { default as QnaWrite } from "./QnaWrite";
+export { default as Free } from "./Free";
+export { default as FreeBoard } from "./FreeBoard";
+export { default as FreeDetail } from "./FreeDetail";
+export { default as FreeWrite } from "./FreeWrite";
