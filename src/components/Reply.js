@@ -55,6 +55,7 @@ class Reply extends Component {
       .then(() => {
         replyNode.classList.remove("hide");
         updateNode.classList.add("hide");
+        history.go(0);
       })
       .catch((err) => {
         alert("댓글을 수정하는데 문제가 발생했습니다.");
@@ -72,6 +73,7 @@ class Reply extends Component {
     })
       .then((result) => {
         alert("댓글이 삭제되었습니다.");
+        history.go(0);
       })
       .catch((err) => {
         new Error("Comment Error");
