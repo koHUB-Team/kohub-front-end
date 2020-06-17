@@ -124,58 +124,5 @@
                 }
             }
         }
-
-        .kohub-freedetail__replies {
-            .kohub-freedetail__reply {
-                margin-top: 20px;
-                padding-left: 10px;
-                border-left: 1px solid kohubColor.$filter-menu-border-color;
-
-                .kohub-freedetail__reply-header {
-                    position: relative;
-
-                    .kohub-freedetail__reply-header-userinfo {
-                        #reply-date {
-                            font-size: 14px;
-                            color: kohubColor.$reply-date-color;
-                        }
-
-                        #reply-username {
-                            font-size: 17px;
-                            font-weight: 600;
-                            color: kohubColor.$font-color-subtitle;
-                        }
-                    }
-
-                    .kohub-freedetail__reply__manage {
-                        position: absolute;
-                        right: 0%;
-                        top: 36%;
-                        font-weight: bold;
-                        margin-right: 15px;
-                        color: kohubColor.$font-color-third--fade;
-
-                        span {
-                            margin-left: 6px;
-                            margin-right: 6px;
-
-                            &:hover {
-                                cursor: pointer;
-                                color: kohubColor.$color-koHub-primary;
-                            }
-                        }
-                    }
-                }
-
-                .kohub-freedetail__reply-article {
-                    margin-top: 10px;
-
-                    p {
-                        line-height: 22px;
-                        font-size: 17px;
-                    }
-                }
-            }
-        }
     }
 }

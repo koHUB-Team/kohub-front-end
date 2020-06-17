@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import "./FreeDetail.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { Record } from "immutable";
-import { FormInput, Button } from "../../components";
+import { Record, List } from "immutable";
+import { FormInput, Button, Reply } from "../../components";
 import { ApiUtil } from "../../common/kohubUtil";
-
+import Moment from "moment";
 const DetailData = Record({
   id: null,
   title: "",
@@ -25,8 +25,10 @@ class FreeDetail extends Component {
     super(props);
     this.state = {
       detailData: DetailData({}),
+      replyDatas: List([]),
+      totalCommentCount: 0,
     };
-    this.isReply = false;
+    this.reply = null;
   }
 
   componentDidMount() {
@@ -51,7 +53,12 @@ class FreeDetail extends Component {
         return result.json();
       })
       .then((json) => {
-        let freeBoard = json;
+        let freeBoard = json.freeBoard;
+        let replyDatas = json.comments;
+        let totalCommentCount = json.totalCommentCount;
+        if (replyDatas !== null) {
+          this.replyApiHandler(replyDatas, totalCommentCount);
+        }
         this.freeApiHandler(freeBoard);
       })
       .catch((err) => {
@@ -72,6 +79,24 @@ class FreeDetail extends Component {
     });
   }
 
+  replyApiHandler(replyDatas, totalCommentCount) {
+    let newDatas = List([]);
+    Object.values(replyDatas).forEach((replyData, idx) => {
+      newDatas = newDatas.set(
+        idx,
+        ReplyData({
+          id: replyData.id,
+          userName: replyData.userName,
+          comment: replyData.comment,
+          createDate: Moment(replyData.createDate).format("YYYY.MM.DD"),
+        })
+      );
+    });
+    this.setState({
+      replyDatas: newDatas,
+      totalCommentCount: totalCommentCount,
+    });
+  }
   onDeleteApiHandler() {
     let pathVariable = {
       freeId: this.state.detailData.id,
@@ -94,6 +119,47 @@ class FreeDetail extends Component {
       });
   }
 
+  requestPostReplyApi() {
+    let data = {
+      freeBoardId: this.state.detailData.id,
+      userId: 104,
+      comment: this.reply,
+    };
+
+    let url = process.env.REACT_APP_KOHUB_API_URL_POST_FREE_COMMENT;
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(() => {
+        alert("댓글이 입력되었습니다.");
+        let params = {
+          freeId: this.state.detailData.id,
+        };
+        this.requestFreeApi(params);
+      })
+      .catch((err) => {
+        alert("댓글을 등록하는데 문제가 발생했습니다.");
+      });
+  }
+
+  onReplyChangeListener(newReply) {
+    this.reply = newReply;
+  }
+
+  onReplyRegisterBtnClick() {
+    if (this.reply === null) {
+      alert("댓글을 입력하여 주세요.");
+      return;
+    }
+    this.requestPostReplyApi();
+  }
   onDeleteBtnClickCallback() {
     let { onDeleteBtnClick } = this.props;
     if (onDeleteBtnClick !== undefined) {
@@ -108,7 +174,9 @@ class FreeDetail extends Component {
   }
 
   render() {
-    let { detailData } = this.state;
+    let { detailData, replyDatas, totalCommentCount } = this.state;
+    let deleteUrl = process.env.REACT_APP_KOHUB_API_URL_DELETE_FREE_COMMENT;
+    let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
     return (
       <div className="kohub-freedetail container">
         <div className="content-area kohub-freedetail__content">
@@ -150,81 +218,26 @@ class FreeDetail extends Component {
             <hr></hr>
           </div>
           <div className="kohub-freedetail__reply-input-area">
-            <span>댓글 0</span>
+            <span>댓글 {totalCommentCount}</span>
             <div className="kohub-freedetail__reply-input">
-              <FormInput placeholder={"이곳에 댓글을 입력하세요."} />
+              <FormInput
+                placeholder={"이곳에 댓글을 입력하세요."}
+                onChange={this.onReplyChangeListener.bind(this)}
+              />
             </div>
             <div className="kohub-freedetail__reply-register-btn">
-              <Button value={"등록"} type={"submit"}></Button>
+              <Button
+                value={"등록"}
+                type={"submit"}
+                onClick={this.onReplyRegisterBtnClick.bind(this)}
+              ></Button>
             </div>
           </div>
-          <div className="kohub-freedetail__replies">
-            <div className="kohub-freedetail__reply">
-              <div className="kohub-freedetail__reply-header">
-                <div className="kohub-freedetail__reply-header-userinfo">
-                  <span id="reply-date">2020.00.00</span>
-                  <br />
-                  <span id="reply-username">UserName</span>
-                </div>
-                <div className="kohub-freedetail__reply__manage">
-                  <span>
-                    <FontAwesomeIcon icon={faEdit} flip="horizontal" />
-                    {""}수정
-                  </span>
-                  |
-                  <span>
-                    <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
-                    {""}삭제
-                  </span>
-                </div>
-              </div>
-              <div className="kohub-freedetail__reply-article">
-                <p>
-                  무한한 가치를 가진 것이다 사람은 크고 작고 간에 이상이
-                  있음으로써 용감하고 굳세게 살 수 있는 것이다 석가는 무엇을
-                  위하여 설산에서 고행을 하였으며 예수는 무엇을 위하여 광야에서
-                  방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가? 무한한
-                  가치를 가진 것이다 사람은 크고 작고 간에 이상이 있음으로써
-                  용감하고 굳세게 살 수 있는 것이다 석가는 무엇을 위하여
-                  설산에서 고행을 하였으며 예수는 무엇을 위하여 광야에서
-                  방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가?
-                </p>
-              </div>
-            </div>
-
-            <div className="kohub-freedetail__reply">
-              <div className="kohub-freedetail__reply-header">
-                <div className="kohub-freedetail__reply-header-userinfo">
-                  <span id="reply-date">2020.00.00</span>
-                  <br />
-                  <span id="reply-username">UserName</span>
-                </div>
-                <div className="kohub-freedetail__reply__manage">
-                  <span>
-                    <FontAwesomeIcon icon={faEdit} flip="horizontal" />
-                    {""}수정
-                  </span>
-                  |
-                  <span>
-                    <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
-                    {""}삭제
-                  </span>
-                </div>
-              </div>
-              <div className="kohub-freedetail__reply-article">
-                <p>
-                  무한한 가치를 가진 것이다 사람은 크고 작고 간에 이상이
-                  있음으로써 용감하고 굳세게 살 수 있는 것이다 석가는 무엇을
-                  위하여 설산에서 고행을 하였으며 예수는 무엇을 위하여 광야에서
-                  방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가? 무한한
-                  가치를 가진 것이다 사람은 크고 작고 간에 이상이 있음으로써
-                  용감하고 굳세게 살 수 있는 것이다 석가는 무엇을 위하여
-                  설산에서 고행을 하였으며 예수는 무엇을 위하여 광야에서
-                  방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가?
-                </p>
-              </div>
-            </div>
-          </div>
+          <Reply
+            datas={replyDatas}
+            deleteUrl={deleteUrl}
+            updateUrl={updateUrl}
+          ></Reply>
         </div>
       </div>
     );
