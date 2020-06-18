@@ -10,6 +10,7 @@ $submenu-width : $header-width--pc - 50px;
 //Header
 header {
     position: fixed;
+    z-index: 100;
     width: 100%;
 
     &:hover .kohub-header__submenu {
