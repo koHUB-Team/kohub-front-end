@@ -38,18 +38,19 @@ class SearchBar extends Component {
   }
 
   getInputBox() {
-    let { validOptions } = this.props;
-    if (validOptions !== undefined) {
-      return (
-        <Cleave
-          name="searchWord"
-          type="text"
-          options={validOptions}
-          onFocus={this.onSearchBarFocusListener.bind(this)}
-          onChange={this.onSearchBarChangeListener.bind(this)}
-        ></Cleave>
-      );
-    }
+    // let { validOptions } = this.props;
+    // if (validOptions !== undefined) {
+    //   return (
+    //     <Cleave
+    //       name="searchWord"
+    //       type="text"
+    //       options={validOptions}
+    //       onFocus={this.onSearchBarFocusListener.bind(this)}
+    //       onChange={this.onSearchBarChangeListener.bind(this)}
+    //       options={{ blocks: [99999], delimiter: "" }}
+    //     ></Cleave>
+    //   );
+    // }
 
     return (
       <Cleave
@@ -57,6 +58,7 @@ class SearchBar extends Component {
         type="text"
         onFocus={this.onSearchBarFocusListener.bind(this)}
         onChange={this.onSearchBarChangeListener.bind(this)}
+        options={{ blocks: [99999], delimiter: "" }}
       ></Cleave>
     );
   }
