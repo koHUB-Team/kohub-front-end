@@ -5,20 +5,19 @@
     src: url("../../../public/fonts/NotoSansKR-Medium.otf");
 }
 
-.kohub-qna {
-    .kohub-qna_table {
+.kohub-freeboard {
+    .kohub-freeboard_table {
         margin-top: 20px;
     }
 
-    .kohub-qna-board-col {
+    .kohub-free-board-col {
         &:nth-child(1) {
-            width: 100px;
+            width: 70px;
         }
 
         &:nth-child(2) {
             width: 550px;
         }
-
     }
 
     table {
@@ -32,14 +31,14 @@
     }
 }
 
-.kohub-qna__content {
+.kohub-freeboard__content {
     padding: 50px;
 
-    .kohub-qna__board {
+    .kohub-freeboard__board {
         padding-left: 300px;
 
 
-        .kohub-qna__header {
+        .kohub-freeboard__header {
             position: relative;
             width: 100%;
             height: 50px;
@@ -51,26 +50,26 @@
                 font-weight: bold;
             }
 
-            .kohub-qna-header__drop-box {
+            .kohub-freeboard-header__drop-box {
                 position: absolute;
                 top: 15%;
                 right: 30%;
             }
 
-            .kohub-qna-header__search-bar {
+            .kohub-freeboard-header__search-bar {
                 position: absolute;
                 top: 15%;
                 right: 0%
             }
         }
 
-        .kohub-qna-content__bottom-area {
+        .kohub-freeboard-content__bottom-area {
             margin-top: 20px;
             width: 100%;
             text-align: center;
             position: relative;
 
-            .kohub-qna-content__write-button {
+            .kohub-freeboard-content__write-button {
                 position: absolute;
                 top: 0%;
                 right: 0%;

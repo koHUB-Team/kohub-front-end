@@ -1,20 +1,18 @@
 import React, { Component } from "react";
-import "./QnaBoard.scss";
+import "./FreeBoard.scss";
 import {
   Sidebar,
   Table,
   Pagination,
   SearchBar,
   DropBox,
-  DropMenu,
 } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Record, List } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
-
-const QnaBoardData = Record({
+const FreeBoardData = Record({
   id: null,
   title: "",
   userName: "",
@@ -26,7 +24,7 @@ const ColgroupData = Record({
   class: "",
 });
 
-class QnaBoard extends Component {
+class FreeBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +32,7 @@ class QnaBoard extends Component {
       datas: List([]),
       startPage: 1,
       endPage: 0,
-      totalQnaCount: 0,
+      totalFreeCount: 0,
       searchFlag: false,
     };
     this.MAX_NUM_OF_PAGE_BTN = 5;
@@ -46,28 +44,27 @@ class QnaBoard extends Component {
     this.colgroupDatas = List([
       ColgroupData({
         span: 1,
-        class: "kohub-qna-board-col",
+        class: "kohub-free-board-col",
       }),
       ColgroupData({
         span: 1,
-        class: "kohub-qna-board-col",
+        class: "kohub-free-board-col",
       }),
       ColgroupData({
         span: 1,
-        class: "kohub-qna-board-col",
+        class: "kohub-free-board-col",
       }),
       ColgroupData({
         span: 1,
-        class: "kohub-qna-board-col",
+        class: "kohub-free-board-col",
       }),
     ]);
   }
-
   componentDidMount() {
-    this.requestQnaApi();
+    this.requestFreeBoardApi();
   }
-  requestQnaApi(params = null) {
-    let url = process.env.REACT_APP_KOHUB_API_URL_GET_QNAS;
+  requestFreeBoardApi(params = null) {
+    let url = process.env.REACT_APP_KOHUB_API_URL_GET_FREES;
     if (params !== null) {
       let queryStr = ApiUtil.parseObjToQueryStr(params);
       url += queryStr;
@@ -77,17 +74,17 @@ class QnaBoard extends Component {
         return result.json();
       })
       .then((json) => {
-        let qnas = json.qnas;
-        let totalQnaCount = json.totalQnaCount;
-        this.qnaApiHandler(qnas, totalQnaCount);
+        let freeBoards = json.freeBoards;
+        let totalCount = json.totalCount;
+        this.freeBoardApiHandler(freeBoards, totalCount);
       })
       .catch((err) => {
-        new Error("Q&A Error");
+        new Error("FreeBoard Error");
       });
   }
 
-  requestSearchQnaApi(params = null) {
-    let url = process.env.REACT_APP_KOHUB_API_URL_GET_QNA_SEARCH;
+  requestSearchFreeBoardApi(params = null) {
+    let url = process.env.REACT_APP_KOHUB_API_URL_GET_FREE_SEARCH;
     if (params !== null) {
       let queryStr = ApiUtil.parseObjToQueryStr(params);
       url += queryStr;
@@ -97,33 +94,31 @@ class QnaBoard extends Component {
         return result.json();
       })
       .then((json) => {
-        let qnas = json.qnas;
-        let totalQnaCount = json.totalQnaCount;
-        this.qnaApiHandler(qnas, totalQnaCount);
+        let freeBoards = json.freeBoards;
+        let totalCount = json.totalCount;
+        this.freeBoardApiHandler(freeBoards, totalCount);
       })
       .catch((err) => {
-        new Error("Q&A Error");
+        new Error("FreeBoard Error");
       });
   }
 
-  qnaApiHandler(qnas, totalQnaCount) {
+  freeBoardApiHandler(freeBoards, totalCount) {
     let { searchFlag } = this.state;
     if (searchFlag) {
       this.setState({
         endPage: 0,
       });
     }
-
     let newDatas = List([]);
-    Object.values(qnas).forEach((qna, idx) => {
-      let newTitle = "[" + qna.category + "] " + qna.title;
+    Object.values(freeBoards).forEach((freeBoard, idx) => {
       newDatas = newDatas.set(
         idx,
-        QnaBoardData({
-          id: qna.id,
-          title: newTitle,
-          userName: qna.userName,
-          createDate: Moment(qna.createDate).format("YYYY.MM.DD"),
+        FreeBoardData({
+          id: freeBoard.id,
+          title: freeBoard.title,
+          userName: freeBoard.userName,
+          createDate: Moment(freeBoard.createDate).format("YYYY.MM.DD"),
         })
       );
     });
@@ -131,7 +126,7 @@ class QnaBoard extends Component {
     let { endPage } = this.state;
     let newEndPage;
     if (endPage === 0) {
-      newEndPage = Math.ceil(totalQnaCount / 10);
+      newEndPage = Math.ceil(totalCount / 10);
       if (newEndPage > this.MAX_NUM_OF_PAGE_BTN) {
         newEndPage = this.MAX_NUM_OF_PAGE_BTN;
       }
@@ -141,22 +136,20 @@ class QnaBoard extends Component {
 
     this.setState({
       datas: newDatas,
-      totalQnaCount: totalQnaCount,
+      totalFreeCount: totalCount,
       endPage: newEndPage,
     });
   }
-
   onPageBtnClickCallback(pageNum) {
     this.numofCurrentPage = pageNum;
     let params = {
       start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
     };
-    this.requestQnaApi(params);
+    this.requestFreeBoardApi(params);
   }
-
   onNextBtnClickCallback() {
-    let { startPage, endPage, totalQnaCount } = this.state;
-    let maxPage = Math.ceil(totalQnaCount / 10);
+    let { startPage, endPage, totalFreeCount } = this.state;
+    let maxPage = Math.ceil(totalFreeCount / 10);
 
     if (endPage < maxPage) {
       let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
@@ -174,7 +167,7 @@ class QnaBoard extends Component {
       let params = {
         start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
       };
-      this.requestQnaApi(params);
+      this.requestFreeBoardApi(params);
     }
   }
 
@@ -196,14 +189,13 @@ class QnaBoard extends Component {
       let params = {
         start: (newStartPage - 1) * this.MAX_NUM_OF_TABLE_ROW,
       };
-      this.requestQnaApi(params);
+      this.requestFreeBoardApi(params);
     }
   }
 
   onDropMenuClickCallback(selectedDropMenu) {
     this.selectedDropMenu = selectedDropMenu;
   }
-
   onSearchBarSubmitCallback(word) {
     if (word === "") {
       alert("내용을 입력해주세요");
@@ -229,9 +221,8 @@ class QnaBoard extends Component {
     this.setState({
       searchFlag: true,
     });
-    this.requestSearchQnaApi(params);
+    this.requestSearchFreeBoardApi(params);
   }
-
   onWriteBtnClickCallback() {
     let { onWriteBtnClick } = this.props;
     if (onWriteBtnClick !== undefined) {
@@ -245,46 +236,47 @@ class QnaBoard extends Component {
       onDetailClick(boardId);
     }
   }
+
   render() {
     let { datas, heads, startPage, endPage } = this.state;
     return (
-      <div className="container kohub-qna">
-        <div className="content-area kohub-qna__content">
+      <div className="container kohub-freeboard">
+        <div className="content-area kohub-freeboard__content">
           <Sidebar></Sidebar>
-          <div className="kohub-qna__board">
-            <div className="kohub-qna__header">
-              <h2>Q&amp;A</h2>
-              <div className="kohub-qna-header__drop-box">
+          <div className="kohub-freeboard__board">
+            <div className="kohub-freeboard__header">
+              <h2>자유게시판</h2>
+              <div className="kohub-freeboard-header__drop-box">
                 <DropBox
                   onMenuClick={this.onDropMenuClickCallback.bind(this)}
                   menus={this.dropMenuList}
                 ></DropBox>
               </div>
-              <div className="kohub-qna-header__search-bar">
+              <div className="kohub-freeboard-header__search-bar">
                 <SearchBar
                   type="admin"
                   onSubmit={this.onSearchBarSubmitCallback.bind(this)}
                 ></SearchBar>
               </div>
             </div>
-            <div className="kohub-qna__table">
+            <div className="kohub-freeboard__table">
               <Table
                 heads={heads}
                 datas={datas}
                 checked={false}
                 colgroupDatas={this.colgroupDatas}
                 onTableRowClick={this.onTableRowClickCallback.bind(this)}
-              ></Table>
+              />
             </div>
-            <div className="kohub-qna-content__bottom-area">
+            <div className="kohub-freeboard-content__bottom-area">
               <Pagination
                 start={startPage}
                 end={endPage}
                 onPrevBtnClick={this.onPrevBtnClickCallback.bind(this)}
                 onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
                 onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
-              ></Pagination>
-              <div className="kohub-qna-content__write-button">
+              />
+              <div className="kohub-freeboard-content__write-button">
                 <span onClick={this.onWriteBtnClickCallback.bind(this)}>
                   <FontAwesomeIcon icon={faEdit} flip="horizontal" />
                   {""}
@@ -299,4 +291,4 @@ class QnaBoard extends Component {
   }
 }
 
-export default QnaBoard;
+export default FreeBoard;
