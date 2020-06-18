@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { Account, Promotion } from "../pages/Admin";
+import { Account, Promotion, Faq } from "../pages/Admin";
 import { PromotionContainer } from "../containers";
 
 class AdminApp extends Component {
@@ -19,6 +19,7 @@ class AdminApp extends Component {
           <Route path={match.url + "/domitory"} component={Account}></Route>
           <Route path={match.url + "/faq"} component={Account}></Route>
           <Route path={match.url + "/ad"} component={Account}></Route> */}
+        <Route path={`${match.url}/faq`} component={Faq}></Route>
         <Route
           path={`${match.url}/promotion`}
           component={PromotionContainer}
