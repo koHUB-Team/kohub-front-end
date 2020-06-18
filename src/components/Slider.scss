@@ -1,0 +1,82 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 500px;
+
+    .kohub-slider__title-area {
+        overflow: hidden;
+        height: 34px;
+        box-sizing: border-box;
+        padding: 0px 0px 0px 0px;
+        border-bottom: 2px solid kohubColor.$color-koHub-primary;
+
+        .kohub-slider__title {
+            float: left;
+            font-size: 17pt;
+            color: kohubColor.$color-koHub-primary;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 600;
+        }
+    }
+
+    .kohub-slider-btn {
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+
+        button {
+            transition: opacity 0.4s;
+            color: kohubColor.$slider-btn-color;
+            font-size: 25pt;
+            opacity: 0.5;
+
+            &:hover {
+                opacity: 0.8;
+                // color: kohubColor.$slider-btn-color;
+                color: kohubColor.$color-koHub-primary;
+            }
+        }
+
+        &.btn--left {
+            left: 0%;
+        }
+
+        &.btn--right {
+            right: 0%;
+        }
+    }
+
+    .kohub-slider__img-area {
+        padding: 10px 0px;
+        width: 100%;
+
+        ul {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+
+            li {
+                width: 235px;
+                position: absolute;
+                margin-right: 10px;
+                margin-left: 10px;
+                z-index: 1;
+                // transition: left 0.8s;
+
+                img {
+                    width: 235px;
+                    height: 200px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
