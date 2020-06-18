@@ -5,6 +5,7 @@ import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Record } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
+import { Footer, Header } from "../../components";
 
 const DetailData = Record({
   id: null,
@@ -23,10 +24,13 @@ class NoticeDetail extends Component {
   }
 
   componentDidMount() {
-    let { selectedDetailId } = this.props;
+    //리덕스도 없애야함.
+    // let { selectedDetailId } = this.props;
+    let { match } = this.props;
+    let { id } = match.params;
 
     let params = {
-      noticeId: selectedDetailId,
+      noticeId: id,
     };
     this.requestNoticeApi(params);
   }
@@ -94,8 +98,8 @@ class NoticeDetail extends Component {
     if (onUpdateBtnClick !== undefined) {
       onUpdateBtnClick();
     }
-    console.log("click!!");
   }
+
   onDeleteBtnClickCallback() {
     let { onDeleteBtnClick } = this.props;
     if (onDeleteBtnClick !== undefined) {
@@ -105,46 +109,50 @@ class NoticeDetail extends Component {
   render() {
     let { detailData } = this.state;
     return (
-      <div className="kohub-noticedetail container">
-        <div className="kohub-noticedetail__content content-area">
-          <div className="kohub-noticedetail__header">
-            <h2>공지사항</h2>
-            <div className="kohub-noticedetail__manage">
-              <span onClick={this.onUpdateBtnClickCallback.bind(this)}>
-                <FontAwesomeIcon icon={faEdit} flip="horizontal" /> {""}수정
-              </span>
-              |
-              <span onClick={this.onDeleteApiHandler.bind(this)}>
-                {" "}
-                <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" /> {""}
-                삭제
-              </span>
+      <div>
+        <Header></Header>
+        <div className="kohub-noticedetail container">
+          <div className="kohub-noticedetail__content content-area">
+            <div className="kohub-noticedetail__header">
+              <h2>공지사항</h2>
+              {/* <div className="kohub-noticedetail__manage">
+                <span onClick={this.onUpdateBtnClickCallback.bind(this)}>
+                  <FontAwesomeIcon icon={faEdit} flip="horizontal" /> {""}수정
+                </span>
+                |
+                <span onClick={this.onDeleteApiHandler.bind(this)}>
+                  {" "}
+                  <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" /> {""}
+                  삭제
+                </span>
+              </div> */}
             </div>
-          </div>
-          <div className="kohub-noticedetail__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-noticedetail__title-area ">
-            <div className="kohub-noticedetail__title align-center-col">
-              <span>{detailData.title}</span>
+            <div className="kohub-noticedetail__hr">
+              <hr></hr>
             </div>
-            <div className="kohub-noticedetail__user-info align-center-col">
-              <span>작성자 : {detailData.userName}</span>
-              <br></br>
-              <span>{detailData.createDate}</span>
+            <div className="kohub-noticedetail__title-area ">
+              <div className="kohub-noticedetail__title align-center-col">
+                <span>{detailData.title}</span>
+              </div>
+              <div className="kohub-noticedetail__user-info align-center-col">
+                <span>작성자 : {detailData.userName}</span>
+                <br></br>
+                <span>{detailData.createDate}</span>
+              </div>
             </div>
-          </div>
-          <div className="kohub-noticedetail__hr">
-            <hr></hr>
-          </div>
-          <div
-            className="kohub-noticedetail__article"
-            dangerouslySetInnerHTML={{ __html: detailData.content }}
-          ></div>
-          <div className="kohub-noticedetail__hr">
-            <hr></hr>
+            <div className="kohub-noticedetail__hr">
+              <hr></hr>
+            </div>
+            <div
+              className="kohub-noticedetail__article"
+              dangerouslySetInnerHTML={{ __html: detailData.content }}
+            ></div>
+            <div className="kohub-noticedetail__hr">
+              <hr></hr>
+            </div>
           </div>
         </div>
+        <Footer></Footer>
       </div>
     );
   }

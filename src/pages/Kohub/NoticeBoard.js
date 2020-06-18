@@ -168,15 +168,17 @@ class NoticeBoard extends Component {
     }
   }
 
-  onTableRowClickCallback(boardId) {
-    let { onDetailClick } = this.props;
-    if (onDetailClick !== undefined) {
-      onDetailClick(boardId);
-    }
-  }
+  // onTableRowClickCallback(boardId) {
+  //   let { onDetailClick } = this.props;
+  //   if (onDetailClick !== undefined) {
+  //     onDetailClick(boardId);
+  //   }
+  // }
 
   render() {
     let { heads, datas, startPage, endPage } = this.state;
+    let { match } = this.props;
+    console.log(match);
 
     return (
       <div className="container kohub-noticeboard ">
@@ -190,7 +192,10 @@ class NoticeBoard extends Component {
                 datas={datas}
                 checked={false}
                 colgroupDatas={this.colgroupDatas}
-                onTableRowClick={this.onTableRowClickCallback.bind(this)}
+                linked={true}
+                link={"/notice"}
+                linkIdx={1}
+                // onTableRowClick={this.onTableRowClickCallback.bind(this)}
               ></Table>
             </div>
             <div className="kohub-noticeboard-content__bottom-area">
@@ -201,12 +206,12 @@ class NoticeBoard extends Component {
                 onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
                 onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
               ></Pagination>
-              <div className="kohub-noticeboard-content__write-button">
+              {/* <div className="kohub-noticeboard-content__write-button">
                 <span onClick={this.onWriteBtnClickCallback.bind(this)}>
                   <FontAwesomeIcon icon={faEdit} flip="horizontal" /> {""}
                   글쓰기
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
