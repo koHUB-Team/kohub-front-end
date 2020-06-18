@@ -150,6 +150,7 @@ class FormInput extends Component {
             onFocus={this.onFocusListener.bind(this)}
             onChange={this.onChangeListener.bind(this)}
             onSubmit={this.onSubmitListener.bind(this)}
+            options={{ blocks: [99999], delimiter: "" }}
           ></Cleave>
         );
     }

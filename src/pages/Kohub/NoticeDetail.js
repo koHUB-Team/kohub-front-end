@@ -24,8 +24,6 @@ class NoticeDetail extends Component {
   }
 
   componentDidMount() {
-    //리덕스도 없애야함.
-    // let { selectedDetailId } = this.props;
     let { match } = this.props;
     let { id } = match.params;
 

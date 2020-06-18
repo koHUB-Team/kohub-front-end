@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Main } from "../pages/Main";
-import {
-  NoticeContainer,
-  QnaContainer,
-  NoticeDetailContainer,
-} from "../containers";
-import { NoticeContainer, QnaContainer, FreeContainer } from "../containers";
+import { QnaContainer, FreeContainer} from "../containers";
 import { NotFound } from "../pages/Error";
 import { LoginForm, SignUpForm } from "../pages/Login";
 import AdminApp from "./AdminApp";
 import Help from "./Help";
-import { Faq } from "../pages/Kohub";
+import { Faq, NoticeDetail, Notice } from "../pages/Kohub";
 
 class App extends Component {
   render() {
@@ -27,9 +22,9 @@ class App extends Component {
         <Route
           exact
           path="/notice/:id"
-          component={NoticeDetailContainer}
+          component={NoticeDetail}
         ></Route>
-        <Route path="/notice" component={NoticeContainer}></Route>
+        <Route path="/notice" component={Notice}></Route>
         <Route exact path="/" component={Main}></Route>
         <Route component={NotFound}></Route>
       </Switch>

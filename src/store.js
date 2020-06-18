@@ -4,10 +4,9 @@ import { Map, List, Record } from "immutable";
 //Ation Type 정의
 //ADMIN : admin page 관련 action
 const MODE = Record({
-  CREATE: "CREATE",
   READ: "READ",
+  CREATE: "CREATE",
   UPDATE: "UPDATE",
-  READ_DETAIL: "READ_DETAIL",
 })();
 
 const ACTION = Record({

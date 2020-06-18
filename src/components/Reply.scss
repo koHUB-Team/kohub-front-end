@@ -13,7 +13,7 @@
             margin-top: 20px;
             padding-top: 10px;
             padding-left: 10px;
-            border-left: 1px solid kohubColor.$filter-menu-border-color;
+            border-left: 2px solid kohubColor.$filter-menu-border-color;
 
             .kohub-reply-update-input {
                 margin-bottom: 10px;
@@ -37,19 +37,20 @@
         .kohub-reply {
             margin-top: 20px;
             padding-left: 10px;
-            border-left: 1px solid kohubColor.$filter-menu-border-color;
+            border-left: 2px solid kohubColor.$filter-menu-border-color;
 
             .kohub-reply-header {
                 position: relative;
 
                 .kohub-reply-header-userinfo {
                     #reply-date {
-                        font-size: 14px;
+                        font-size: 15px;
                         color: kohubColor.$reply-date-color;
+                        margin-bottom : 3px;
                     }
 
                     #reply-username {
-                        font-size: 17px;
+                        font-size: 15px;
                         font-weight: 600;
                         color: kohubColor.$font-color-subtitle;
                     }

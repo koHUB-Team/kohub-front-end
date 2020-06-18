@@ -442,6 +442,7 @@ class Content extends Component {
                 <ContentList
                   title={"자유게시판"}
                   contents={freeboardDatas}
+                  link="/free"
                 ></ContentList>
               </article>
             </section>

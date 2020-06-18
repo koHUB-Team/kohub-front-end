@@ -94,9 +94,8 @@ class Reply extends Component {
           <div className="kohub-reply">
             <div className="kohub-reply-header">
               <div className="kohub-reply-header-userinfo">
-                <span id="reply-date">{data.createDate}</span>
-                <br />
-                <span id="reply-username">{data.userName}</span>
+                <p id="reply-date">{data.createDate}</p>
+                <p id="reply-username">{data.userName}</p>
               </div>
               <div className="kohub-reply__manage">
                 <span onClick={this.onUpdateBtnClick.bind(this)}>
