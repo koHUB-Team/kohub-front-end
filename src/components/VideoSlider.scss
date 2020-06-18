@@ -1,0 +1,37 @@
+@use '../common/color.scss'as kohubColor;
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('../../public/fonts/NotoSansKR-Medium.otf');
+}
+
+.kohub-video-container {
+    width: 500px;
+
+    .kohub-video__title-area {
+        overflow: hidden;
+        height: 34px;
+        box-sizing: border-box;
+        border-bottom: 2px solid kohubColor.$color-koHub-primary;
+
+        .kohub-video__title {
+            float: left;
+            font-size: 17pt;
+            color: kohubColor.$color-koHub-primary;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 600;
+        }
+    }
+
+    .kohub-video__content {
+        margin: 0 auto;
+        margin-top: 10px;
+        width: 360px;
+
+        video {
+            width: 100%;
+        }
+    }
+
+    // border-bottom: 2px solid kohubColor.$color-koHub-primary;
+}
