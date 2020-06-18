@@ -26,20 +26,24 @@
             right: 0;
             height: 100%;
 
-            span {
-                box-sizing: border-box;
-                font-size: 11pt;
-                color: kohubColor.$font-color-bold;
-                font-family: 'Noto Sans KR', sans-serif;
-                font-weight: 500;
-                cursor: pointer;
+            a {
                 position: relative;
                 top: 25%;
 
-                &:hover {
-                    color: kohubColor.$color-koHub-primary;
-                    text-decoration: underline;
-                    font-weight: 600;
+                span {
+                    box-sizing: border-box;
+                    font-size: 11pt;
+                    color: kohubColor.$font-color-bold;
+                    font-family: 'Noto Sans KR', sans-serif;
+                    font-weight: 500;
+                    cursor: pointer;
+
+
+                    &:hover {
+                        color: kohubColor.$color-koHub-primary;
+                        text-decoration: underline;
+                        font-weight: 600;
+                    }
                 }
             }
         }
@@ -51,6 +55,7 @@
     .kohub-conent-list__contents {
         ul {
             li {
+                overflow: hidden;
                 margin-bottom: 10px;
                 padding: 0px 5px;
 
@@ -67,13 +72,30 @@
                     font-size: 12pt;
                     font-family: 'Noto Sans KR', sans-serif;
                     font-weight: 500;
-                    cursor: pointer;
+                }
 
-                    &:hover {
-                        color: kohubColor.$color-koHub-primary;
-                        text-decoration: underline;
-                        font-weight: 600;
+                .kohub-content-list__title-area {
+                    overflow: hidden;
+                    width: 380px;
+                    float: left;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+
+                    .kohub-content-list__title {
+                        cursor: pointer;
+
+
+
+                        &:hover {
+                            color: kohubColor.$color-koHub-primary;
+                            text-decoration: underline;
+                            font-weight: 600;
+                        }
                     }
+                }
+
+                .kohub-content-list__date {
+                    float: right;
                 }
             }
         }
