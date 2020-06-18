@@ -12,6 +12,18 @@
     }
 }
 
+.kohub-main-promotion-container {
+    overflow: hidden;
+
+    .kohub-main-first-promotion-area {
+        float: left;
+    }
+
+    .kohub-main-second-promotion-area {
+        float: right;
+    }
+}
+
 .kohub-main-link-nav {
     position: fixed;
     top: 200px;
