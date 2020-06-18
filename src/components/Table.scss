@@ -39,10 +39,20 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-                font-family: 'Noto Sans KR', sans-serif;
-                font-weight: 500;
-                color: kohubColor.$font-color-bold;
                 vertical-align: middle;
+
+                a {
+                    text-decoration: none;
+                    font-family: 'Noto Sans KR', sans-serif;
+                    font-weight: 500;
+                    color: kohubColor.$font-color-bold;
+
+                    &:hover {
+                        text-decoration: underline;
+                        color: kohubColor.$color-koHub-primary;
+                        font-weight: 600;
+                    }
+                }
             }
         }
 

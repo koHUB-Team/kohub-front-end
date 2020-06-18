@@ -8,6 +8,12 @@ import { Link } from "react-router-dom";
 //heads : 테이블의 각 컬럼의 제목 문자열 리스트 / type : Immutable.List
 //datas : 테이블 각 행의 정보를 가진 레코드 리스트 / type : Immutable.List
 //checked : 테이블 행에 체크박스 추가 / type : boolean
+//onTableRowClick : 테이블 행 클릭시 발생하는 이벤트 콜백 함수 / type : function
+
+/* 링크를 테이블에 걸 경우. 아래 3가지 props가 반드시 전달 될 것. */
+//linked : 테이블 행에 Link to 추가 여부 / type : boolean
+//link : 링크 넣을 URL / type : String
+//linkIdx : 테이블 데이터 중 링크를 넣을 column 인덱스. 첫번째 컬럼 인덱스 = 0 / type : number
 
 class Table extends Component {
   constructor(props) {
@@ -125,7 +131,7 @@ class Table extends Component {
   getDataValueList(data) {
     data = data.toJS();
 
-    let { checked } = this.props;
+    let { checked, linked, link, linkIdx } = this.props;
     let dataValueList = [];
     if (checked === true) {
       dataValueList = dataValueList.concat([
@@ -140,7 +146,15 @@ class Table extends Component {
     }
 
     dataValueList = Object.values(data).reduce((acc, value, idx) => {
-      return acc.concat([<td key={idx}>{value}</td>]);
+      if (linked === true && idx === linkIdx) {
+        return acc.concat([
+          <td key={idx}>
+            <Link to={`${link}/${data.id}`}>{value}</Link>
+          </td>,
+        ]);
+      } else {
+        return acc.concat([<td key={idx}>{value}</td>]);
+      }
     }, dataValueList);
 
     return dataValueList;
