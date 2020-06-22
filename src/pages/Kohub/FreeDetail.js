@@ -3,9 +3,10 @@ import "./FreeDetail.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Record, List } from "immutable";
-import { FormInput, Button, Reply } from "../../components";
+import { FormInput, Button, Reply, Header, Footer } from "../../components";
 import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
+import { Link } from "react-router-dom";
 const DetailData = Record({
   id: null,
   title: "",
@@ -32,9 +33,10 @@ class FreeDetail extends Component {
   }
 
   componentDidMount() {
-    let { selectedDetailId } = this.props;
+    let { match } = this.props;
+    let { id } = match.params;
     let params = {
-      freeId: selectedDetailId,
+      freeId: id,
     };
     this.requestFreeApi(params);
   }
@@ -112,7 +114,7 @@ class FreeDetail extends Component {
         alert("삭제되었습니다.");
       })
       .then(() => {
-        this.onDeleteBtnClickCallback();
+        history.back();
       })
       .catch((err) => {
         new Error("Qna Error");
@@ -160,85 +162,90 @@ class FreeDetail extends Component {
     }
     this.requestPostReplyApi();
   }
-  onDeleteBtnClickCallback() {
-    let { onDeleteBtnClick } = this.props;
-    if (onDeleteBtnClick !== undefined) {
-      onDeleteBtnClick();
-    }
-  }
-  onUpdateBtnClickCallback() {
+  onUpdateBtnClickCallback(id) {
     let { onUpdateBtnClick } = this.props;
     if (onUpdateBtnClick !== undefined) {
-      onUpdateBtnClick();
+      onUpdateBtnClick(id);
     }
   }
 
   render() {
+    let { match } = this.props;
+    let { id } = match.params;
     let { detailData, replyDatas, totalCommentCount } = this.state;
     let deleteUrl = process.env.REACT_APP_KOHUB_API_URL_DELETE_FREE_COMMENT;
     let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
     return (
-      <div className="kohub-freedetail container">
-        <div className="content-area kohub-freedetail__content">
-          <div className="kohub-freedetail__header">
-            <h2>자유게시판</h2>
-            <div className="kohub-freedetail__manage">
-              <span onClick={this.onUpdateBtnClickCallback.bind(this)}>
-                <FontAwesomeIcon icon={faEdit} flip="horizontal" />
-                {""}수정
-              </span>
-              |
-              <span onClick={this.onDeleteApiHandler.bind(this)}>
-                <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
-                {""}삭제
-              </span>
+      <div>
+        <Header />
+        <div className="kohub-freedetail container">
+          <div className="content-area kohub-freedetail__content">
+            <div className="kohub-freedetail__header">
+              <h2>자유게시판</h2>
+              <div className="kohub-freedetail__manage">
+                <Link
+                  to={"/free/write"}
+                  onClick={this.onUpdateBtnClickCallback.bind(this, id)}
+                >
+                  <span>
+                    <FontAwesomeIcon icon={faEdit} flip="horizontal" />
+                    {""}수정
+                  </span>
+                </Link>
+                |
+                <span onClick={this.onDeleteApiHandler.bind(this)}>
+                  <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
+                  {""}삭제
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="kohub-freedetail__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-freedetail__title-area">
-            <div className="kohub-freedetail__title align-center-col">
-              <span>{detailData.title}</span>
+            <div className="kohub-freedetail__hr">
+              <hr></hr>
             </div>
-            <div className="kohub-freedetail__user-info align-center-col">
-              <span>작성자 : {detailData.userName}</span>
-              <br></br>
-              <span>{detailData.createDate}</span>
+            <div className="kohub-freedetail__title-area">
+              <div className="kohub-freedetail__title align-center-col">
+                <span>{detailData.title}</span>
+              </div>
+              <div className="kohub-freedetail__user-info align-center-col">
+                <span>작성자 : {detailData.userName}</span>
+                <br></br>
+                <span>{detailData.createDate}</span>
+              </div>
             </div>
-          </div>
-          <div className="kohub-freedetail__hr">
-            <hr></hr>
-          </div>
-          <div
-            className="kohub-freedetail__article"
-            dangerouslySetInnerHTML={{ __html: detailData.content }}
-          ></div>
-          <div className="kohub-freedetail__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-freedetail__reply-input-area">
-            <span>댓글 {totalCommentCount}</span>
-            <div className="kohub-freedetail__reply-input">
-              <FormInput
-                placeholder={"이곳에 댓글을 입력하세요."}
-                onChange={this.onReplyChangeListener.bind(this)}
-              />
+            <div className="kohub-freedetail__hr">
+              <hr></hr>
             </div>
-            <div className="kohub-freedetail__reply-register-btn">
-              <Button
-                value={"등록"}
-                type={"submit"}
-                onClick={this.onReplyRegisterBtnClick.bind(this)}
-              ></Button>
+            <div
+              className="kohub-freedetail__article"
+              dangerouslySetInnerHTML={{ __html: detailData.content }}
+            ></div>
+            <div className="kohub-freedetail__hr">
+              <hr></hr>
             </div>
+            <div className="kohub-freedetail__reply-input-area">
+              <span>댓글 {totalCommentCount}</span>
+              <div className="kohub-freedetail__reply-input">
+                <FormInput
+                  placeholder={"이곳에 댓글을 입력하세요."}
+                  onChange={this.onReplyChangeListener.bind(this)}
+                />
+              </div>
+              <div className="kohub-freedetail__reply-register-btn">
+                <Button
+                  value={"등록"}
+                  type={"submit"}
+                  onClick={this.onReplyRegisterBtnClick.bind(this)}
+                ></Button>
+              </div>
+            </div>
+            <Reply
+              datas={replyDatas}
+              deleteUrl={deleteUrl}
+              updateUrl={updateUrl}
+            ></Reply>
           </div>
-          <Reply
-            datas={replyDatas}
-            deleteUrl={deleteUrl}
-            updateUrl={updateUrl}
-          ></Reply>
         </div>
+        <Footer />
       </div>
     );
   }
