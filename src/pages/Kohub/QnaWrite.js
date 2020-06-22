@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import "./QnaWrite.scss";
 import "react-quill/dist/quill.snow.css";
-import { Button, FormInput, Editor, DropBox } from "../../components";
+import {
+  Button,
+  FormInput,
+  Editor,
+  DropBox,
+  Header,
+  Footer,
+} from "../../components";
 import { List, Record } from "immutable";
 import { ApiUtil } from "../../common/kohubUtil";
 
@@ -68,11 +75,12 @@ class QnaWrite extends Component {
         return result.json();
       })
       .then((json) => {
+        let qna = json.qna;
         let newData = DetailData({
-          id: json.id,
-          title: json.title,
-          category: json.category,
-          content: json.content,
+          id: qna.id,
+          title: qna.title,
+          category: qna.category,
+          content: qna.content,
         });
 
         this.setState({
@@ -107,7 +115,9 @@ class QnaWrite extends Component {
       })
       .then(() => {
         alert("게시물이 등록되었습니다.");
-        this.onRegisterBtnClickCallback();
+      })
+      .then(() => {
+        history.back();
       })
       .catch((err) => {
         alert("게시물을 등록하는데 문제가 발생했습니다.");
@@ -142,6 +152,7 @@ class QnaWrite extends Component {
       })
       .then(() => {
         this.onRegisterBtnClickCallback();
+        history.back();
       })
       .catch((err) => {
         alert("게시물을 수정하는데 문제가 발생했습니다.");
@@ -154,74 +165,74 @@ class QnaWrite extends Component {
     }
   }
   onCancelBtnClickCallback() {
-    let { onCancelBtnClick } = this.props;
-    if (onCancelBtnClick !== undefined) {
-      onCancelBtnClick();
-    }
+    history.back();
   }
 
   onDropMenuClickCallback(selectedDropMenu) {
     this.selectedDropMenu = selectedDropMenu;
-    console.log(this.selectedDropMenu);
   }
   render() {
     let { detailData } = this.state;
     return (
-      <form
-        className="kohub-qnawrite container"
-        onSubmit={this.onSubmitListener.bind(this)}
-      >
-        <div className="kohub-qnawrite__content content-area">
-          <div className="kohub-qnawrite__header">
-            <h2>Q&amp;A</h2>
-          </div>
-          <div className="kohub-qnawrite__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-qnawrite__input">
-            <div className="kohub-qnawrite__drop-box">
-              <DropBox
-                onMenuClick={this.onDropMenuClickCallback.bind(this)}
-                menus={this.dropMenuList}
-              ></DropBox>
+      <div>
+        <Header></Header>
+        <form
+          className="kohub-qnawrite container"
+          onSubmit={this.onSubmitListener.bind(this)}
+        >
+          <div className="kohub-qnawrite__content content-area">
+            <div className="kohub-qnawrite__header">
+              <h2>Q&amp;A</h2>
             </div>
-            <div className="kohub-qnawrite__title">
-              <FormInput
-                value={detailData.title}
-                type="text"
-                name="title"
-                placeholder="제목을 입력하세요."
-                validOption={"title"}
-                onChange={this.onTitleChangeListener.bind(this)}
-              ></FormInput>
+            <div className="kohub-qnawrite__hr">
+              <hr></hr>
+            </div>
+            <div className="kohub-qnawrite__input">
+              <div className="kohub-qnawrite__drop-box">
+                <DropBox
+                  onMenuClick={this.onDropMenuClickCallback.bind(this)}
+                  menus={this.dropMenuList}
+                ></DropBox>
+              </div>
+              <div className="kohub-qnawrite__title">
+                <FormInput
+                  value={detailData.title}
+                  type="text"
+                  name="title"
+                  placeholder="제목을 입력하세요."
+                  validOption={"title"}
+                  onChange={this.onTitleChangeListener.bind(this)}
+                ></FormInput>
+              </div>
+            </div>
+            <div className="kohub-qnawrite__hr">
+              <hr></hr>
+            </div>
+            <div className="kohub-qnawrite__text-editor">
+              <Editor
+                onContentChange={this.onContentChangeCallback.bind(this)}
+                value={detailData.content}
+              ></Editor>
+            </div>
+            <div className="kohub-qnawrite__hr">
+              <hr></hr>
+            </div>
+            <div className="kohub-qnawrite___button">
+              <Button
+                value={"등록"}
+                type={"submit"}
+                btnType={"register"}
+              ></Button>
+              <Button
+                value={"취소"}
+                btnType={"cancel"}
+                onClick={this.onCancelBtnClickCallback.bind(this)}
+              ></Button>
             </div>
           </div>
-          <div className="kohub-qnawrite__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-qnawrite__text-editor">
-            <Editor
-              onContentChange={this.onContentChangeCallback.bind(this)}
-              value={detailData.content}
-            ></Editor>
-          </div>
-          <div className="kohub-qnawrite__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-qnawrite___button">
-            <Button
-              value={"등록"}
-              type={"submit"}
-              btnType={"register"}
-            ></Button>
-            <Button
-              value={"취소"}
-              btnType={"cancel"}
-              onClick={this.onCancelBtnClickCallback.bind(this)}
-            ></Button>
-          </div>
-        </div>
-      </form>
+        </form>
+        <Footer></Footer>
+      </div>
     );
   }
 }
