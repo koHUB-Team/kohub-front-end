@@ -20,10 +20,38 @@ const ColgroupData = Record({
   class: "",
 });
 
+const SidebarData = Record({
+  menuName: "",
+  menuUrl: "",
+});
+
 class Notice extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sidebarTitle: "koHUB",
+      sidebarList: List([
+        SidebarData({
+          menuName: "공지사항",
+          menuUrl: "/notice",
+        }),
+        SidebarData({
+          menuName: "FAQ",
+          menuUrl: "/faq",
+        }),
+        SidebarData({
+          menuName: "Q&A",
+          menuUrl: "/qna",
+        }),
+        SidebarData({
+          menuName: "자유게시판",
+          menuUrl: "/free",
+        }),
+        SidebarData({
+          menuName: "실험실",
+          menuUrl: "/lab",
+        }),
+      ]),
       heads: List(["번호", "제목", "작성자", "등록일"]),
       datas: List([]),
       startPage: 1,
@@ -161,7 +189,7 @@ class Notice extends Component {
       this.requestNoticeApi(params);
     }
   }
-  
+
   onWriteBtnClickCallback() {
     let { onWriteBtnClick } = this.props;
     if (onWriteBtnClick !== undefined) {
@@ -170,40 +198,47 @@ class Notice extends Component {
   }
 
   render() {
-    let { heads, datas, startPage, endPage } = this.state;
+    let {
+      heads,
+      datas,
+      startPage,
+      endPage,
+      sidebarTitle,
+      sidebarList,
+    } = this.state;
     let { match } = this.props;
 
     return (
       <div>
         <Header></Header>
         <div className="container kohub-noticeboard ">
-        <div className="content-area kohub-noticeboard__content ">
-          <Sidebar></Sidebar>
-          <div className="kohub-noticeboard__board">
-            <BoardHeader value={"공지사항"}></BoardHeader>
-            <div className="kohub-noticeboard__table">
-              <Table
-                heads={heads}
-                datas={datas}
-                checked={false}
-                colgroupDatas={this.colgroupDatas}
-                linked={true}
-                link={"/notice"}
-                linkIdx={1}
-              ></Table>
-            </div>
-            <div className="kohub-noticeboard-content__bottom-area">
-              <Pagination
-                start={startPage}
-                end={endPage}
-                onPrevBtnClick={this.onPrevBtnClickCallback.bind(this)}
-                onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
-                onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
-              ></Pagination>
+          <div className="content-area kohub-noticeboard__content ">
+            <Sidebar sidebarTitle={sidebarTitle} datas={sidebarList}></Sidebar>
+            <div className="kohub-noticeboard__board">
+              <BoardHeader value={"공지사항"}></BoardHeader>
+              <div className="kohub-noticeboard__table">
+                <Table
+                  heads={heads}
+                  datas={datas}
+                  checked={false}
+                  colgroupDatas={this.colgroupDatas}
+                  linked={true}
+                  link={"/notice"}
+                  linkIdx={1}
+                ></Table>
+              </div>
+              <div className="kohub-noticeboard-content__bottom-area">
+                <Pagination
+                  start={startPage}
+                  end={endPage}
+                  onPrevBtnClick={this.onPrevBtnClickCallback.bind(this)}
+                  onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
+                  onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
+                ></Pagination>
+              </div>
             </div>
           </div>
         </div>
-      </div>
         <Footer></Footer>
       </div>
     );

@@ -4,12 +4,8 @@ import { Link } from "react-router-dom";
 import { List, Record } from "immutable";
 
 const SidebarData = Record({
-  menu: "",
-  submenu1: "",
-  submenu2: "",
-  submenu3: "",
-  submenu4: "",
-  submenu5: "",
+  menuName: "",
+  menuUrl: "",
 });
 
 class Sidebar extends Component {
@@ -17,43 +13,39 @@ class Sidebar extends Component {
     super(props);
     this.state = {};
   }
+
+  getSidebar() {
+    let { datas } = this.props;
+    console.log(datas);
+
+    if (datas === undefined) {
+      return [];
+    }
+    let dataList = datas.reduce((acc, data, idx) => {
+      return acc.concat([
+        <li key={idx}>
+          <Link to={data.menuUrl}>
+            <span>{data.menuName}</span>
+          </Link>
+        </li>,
+      ]);
+    }, []);
+
+    return dataList;
+  }
   render() {
+    let { sidebarTitle } = this.props;
+    let sidebarList = this.getSidebar();
     return (
       <div className="kohub-sidebar">
         <div className="kohub-sidebar__title">
-          <h3>koHUB</h3>
+          <h3>{sidebarTitle}</h3>
         </div>
         <div className="kohub-sidebar__hr">
           <hr></hr>
         </div>
         <div className="kohub-sidebar__content">
-          <ul>
-            <li>
-              <Link to="/notice">
-                <span>공지사항</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/faq">
-                <span>FAQ</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/qna">
-                <span>Q&amp;A</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/free">
-                <span>자유게시판</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/">
-                <span>실험실</span>
-              </Link>
-            </li>
-          </ul>
+          <ul>{sidebarList}</ul>
         </div>
       </div>
     );

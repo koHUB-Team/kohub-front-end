@@ -23,6 +23,11 @@ const FreeBoardData = Record({
   createDate: "",
 });
 
+const SidebarData = Record({
+  menuName: "",
+  menuUrl: "",
+});
+
 const ColgroupData = Record({
   span: 0,
   class: "",
@@ -32,6 +37,29 @@ class Free extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sidebarTitle: "koHUB",
+      sidebarList: List([
+        SidebarData({
+          menuName: "공지사항",
+          menuUrl: "/notice",
+        }),
+        SidebarData({
+          menuName: "FAQ",
+          menuUrl: "/faq",
+        }),
+        SidebarData({
+          menuName: "Q&A",
+          menuUrl: "/qna",
+        }),
+        SidebarData({
+          menuName: "자유게시판",
+          menuUrl: "/free",
+        }),
+        SidebarData({
+          menuName: "실험실",
+          menuUrl: "/lab",
+        }),
+      ]),
       heads: List(["번호", "제목", "작성자", "등록일"]),
       datas: List([]),
       startPage: 1,
@@ -235,13 +263,20 @@ class Free extends Component {
   }
 
   render() {
-    let { datas, heads, startPage, endPage } = this.state;
+    let {
+      datas,
+      heads,
+      startPage,
+      endPage,
+      sidebarTitle,
+      sidebarList,
+    } = this.state;
     return (
       <div>
         <Header></Header>
         <div className="container kohub-freeboard">
           <div className="content-area kohub-freeboard__content">
-            <Sidebar></Sidebar>
+            <Sidebar sidebarTitle={sidebarTitle} datas={sidebarList}></Sidebar>
             <div className="kohub-freeboard__board">
               <div className="kohub-freeboard__header">
                 <h2>자유게시판</h2>

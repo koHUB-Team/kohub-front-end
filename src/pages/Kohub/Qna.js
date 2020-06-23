@@ -16,6 +16,11 @@ import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
 import { Link } from "react-router-dom";
 
+const SidebarData = Record({
+  menuName: "",
+  menuUrl: "",
+});
+
 const QnaBoardData = Record({
   id: null,
   title: "",
@@ -32,6 +37,29 @@ class Qna extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sidebarTitle: "koHUB",
+      sidebarList: List([
+        SidebarData({
+          menuName: "공지사항",
+          menuUrl: "/notice",
+        }),
+        SidebarData({
+          menuName: "FAQ",
+          menuUrl: "/faq",
+        }),
+        SidebarData({
+          menuName: "Q&A",
+          menuUrl: "/qna",
+        }),
+        SidebarData({
+          menuName: "자유게시판",
+          menuUrl: "/free",
+        }),
+        SidebarData({
+          menuName: "실험실",
+          menuUrl: "/lab",
+        }),
+      ]),
       heads: List(["번호", "제목", "작성자", "등록일"]),
       datas: List([]),
       startPage: 1,
@@ -242,13 +270,20 @@ class Qna extends Component {
   }
 
   render() {
-    let { datas, heads, startPage, endPage } = this.state;
+    let {
+      datas,
+      heads,
+      startPage,
+      endPage,
+      sidebarTitle,
+      sidebarList,
+    } = this.state;
     return (
       <div>
         <Header></Header>
         <div className="container kohub-qna">
           <div className="content-area kohub-qna__content">
-            <Sidebar></Sidebar>
+            <Sidebar sidebarTitle={sidebarTitle} datas={sidebarList}></Sidebar>
             <div className="kohub-qna__board">
               <div className="kohub-qna__header">
                 <h2>Q&amp;A</h2>

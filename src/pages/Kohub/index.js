@@ -7,3 +7,4 @@ export { default as QnaWrite } from "./QnaWrite";
 export { default as Free } from "./Free";
 export { default as FreeDetail } from "./FreeDetail";
 export { default as FreeWrite } from "./FreeWrite";
+export { default as Lab } from "./Lab";

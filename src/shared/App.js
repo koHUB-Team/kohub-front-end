@@ -11,7 +11,7 @@ import { NotFound } from "../pages/Error";
 import { LoginForm, SignUpForm } from "../pages/Login";
 import AdminApp from "./AdminApp";
 import Help from "./Help";
-import { Faq, NoticeDetail, Notice, Free, Qna } from "../pages/Kohub";
+import { Faq, NoticeDetail, Notice, Free, Qna, Lab } from "../pages/Kohub";
 
 class App extends Component {
   render() {
@@ -30,6 +30,7 @@ class App extends Component {
         <Route path="/qna" component={Qna}></Route>
         <Route exact path="/notice/:id" component={NoticeDetail}></Route>
         <Route path="/notice" component={Notice}></Route>
+        <Route exact path="/lab" component={Lab}></Route>
         <Route exact path="/" component={Main}></Route>
         <Route component={NotFound}></Route>
       </Switch>
