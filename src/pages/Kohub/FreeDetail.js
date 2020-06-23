@@ -30,6 +30,7 @@ class FreeDetail extends Component {
       totalCommentCount: 0,
     };
     this.reply = null;
+    this.count = 0;
   }
 
   componentDidMount() {
@@ -145,14 +146,16 @@ class FreeDetail extends Component {
           freeId: this.state.detailData.id,
         };
         this.requestFreeApi(params);
+        document.getElementById("replyArea").value = "";
       })
       .catch((err) => {
         alert("댓글을 등록하는데 문제가 발생했습니다.");
       });
   }
 
-  onReplyChangeListener(newReply) {
-    this.reply = newReply;
+  onReplyChangeListener(e) {
+    this.reply = e.target.value;
+    document.getElementById("count").innerHTML = this.reply.length;
   }
 
   onReplyRegisterBtnClick() {
@@ -168,13 +171,51 @@ class FreeDetail extends Component {
       onUpdateBtnClick(id);
     }
   }
+  onRegisterBtnClick(id, reply) {
+    let updateNode = event.target.parentNode.parentNode;
+    let replyNode = updateNode.previousElementSibling;
+    let commentNode = replyNode.lastElementChild.firstElementChild;
+
+    let pathVariable = {
+      commentId: id,
+    };
+    let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
+
+    updateUrl = ApiUtil.bindPathVariable(updateUrl, pathVariable);
+    console.log(updateUrl);
+    let data = {
+      comment: reply,
+    };
+    commentNode.innerHTML = reply;
+    console.log(data);
+    fetch(updateUrl, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(() => {
+        alert("댓글이 수정되었습니다.");
+      })
+      .then(() => {
+        replyNode.classList.remove("hide");
+        updateNode.classList.add("hide");
+      })
+      .catch((err) => {
+        alert("댓글을 수정하는데 문제가 발생했습니다.");
+      });
+  }
 
   render() {
     let { match } = this.props;
     let { id } = match.params;
     let { detailData, replyDatas, totalCommentCount } = this.state;
     let deleteUrl = process.env.REACT_APP_KOHUB_API_URL_DELETE_FREE_COMMENT;
-    let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
+    //let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
     return (
       <div>
         <Header />
@@ -225,23 +266,36 @@ class FreeDetail extends Component {
             <div className="kohub-freedetail__reply-input-area">
               <span>댓글 {totalCommentCount}</span>
               <div className="kohub-freedetail__reply-input">
-                <FormInput
-                  placeholder={"이곳에 댓글을 입력하세요."}
-                  onChange={this.onReplyChangeListener.bind(this)}
-                />
+                <div className="kohub-freedetail__reply-content">
+                  <textarea
+                    id="replyArea"
+                    placeholder="이곳에 댓글을 입력하세요."
+                    maxLength="300"
+                    onChange={this.onReplyChangeListener.bind(this)}
+                  ></textarea>
+                  <div className="kohub-freedetail__reply-text-limit">
+                    <p>
+                      <span id="count">0</span> / 300
+                    </p>
+                  </div>
+                </div>
+                <button onClick={this.onReplyRegisterBtnClick.bind(this)}>
+                  등록
+                </button>
               </div>
-              <div className="kohub-freedetail__reply-register-btn">
+              {/* <div className="kohub-freedetail__reply-register-btn">
                 <Button
                   value={"등록"}
                   type={"submit"}
                   onClick={this.onReplyRegisterBtnClick.bind(this)}
                 ></Button>
-              </div>
+              </div> */}
             </div>
             <Reply
               datas={replyDatas}
               deleteUrl={deleteUrl}
-              updateUrl={updateUrl}
+              onRegisterBtnClick={this.onRegisterBtnClick.bind(this)}
+              //updateUrl={updateUrl}
             ></Reply>
           </div>
         </div>
