@@ -1,0 +1,28 @@
+@use "../../common/color.scss"as kohubColor;
+@use "../../common/style.scss"as kohubStyle;
+
+@font-face {
+    font-family: "Noto Sans KR", sans-serif;
+    src: url("../../../public/fonts/NotoSansKR-Medium.otf");
+}
+
+.kohub-lab {
+    padding: 50px;
+
+    .kohub-lab__content {
+        padding-left: 300px;
+        min-height: 550px;
+
+        .kohub-lab__header {
+            width: 100%;
+            height: 50px;
+            border-bottom: 2px solid kohubColor.$color-koHub-primary;
+
+            h2 {
+                font-size: 32px;
+                color: kohubColor.$color-koHub-primary;
+                font-weight: bold;
+            }
+        }
+    }
+}
