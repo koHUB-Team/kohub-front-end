@@ -30,64 +30,33 @@ class Reply extends Component {
     if (onRegisterBtnClick !== undefined) {
       onRegisterBtnClick(id, reply);
     }
-
-    // let updateNode = event.target.parentNode.parentNode;
-    // let replyNode = updateNode.previousElementSibling;
-    // let commentNode = replyNode.lastElementChild.firstElementChild;
-
-    // let pathVariable = {
-    //   commentId: id,
-    // };
-    // let { updateUrl } = this.props;
-
-    // updateUrl = ApiUtil.bindPathVariable(updateUrl, pathVariable);
-    // console.log(updateUrl);
-    // let data = {
-    //   comment: this.reply,
-    // };
-    // commentNode.innerHTML = this.reply;
-    // console.log(data);
-    // fetch(updateUrl, {
-    //   method: "PUT",
-    //   mode: "cors",
-    //   cache: "no-cache",
-    //   credentials: "same-origin",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then(() => {
-    //     alert("댓글이 수정되었습니다.");
-    //   })
-    //   .then(() => {
-    //     replyNode.classList.remove("hide");
-    //     updateNode.classList.add("hide");
-    //   })
-    //   .catch((err) => {
-    //     alert("댓글을 수정하는데 문제가 발생했습니다.");
-    //   });
   }
-  onDeleteApiHandler(id) {
-    let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
-
-    let pathVariable = {
-      commentId: id,
-    };
-    let { deleteUrl } = this.props;
-    deleteUrl = ApiUtil.bindPathVariable(deleteUrl, pathVariable);
-
-    fetch(deleteUrl, {
-      method: "DELETE",
-    })
-      .then((result) => {
-        alert("댓글이 삭제되었습니다.");
-        parentNode.remove();
-      })
-      .catch((err) => {
-        new Error("Comment Error");
-      });
+  onDeleteBtnClickListener(id) {
+    let { onDeleteBtnClick } = this.props;
+    if (onDeleteBtnClick !== undefined) {
+      onDeleteBtnClick(id);
+    }
   }
+  // onDeleteApiHandler(id) {
+  //   let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
+
+  //   let pathVariable = {
+  //     commentId: id,
+  //   };
+  //   let { deleteUrl } = this.props;
+  //   deleteUrl = ApiUtil.bindPathVariable(deleteUrl, pathVariable);
+
+  //   fetch(deleteUrl, {
+  //     method: "DELETE",
+  //   })
+  //     .then((result) => {
+  //       alert("댓글이 삭제되었습니다.");
+  //       parentNode.remove();
+  //     })
+  //     .catch((err) => {
+  //       new Error("Comment Error");
+  //     });
+  // }
   onReplyChangeListener(e) {
     this.reply = e.target.value;
   }
@@ -112,7 +81,9 @@ class Reply extends Component {
                   {""}수정
                 </span>
                 |
-                <span onClick={this.onDeleteApiHandler.bind(this, data.id)}>
+                <span
+                  onClick={this.onDeleteBtnClickListener.bind(this, data.id)}
+                >
                   <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
                   {""}삭제
                 </span>

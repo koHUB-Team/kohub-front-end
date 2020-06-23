@@ -171,7 +171,8 @@ class FreeDetail extends Component {
       onUpdateBtnClick(id);
     }
   }
-  onRegisterBtnClick(id, reply) {
+
+  onReplyRegisterBtnClick(id, reply) {
     let updateNode = event.target.parentNode.parentNode;
     let replyNode = updateNode.previousElementSibling;
     let commentNode = replyNode.lastElementChild.firstElementChild;
@@ -210,12 +211,31 @@ class FreeDetail extends Component {
       });
   }
 
+  onReplyDeleteBtnCLick(id) {
+    let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
+
+    let pathVariable = {
+      commentId: id,
+    };
+    let deleteUrl = process.env.REACT_APP_KOHUB_API_URL_DELETE_FREE_COMMENT;
+    deleteUrl = ApiUtil.bindPathVariable(deleteUrl, pathVariable);
+
+    fetch(deleteUrl, {
+      method: "DELETE",
+    })
+      .then((result) => {
+        alert("댓글이 삭제되었습니다.");
+        parentNode.remove();
+      })
+      .catch((err) => {
+        new Error("Comment Error");
+      });
+  }
+
   render() {
     let { match } = this.props;
     let { id } = match.params;
     let { detailData, replyDatas, totalCommentCount } = this.state;
-    let deleteUrl = process.env.REACT_APP_KOHUB_API_URL_DELETE_FREE_COMMENT;
-    //let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
     return (
       <div>
         <Header />
@@ -293,9 +313,8 @@ class FreeDetail extends Component {
             </div>
             <Reply
               datas={replyDatas}
-              deleteUrl={deleteUrl}
-              onRegisterBtnClick={this.onRegisterBtnClick.bind(this)}
-              //updateUrl={updateUrl}
+              onDeleteBtnClick={this.onReplyDeleteBtnCLick.bind(this)}
+              onRegisterBtnClick={this.onReplyRegisterBtnClick.bind(this)}
             ></Reply>
           </div>
         </div>
