@@ -24,44 +24,53 @@ class Reply extends Component {
     updateNode.classList.add("hide");
   }
 
-  onRegisterBtnClick(id) {
-    let updateNode = event.target.parentNode.parentNode;
-    let replyNode = updateNode.previousElementSibling;
+  onRegisterBtnClickListener(id) {
+    let reply = this.reply;
+    let { onRegisterBtnClick } = this.props;
+    if (onRegisterBtnClick !== undefined) {
+      onRegisterBtnClick(id, reply);
+    }
 
-    let pathVariable = {
-      commentId: id,
-    };
-    let { updateUrl } = this.props;
+    // let updateNode = event.target.parentNode.parentNode;
+    // let replyNode = updateNode.previousElementSibling;
+    // let commentNode = replyNode.lastElementChild.firstElementChild;
 
-    updateUrl = ApiUtil.bindPathVariable(updateUrl, pathVariable);
-    console.log(updateUrl);
-    let data = {
-      comment: this.reply,
-    };
-    console.log(data);
-    fetch(updateUrl, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then(() => {
-        alert("댓글이 수정되었습니다.");
-      })
-      .then(() => {
-        replyNode.classList.remove("hide");
-        updateNode.classList.add("hide");
-        history.go(0);
-      })
-      .catch((err) => {
-        alert("댓글을 수정하는데 문제가 발생했습니다.");
-      });
+    // let pathVariable = {
+    //   commentId: id,
+    // };
+    // let { updateUrl } = this.props;
+
+    // updateUrl = ApiUtil.bindPathVariable(updateUrl, pathVariable);
+    // console.log(updateUrl);
+    // let data = {
+    //   comment: this.reply,
+    // };
+    // commentNode.innerHTML = this.reply;
+    // console.log(data);
+    // fetch(updateUrl, {
+    //   method: "PUT",
+    //   mode: "cors",
+    //   cache: "no-cache",
+    //   credentials: "same-origin",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // })
+    //   .then(() => {
+    //     alert("댓글이 수정되었습니다.");
+    //   })
+    //   .then(() => {
+    //     replyNode.classList.remove("hide");
+    //     updateNode.classList.add("hide");
+    //   })
+    //   .catch((err) => {
+    //     alert("댓글을 수정하는데 문제가 발생했습니다.");
+    //   });
   }
   onDeleteApiHandler(id) {
+    let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
+
     let pathVariable = {
       commentId: id,
     };
@@ -73,14 +82,14 @@ class Reply extends Component {
     })
       .then((result) => {
         alert("댓글이 삭제되었습니다.");
-        history.go(0);
+        parentNode.remove();
       })
       .catch((err) => {
         new Error("Comment Error");
       });
   }
-  onReplyChangeListener(newReply) {
-    this.reply = newReply;
+  onReplyChangeListener(e) {
+    this.reply = e.target.value;
   }
   getReplyList() {
     let { datas } = this.props;
@@ -115,16 +124,15 @@ class Reply extends Component {
           </div>
           <div className="kohub-reply-update hide">
             <div className="kohub-reply-update-input">
-              <FormInput
-                value={data.comment}
-                onChange={this.onReplyChangeListener.bind(this)}
-              ></FormInput>
+              <textarea onChange={this.onReplyChangeListener.bind(this)}>
+                {data.comment}
+              </textarea>
             </div>
             <div className="kohub-reply-update-btn">
               <Button
                 value={"수정"}
                 btnType={"register"}
-                onClick={this.onRegisterBtnClick.bind(this, data.id)}
+                onClick={this.onRegisterBtnClickListener.bind(this, data.id)}
               ></Button>
               <Button
                 value={"취소"}
