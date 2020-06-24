@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import "./Reply.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { ApiUtil } from "../common/kohubUtil";
-import { FormInput, Button } from "../components";
+import { Button } from "../components";
 class Reply extends Component {
   constructor(props) {
     super(props);
@@ -11,10 +10,40 @@ class Reply extends Component {
   }
 
   onUpdateBtnClick() {
-    let replyNode = event.target.parentNode.parentNode.parentNode;
-    let updateNode = replyNode.nextElementSibling;
-    replyNode.classList.add("hide");
-    updateNode.classList.remove("hide");
+    let isEvenTarget = false;
+    let replyNode;
+    let updateNode;
+    let spanNode;
+    let svgNode;
+    let pathNode;
+    switch (event.target.tagName.toLowerCase()) {
+      case "span":
+        spanNode = event.target;
+        replyNode = spanNode.parentNode.parentNode.parentNode;
+        isEvenTarget = true;
+        break;
+      case "svg":
+        svgNode = event.target;
+        spanNode = svgNode.parentNode;
+        replyNode = spanNode.parentNode.parentNode.parentNode;
+        isEvenTarget = true;
+        break;
+      case "path":
+        pathNode = event.target;
+        svgNode = pathNode.parentNode;
+        spanNode = svgNode.parentNode;
+        replyNode = spanNode.parentNode.parentNode.parentNode;
+        isEvenTarget = true;
+        break;
+      default:
+        break;
+    }
+    updateNode = replyNode.nextElementSibling;
+
+    if (isEvenTarget) {
+      replyNode.classList.add("hide");
+      updateNode.classList.remove("hide");
+    }
   }
 
   onCancelBtnClick() {

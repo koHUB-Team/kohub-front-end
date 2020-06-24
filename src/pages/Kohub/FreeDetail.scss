@@ -122,8 +122,8 @@
                         width: 985px;
                         height: 70px;
 
-                        ::placeholder {
-                            font-size: 15px;
+                        &::placeholder {
+                            font-size: 16px;
                             font-weight: bold;
                         }
                     }
@@ -149,6 +149,7 @@
                     border: 1px solid;
                     height: 112px;
                     width: 152px;
+                    transition: font-weight 0.1s, border 0.1s;
 
                     &:hover {
                         font-weight: 600;

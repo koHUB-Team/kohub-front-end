@@ -227,7 +227,6 @@ class FreeDetail extends Component {
   }
 
   onReplyDeleteBtnCLick(id) {
-    let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
     let pathVariable = {
       commentId: id,
     };
@@ -251,17 +250,14 @@ class FreeDetail extends Component {
 
   onPageBtnClickCallback(pageNum) {
     this.numOfCurrentPage = pageNum;
-    let { match } = this.props;
-    let { id } = match.params;
+
     let params = {
-      freeId: id,
+      freeId: this.state.detailData.id,
       start: (pageNum - 1) * this.MAX_NUM_OF_REPLY,
     };
     this.requestFreeApi(params);
   }
   onNextBtnClickCallback() {
-    let { match } = this.props;
-    let { id } = match.params;
     let { startPage, endPage, totalCommentCount } = this.state;
     let maxPage = Math.ceil(totalCommentCount / 5);
 
@@ -279,7 +275,7 @@ class FreeDetail extends Component {
       this.numOfCurrentPage = newStartPage;
 
       let params = {
-        freeId: id,
+        freeId: this.state.detailData.id,
         start: (newStartPage - 1) * this.MAX_NUM_OF_REPLY,
       };
       this.requestFreeApi(params);
@@ -287,8 +283,6 @@ class FreeDetail extends Component {
   }
 
   onPrevBtnClickCallback() {
-    let { match } = this.props;
-    let { id } = match.params;
     let { startPage } = this.state;
     if (startPage !== this.MIN_PAGE_NUM) {
       let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
@@ -302,9 +296,8 @@ class FreeDetail extends Component {
         endPage: newEndPage,
       });
       this.numOfCurrentPage = newStartPage;
-
       let params = {
-        freeId: id,
+        freeId: this.state.detailData.id,
         start: (newStartPage - 1) * this.MAX_NUM_OF_REPLY,
       };
       this.requestFreeApi(params);
