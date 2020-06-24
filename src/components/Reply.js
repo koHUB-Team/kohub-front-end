@@ -24,11 +24,11 @@ class Reply extends Component {
     updateNode.classList.add("hide");
   }
 
-  onRegisterBtnClickListener(id) {
+  onUpdateBtnClickListener(id) {
     let reply = this.reply;
-    let { onRegisterBtnClick } = this.props;
-    if (onRegisterBtnClick !== undefined) {
-      onRegisterBtnClick(id, reply);
+    let { onUpdateBtnClick } = this.props;
+    if (onUpdateBtnClick !== undefined) {
+      onUpdateBtnClick(id, reply);
     }
   }
   onDeleteBtnClickListener(id) {
@@ -37,26 +37,6 @@ class Reply extends Component {
       onDeleteBtnClick(id);
     }
   }
-  // onDeleteApiHandler(id) {
-  //   let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
-
-  //   let pathVariable = {
-  //     commentId: id,
-  //   };
-  //   let { deleteUrl } = this.props;
-  //   deleteUrl = ApiUtil.bindPathVariable(deleteUrl, pathVariable);
-
-  //   fetch(deleteUrl, {
-  //     method: "DELETE",
-  //   })
-  //     .then((result) => {
-  //       alert("댓글이 삭제되었습니다.");
-  //       parentNode.remove();
-  //     })
-  //     .catch((err) => {
-  //       new Error("Comment Error");
-  //     });
-  // }
   onReplyChangeListener(e) {
     this.reply = e.target.value;
   }
@@ -103,7 +83,7 @@ class Reply extends Component {
               <Button
                 value={"수정"}
                 btnType={"register"}
-                onClick={this.onRegisterBtnClickListener.bind(this, data.id)}
+                onClick={this.onUpdateBtnClickListener.bind(this, data.id)}
               ></Button>
               <Button
                 value={"취소"}

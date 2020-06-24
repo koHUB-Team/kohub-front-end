@@ -72,7 +72,7 @@ class Free extends Component {
     this.MAX_NUM_OF_TABLE_ROW = 10;
     this.dropMenuList = List(["제목", "작성자"]);
     this.selectedDropMenu = null;
-    this.numofCurrentPage = null;
+    this.numOfCurrentPage = null;
     this.colgroupDatas = List([
       ColgroupData({
         span: 1,
@@ -173,7 +173,7 @@ class Free extends Component {
     });
   }
   onPageBtnClickCallback(pageNum) {
-    this.numofCurrentPage = pageNum;
+    this.numOfCurrentPage = pageNum;
     let params = {
       start: (pageNum - 1) * this.MAX_NUM_OF_TABLE_ROW,
     };

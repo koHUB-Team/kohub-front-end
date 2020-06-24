@@ -16,8 +16,6 @@ class Sidebar extends Component {
 
   getSidebar() {
     let { datas } = this.props;
-    console.log(datas);
-
     if (datas === undefined) {
       return [];
     }

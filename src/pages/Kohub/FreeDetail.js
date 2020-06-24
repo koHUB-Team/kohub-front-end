@@ -3,7 +3,7 @@ import "./FreeDetail.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Record, List } from "immutable";
-import { FormInput, Button, Reply, Header, Footer } from "../../components";
+import { Pagination, Reply, Header, Footer } from "../../components";
 import { ApiUtil } from "../../common/kohubUtil";
 import Moment from "moment";
 import { Link } from "react-router-dom";
@@ -28,7 +28,13 @@ class FreeDetail extends Component {
       detailData: DetailData({}),
       replyDatas: List([]),
       totalCommentCount: 0,
+      startPage: 1,
+      endPage: 0,
     };
+    this.MAX_NUM_OF_PAGE_BTN = 5;
+    this.MIN_PAGE_NUM = 1;
+    this.MAX_NUM_OF_REPLY = 5;
+    this.numOfCurrentPage = null;
     this.reply = null;
     this.count = 0;
   }
@@ -74,7 +80,7 @@ class FreeDetail extends Component {
       id: freeBoard.id,
       title: freeBoard.title,
       userName: freeBoard.userName,
-      createDate: freeBoard.createDate,
+      createDate: freeBoard.modifyDate,
       content: freeBoard.content,
     });
     this.setState({
@@ -95,9 +101,17 @@ class FreeDetail extends Component {
         })
       );
     });
+
+    let newEndPage;
+    newEndPage = Math.ceil(totalCommentCount / 5);
+    if (newEndPage > this.MAX_NUM_OF_PAGE_BTN) {
+      newEndPage = this.MAX_NUM_OF_PAGE_BTN;
+    }
+
     this.setState({
       replyDatas: newDatas,
       totalCommentCount: totalCommentCount,
+      endPage: newEndPage,
     });
   }
   onDeleteApiHandler() {
@@ -147,6 +161,7 @@ class FreeDetail extends Component {
         };
         this.requestFreeApi(params);
         document.getElementById("replyArea").value = "";
+        document.getElementById("count").innerHTML = 0;
       })
       .catch((err) => {
         alert("댓글을 등록하는데 문제가 발생했습니다.");
@@ -172,7 +187,7 @@ class FreeDetail extends Component {
     }
   }
 
-  onReplyRegisterBtnClick(id, reply) {
+  onReplyUpdateBtnClick(id, reply) {
     let updateNode = event.target.parentNode.parentNode;
     let replyNode = updateNode.previousElementSibling;
     let commentNode = replyNode.lastElementChild.firstElementChild;
@@ -183,7 +198,7 @@ class FreeDetail extends Component {
     let updateUrl = process.env.REACT_APP_KOHUB_API_URL_PUT_FREE_COMMENT;
 
     updateUrl = ApiUtil.bindPathVariable(updateUrl, pathVariable);
-    console.log(updateUrl);
+
     let data = {
       comment: reply,
     };
@@ -213,7 +228,6 @@ class FreeDetail extends Component {
 
   onReplyDeleteBtnCLick(id) {
     let parentNode = event.target.parentNode.parentNode.parentNode.parentNode;
-
     let pathVariable = {
       commentId: id,
     };
@@ -225,17 +239,88 @@ class FreeDetail extends Component {
     })
       .then((result) => {
         alert("댓글이 삭제되었습니다.");
-        parentNode.remove();
+        let params = {
+          freeId: this.state.detailData.id,
+        };
+        this.requestFreeApi(params);
       })
       .catch((err) => {
         new Error("Comment Error");
       });
   }
 
+  onPageBtnClickCallback(pageNum) {
+    this.numOfCurrentPage = pageNum;
+    let { match } = this.props;
+    let { id } = match.params;
+    let params = {
+      freeId: id,
+      start: (pageNum - 1) * this.MAX_NUM_OF_REPLY,
+    };
+    this.requestFreeApi(params);
+  }
+  onNextBtnClickCallback() {
+    let { match } = this.props;
+    let { id } = match.params;
+    let { startPage, endPage, totalCommentCount } = this.state;
+    let maxPage = Math.ceil(totalCommentCount / 5);
+
+    if (endPage < maxPage) {
+      let newStartPage = startPage + this.MAX_NUM_OF_PAGE_BTN;
+      let newEndPage = endPage + this.MAX_NUM_OF_PAGE_BTN;
+      if (newEndPage > maxPage) {
+        newEndPage = maxPage;
+      }
+      this.setState({
+        startPage: newStartPage,
+        endPage: newEndPage,
+      });
+
+      this.numOfCurrentPage = newStartPage;
+
+      let params = {
+        freeId: id,
+        start: (newStartPage - 1) * this.MAX_NUM_OF_REPLY,
+      };
+      this.requestFreeApi(params);
+    }
+  }
+
+  onPrevBtnClickCallback() {
+    let { match } = this.props;
+    let { id } = match.params;
+    let { startPage } = this.state;
+    if (startPage !== this.MIN_PAGE_NUM) {
+      let newStartPage = startPage - this.MAX_NUM_OF_PAGE_BTN;
+      let newEndPage = newStartPage + this.MAX_NUM_OF_PAGE_BTN - 1;
+      if (newStartPage < 0) {
+        newStartPage = this.MIN_PAGE_NUM;
+      }
+
+      this.setState({
+        startPage: newStartPage,
+        endPage: newEndPage,
+      });
+      this.numOfCurrentPage = newStartPage;
+
+      let params = {
+        freeId: id,
+        start: (newStartPage - 1) * this.MAX_NUM_OF_REPLY,
+      };
+      this.requestFreeApi(params);
+    }
+  }
+
   render() {
     let { match } = this.props;
     let { id } = match.params;
-    let { detailData, replyDatas, totalCommentCount } = this.state;
+    let {
+      detailData,
+      replyDatas,
+      totalCommentCount,
+      startPage,
+      endPage,
+    } = this.state;
     return (
       <div>
         <Header />
@@ -314,8 +399,17 @@ class FreeDetail extends Component {
             <Reply
               datas={replyDatas}
               onDeleteBtnClick={this.onReplyDeleteBtnCLick.bind(this)}
-              onRegisterBtnClick={this.onReplyRegisterBtnClick.bind(this)}
+              onUpdateBtnClick={this.onReplyUpdateBtnClick.bind(this)}
             ></Reply>
+            <div className="kohub-freedetail__reply__bottom-area">
+              <Pagination
+                start={startPage}
+                end={endPage}
+                onPrevBtnClick={this.onPrevBtnClickCallback.bind(this)}
+                onNextBtnClick={this.onNextBtnClickCallback.bind(this)}
+                onPageBtnClick={this.onPageBtnClickCallback.bind(this)}
+              />
+            </div>
           </div>
         </div>
         <Footer />
