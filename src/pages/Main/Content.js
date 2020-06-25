@@ -485,6 +485,7 @@ class Content extends Component {
               isShow={modal.isShow}
               title={modal.title}
               content={modal.content}
+              image={true}
               imageUrl={modal.imageUrl}
               onClosePopup={this.onCloseModalPopupCallback.bind(this)}
             ></ModalPopup>

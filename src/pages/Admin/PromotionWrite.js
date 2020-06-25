@@ -3,9 +3,10 @@ import { Button, FileOpenInput, FormInput } from "../../components";
 import "./PromotionWrite.scss";
 import ReactQuill from "react-quill";
 import Moment from "moment";
-import { MODE } from "../../store";
 import { ApiUtil } from "../../common/kohubUtil";
 import { Record, List } from "immutable";
+import { AdminNavContainer } from "../../containers";
+import queryString from "query-string";
 
 const PromotionData = Record({
   id: 0,
@@ -21,6 +22,7 @@ class PromotionWrite extends Component {
     this.state = {
       data: PromotionData(),
       thumbImageUrls: null,
+      isUpdateForm: false,
     };
     this._quillModules = {
       toolbar: {
@@ -52,10 +54,17 @@ class PromotionWrite extends Component {
   }
 
   componentDidMount() {
-    let { mode, selectedPromotionId } = this.props;
-    if (mode === MODE.UPDATE && selectedPromotionId !== 0) {
+    let { location } = this.props;
+    let query = queryString.parse(location.search);
+    let id = query.id;
+
+    if (id !== undefined) {
+      this.setState({
+        isUpdateForm: true,
+      });
+
       let pathVariables = {
-        promotionId: selectedPromotionId,
+        promotionId: id,
       };
       this.requestGetPomorionApi(pathVariables);
     }
@@ -164,11 +173,7 @@ class PromotionWrite extends Component {
       })
       .then((json) => {
         alert("홍보 게시물이 수정되었습니다.");
-
-        let { onBtnClick } = this.props;
-        if (onBtnClick !== undefined) {
-          onBtnClick();
-        }
+        this.goBackPage();
       })
       .catch((err) => {
         alert("홍보 게시물을 수정하는데 문제가 발생했습니다.");
@@ -200,20 +205,16 @@ class PromotionWrite extends Component {
       formData.append("promotionImage", this.promotionImageFile[0]);
     }
 
-    let { mode, selectedPromotionId } = this.props;
-    switch (mode) {
-      case MODE.CREATE:
-        this.requestPostPromtionApi(formData);
-        break;
-      case MODE.UPDATE:
-        let pathVariables = {
-          promotionId: selectedPromotionId,
-        };
+    let { isUpdateForm } = this.state;
+    if (isUpdateForm) {
+      let { id } = this.state.data;
+      let pathVariables = {
+        promotionId: id,
+      };
 
-        this.requestPutPromtionApi(formData, pathVariables);
-        break;
-      default:
-        break;
+      this.requestPutPromtionApi(formData, pathVariables);
+    } else {
+      this.requestPostPromtionApi(formData);
     }
   }
 
@@ -233,11 +234,7 @@ class PromotionWrite extends Component {
       })
       .then((json) => {
         alert("홍보 게시물이 등록되었습니다.");
-
-        let { onBtnClick } = this.props;
-        if (onBtnClick !== undefined) {
-          onBtnClick();
-        }
+        this.goBackPage();
       })
       .catch((err) => {
         alert("홍보 게시물을 등록하는데 문제가 발생했습니다.");
@@ -262,10 +259,7 @@ class PromotionWrite extends Component {
   }
 
   onCancelBtnClickCallback() {
-    let { onBtnClick } = this.props;
-    if (onBtnClick !== undefined) {
-      onBtnClick();
-    }
+    this.goBackPage();
   }
 
   //현재날짜보다 이전값 받으면 안됨 -- 유효성검사
@@ -338,86 +332,98 @@ class PromotionWrite extends Component {
     );
   }
 
+  goBackPage() {
+    let { history } = this.props;
+    history.goBack();
+  }
+
   render() {
-    let { mode } = this.props;
     let { title, email, startDate, endDate } = this.state.data;
-    let { thumbImageUrls } = this.state;
+    let { thumbImageUrls, isUpdateForm } = this.state;
 
     return (
-      <form
-        className="kohub-admin-promotion-write"
-        onSubmit={this.onSubmitListener.bind(this)}
-        autoComplete="off"
-      >
-        <div className="kohub-admin-promotion-write__user-info">
-          <FormInput
-            name="title"
-            type="text"
-            placeholder="제목을 입력하세요."
-            validOption={"title"}
-            onBlur={this.onTitleBlur.bind(this)}
-            value={title}
-          ></FormInput>
-          <FormInput
-            name="email"
-            type="email"
-            placeholder="이메일을 입력하세요."
-            validOption={"email"}
-            onBlur={this.onEmailBlur.bind(this)}
-            value={email}
-          ></FormInput>
+      <div className="kohub-admin-container">
+        <AdminNavContainer></AdminNavContainer>
+        <div className="kohub-admin-content-container">
+          <div className="kohub-admin-content-area">
+            <form
+              className="kohub-admin-promotion-write"
+              onSubmit={this.onSubmitListener.bind(this)}
+              autoComplete="off"
+            >
+              <div className="kohub-admin-promotion-write__user-info">
+                <FormInput
+                  name="title"
+                  type="text"
+                  placeholder="제목을 입력하세요."
+                  validOption={"title"}
+                  onBlur={this.onTitleBlur.bind(this)}
+                  value={title}
+                ></FormInput>
+                <FormInput
+                  name="email"
+                  type="email"
+                  placeholder="이메일을 입력하세요."
+                  validOption={"email"}
+                  onBlur={this.onEmailBlur.bind(this)}
+                  value={email}
+                ></FormInput>
+              </div>
+              <div className="kohub-admin-promotion-write__promo-info">
+                <FormInput
+                  name="startDate"
+                  type="date"
+                  placeholder="시작일"
+                  validOption={"date"}
+                  onChange={this.onStartDateChangeCallback.bind(this)}
+                  selected={isUpdateForm === true ? startDate : null}
+                ></FormInput>
+                <FormInput
+                  name="endDate"
+                  type="date"
+                  placeholder="종료일"
+                  validOption={"date"}
+                  onChange={this.onEndDateChangeCallback.bind(this)}
+                  selected={isUpdateForm === true ? endDate : null}
+                ></FormInput>
+              </div>
+              <div className="kohub-admin-promotion-write__text-editor">
+                <ReactQuill
+                  theme="snow"
+                  modules={this._quillModules}
+                  formats={this._quillFormats}
+                  toolbar={false}
+                  onChange={this.onContentChangeListener.bind(this)}
+                  value={this.content}
+                >
+                  <div className="kohub-admin-promotion-write__edited-area"></div>
+                </ReactQuill>
+              </div>
+              <div className="kohub-admin-promotion-write__file">
+                <FileOpenInput
+                  name="promotionImage"
+                  option={"thumbnail"}
+                  accept={"image/jpg, image/png"}
+                  multiple={false}
+                  onFileChange={this.onFileChangeCallback.bind(this)}
+                  urls={thumbImageUrls}
+                ></FileOpenInput>
+              </div>
+              <div className="kohub-admin-promotion-write__btn">
+                <Button
+                  type={"submit"}
+                  value={isUpdateForm === false ? "추가" : "수정"}
+                ></Button>
+                <Button
+                  value={"취소"}
+                  type={"button"}
+                  onClick={this.onCancelBtnClickCallback.bind(this)}
+                ></Button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className="kohub-admin-promotion-write__promo-info">
-          <FormInput
-            name="startDate"
-            type="date"
-            placeholder="시작일"
-            validOption={"date"}
-            onChange={this.onStartDateChangeCallback.bind(this)}
-            selected={mode === MODE.UPDATE ? startDate : null}
-          ></FormInput>
-          <FormInput
-            name="endDate"
-            type="date"
-            placeholder="종료일"
-            validOption={"date"}
-            onChange={this.onEndDateChangeCallback.bind(this)}
-            selected={mode === MODE.UPDATE ? endDate : null}
-          ></FormInput>
-        </div>
-        <div className="kohub-admin-promotion-write__text-editor">
-          <ReactQuill
-            theme="snow"
-            modules={this._quillModules}
-            formats={this._quillFormats}
-            toolbar={false}
-            onChange={this.onContentChangeListener.bind(this)}
-            value={this.content}
-          >
-            <div className="kohub-admin-promotion-write__edited-area"></div>
-          </ReactQuill>
-        </div>
-        <div className="kohub-admin-promotion-write__file">
-          <FileOpenInput
-            name="promotionImage"
-            option={"thumbnail"}
-            accept={"image/jpg, image/png"}
-            multiple={false}
-            onFileChange={this.onFileChangeCallback.bind(this)}
-            urls={thumbImageUrls}
-          ></FileOpenInput>
-        </div>
-        <div className="kohub-admin-promotion-write__btn">
-          <Button
-            type={"submit"}
-            value={mode !== MODE.UPDATE ? "추가" : "수정"}
-          ></Button>
-          <Button
-            value={"취소"}
-            onClick={this.onCancelBtnClickCallback.bind(this)}
-          ></Button>
-        </div>
-      </form>
+      </div>
     );
   }
 }
