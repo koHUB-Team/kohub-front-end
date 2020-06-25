@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./QnaDetail.scss";
+import { Header, Footer } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Record } from "immutable";
 import Moment from "moment";
 import { ApiUtil } from "../../common/kohubUtil";
+import { Link } from "react-router-dom";
 
 const DetailData = Record({
   id: null,
@@ -32,9 +34,10 @@ class QnaDetail extends Component {
   }
 
   componentDidMount() {
-    let { selectedDetailId } = this.props;
+    let { match } = this.props;
+    let { id } = match.params;
     let params = {
-      qnaId: selectedDetailId,
+      qnaId: id,
     };
     this.requestQnaApi(params);
   }
@@ -103,89 +106,91 @@ class QnaDetail extends Component {
         alert("삭제되었습니다.");
       })
       .then(() => {
-        this.onDeleteBtnClickCallback();
+        history.back();
       })
       .catch((err) => {
         new Error("Qna Error");
       });
   }
-  onDeleteBtnClickCallback() {
-    let { onDeleteBtnClick } = this.props;
-    if (onDeleteBtnClick !== undefined) {
-      onDeleteBtnClick();
-    }
-  }
-  onUpdateBtnClickCallback() {
+  onUpdateBtnClickCallback(id) {
     let { onUpdateBtnClick } = this.props;
     if (onUpdateBtnClick !== undefined) {
-      onUpdateBtnClick();
+      onUpdateBtnClick(id);
     }
   }
 
   render() {
+    let { match } = this.props;
+    let { id } = match.params;
     let { detailData, answerData } = this.state;
     return (
-      <div className="kohub-qnadetail container">
-        <div className="content-area kohub-qnadetail__content">
-          <div className="kohub-qnadetail__header">
-            <h2>Q&amp;A</h2>
-            <div className="kohub-qnadetail__manage">
-              <span onClick={this.onUpdateBtnClickCallback.bind(this)}>
-                <FontAwesomeIcon icon={faEdit} flip="horizontal" />
-                {""}수정
-              </span>
-              |
-              <span onClick={this.onDeleteApiHandler.bind(this)}>
-                <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
-                {""}삭제
-              </span>
-            </div>
-          </div>
-          <div className="kohub-qnadetail__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-qnadetail__title-area">
-            <div className="kohub-qnadetail__title align-center-col">
-              <span>
-                [{detailData.category}] {detailData.title}
-              </span>
-            </div>
-            <div className="kohub-qnadetail__user-info align-center-col">
-              <span>작성자 : {detailData.userName}</span>
-              <br></br>
-              <span>{detailData.createDate}</span>
-            </div>
-          </div>
-          <div className="kohub-qnadetail__hr">
-            <hr></hr>
-          </div>
-          <div
-            className="kohub-qnadetail__article"
-            dangerouslySetInnerHTML={{ __html: detailData.content }}
-          ></div>
-          <div className="kohub-qnadetail__hr">
-            <hr></hr>
-          </div>
-          <div className="kohub-qnadetail__answer hide">
-            <div className="kohub-qnadetail__answer-header-area">
-              <div className="kohub-qnadetail__answer-header align-center-col">
-                <h3>답변</h3>
+      <div>
+        <Header></Header>
+        <div className="kohub-qnadetail container">
+          <div className="content-area kohub-qnadetail__content">
+            <div className="kohub-qnadetail__header">
+              <h2>Q&amp;A</h2>
+              <div className="kohub-qnadetail__manage">
+                <Link to="/qna/write">
+                  <span onClick={this.onUpdateBtnClickCallback.bind(this, id)}>
+                    <FontAwesomeIcon icon={faEdit} flip="horizontal" />
+                    {""}수정
+                  </span>
+                </Link>
+                |
+                <span onClick={this.onDeleteApiHandler.bind(this)}>
+                  <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
+                  {""}삭제
+                </span>
               </div>
-              <div className="kohub-qnadetail__answer-user-info align-center-col">
-                <span>작성자 : {answerData.userName}</span>
+            </div>
+            <div className="kohub-qnadetail__hr">
+              <hr></hr>
+            </div>
+            <div className="kohub-qnadetail__title-area">
+              <div className="kohub-qnadetail__title align-center-col">
+                <span>
+                  [{detailData.category}] {detailData.title}
+                </span>
+              </div>
+              <div className="kohub-qnadetail__user-info align-center-col">
+                <span>작성자 : {detailData.userName}</span>
                 <br></br>
-                <span>{answerData.createDate}</span>
+                <span>{detailData.createDate}</span>
               </div>
+            </div>
+            <div className="kohub-qnadetail__hr">
+              <hr></hr>
             </div>
             <div
-              className="kohub-qnadetail__answer-article"
-              dangerouslySetInnerHTML={{ __html: answerData.comment }}
+              className="kohub-qnadetail__article"
+              dangerouslySetInnerHTML={{ __html: detailData.content }}
             ></div>
             <div className="kohub-qnadetail__hr">
               <hr></hr>
             </div>
+            <div className="kohub-qnadetail__answer hide">
+              <div className="kohub-qnadetail__answer-header-area">
+                <div className="kohub-qnadetail__answer-header align-center-col">
+                  <h3>답변</h3>
+                </div>
+                <div className="kohub-qnadetail__answer-user-info align-center-col">
+                  <span>작성자 : {answerData.userName}</span>
+                  <br></br>
+                  <span>{answerData.createDate}</span>
+                </div>
+              </div>
+              <div
+                className="kohub-qnadetail__answer-article"
+                dangerouslySetInnerHTML={{ __html: answerData.comment }}
+              ></div>
+              <div className="kohub-qnadetail__hr">
+                <hr></hr>
+              </div>
+            </div>
           </div>
         </div>
+        <Footer></Footer>
       </div>
     );
   }

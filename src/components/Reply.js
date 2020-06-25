@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import "./Reply.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { ApiUtil } from "../common/kohubUtil";
-import { FormInput, Button } from "../components";
+import { Button } from "../components";
 class Reply extends Component {
   constructor(props) {
     super(props);
@@ -11,10 +10,40 @@ class Reply extends Component {
   }
 
   onUpdateBtnClick() {
-    let replyNode = event.target.parentNode.parentNode.parentNode;
-    let updateNode = replyNode.nextElementSibling;
-    replyNode.classList.add("hide");
-    updateNode.classList.remove("hide");
+    let isEvenTarget = false;
+    let replyNode;
+    let updateNode;
+    let spanNode;
+    let svgNode;
+    let pathNode;
+    switch (event.target.tagName.toLowerCase()) {
+      case "span":
+        spanNode = event.target;
+        replyNode = spanNode.parentNode.parentNode.parentNode;
+        isEvenTarget = true;
+        break;
+      case "svg":
+        svgNode = event.target;
+        spanNode = svgNode.parentNode;
+        replyNode = spanNode.parentNode.parentNode.parentNode;
+        isEvenTarget = true;
+        break;
+      case "path":
+        pathNode = event.target;
+        svgNode = pathNode.parentNode;
+        spanNode = svgNode.parentNode;
+        replyNode = spanNode.parentNode.parentNode.parentNode;
+        isEvenTarget = true;
+        break;
+      default:
+        break;
+    }
+    updateNode = replyNode.nextElementSibling;
+
+    if (isEvenTarget) {
+      replyNode.classList.add("hide");
+      updateNode.classList.remove("hide");
+    }
   }
 
   onCancelBtnClick() {
@@ -24,63 +53,21 @@ class Reply extends Component {
     updateNode.classList.add("hide");
   }
 
-  onRegisterBtnClick(id) {
-    let updateNode = event.target.parentNode.parentNode;
-    let replyNode = updateNode.previousElementSibling;
-
-    let pathVariable = {
-      commentId: id,
-    };
-    let { updateUrl } = this.props;
-
-    updateUrl = ApiUtil.bindPathVariable(updateUrl, pathVariable);
-    console.log(updateUrl);
-    let data = {
-      comment: this.reply,
-    };
-    console.log(data);
-    fetch(updateUrl, {
-      method: "PUT",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then(() => {
-        alert("댓글이 수정되었습니다.");
-      })
-      .then(() => {
-        replyNode.classList.remove("hide");
-        updateNode.classList.add("hide");
-        history.go(0);
-      })
-      .catch((err) => {
-        alert("댓글을 수정하는데 문제가 발생했습니다.");
-      });
+  onUpdateBtnClickListener(id) {
+    let reply = this.reply;
+    let { onUpdateBtnClick } = this.props;
+    if (onUpdateBtnClick !== undefined) {
+      onUpdateBtnClick(id, reply);
+    }
   }
-  onDeleteApiHandler(id) {
-    let pathVariable = {
-      commentId: id,
-    };
-    let { deleteUrl } = this.props;
-    deleteUrl = ApiUtil.bindPathVariable(deleteUrl, pathVariable);
-
-    fetch(deleteUrl, {
-      method: "DELETE",
-    })
-      .then((result) => {
-        alert("댓글이 삭제되었습니다.");
-        history.go(0);
-      })
-      .catch((err) => {
-        new Error("Comment Error");
-      });
+  onDeleteBtnClickListener(id) {
+    let { onDeleteBtnClick } = this.props;
+    if (onDeleteBtnClick !== undefined) {
+      onDeleteBtnClick(id);
+    }
   }
-  onReplyChangeListener(newReply) {
-    this.reply = newReply;
+  onReplyChangeListener(e) {
+    this.reply = e.target.value;
   }
   getReplyList() {
     let { datas } = this.props;
@@ -103,7 +90,9 @@ class Reply extends Component {
                   {""}수정
                 </span>
                 |
-                <span onClick={this.onDeleteApiHandler.bind(this, data.id)}>
+                <span
+                  onClick={this.onDeleteBtnClickListener.bind(this, data.id)}
+                >
                   <FontAwesomeIcon icon={faTrashAlt} flip="horizontal" />
                   {""}삭제
                 </span>
@@ -115,16 +104,15 @@ class Reply extends Component {
           </div>
           <div className="kohub-reply-update hide">
             <div className="kohub-reply-update-input">
-              <FormInput
-                value={data.comment}
-                onChange={this.onReplyChangeListener.bind(this)}
-              ></FormInput>
+              <textarea onChange={this.onReplyChangeListener.bind(this)}>
+                {data.comment}
+              </textarea>
             </div>
             <div className="kohub-reply-update-btn">
               <Button
                 value={"수정"}
                 btnType={"register"}
-                onClick={this.onRegisterBtnClick.bind(this, data.id)}
+                onClick={this.onUpdateBtnClickListener.bind(this, data.id)}
               ></Button>
               <Button
                 value={"취소"}

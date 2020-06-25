@@ -18,7 +18,7 @@
             .kohub-reply-update-input {
                 margin-bottom: 10px;
 
-                input {
+                textarea {
                     padding: 5px;
                     width: 1126px;
                     height: 70px;
@@ -46,7 +46,7 @@
                     #reply-date {
                         font-size: 15px;
                         color: kohubColor.$reply-date-color;
-                        margin-bottom : 3px;
+                        margin-bottom: 3px;
                     }
 
                     #reply-username {

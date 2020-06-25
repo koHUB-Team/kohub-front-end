@@ -17,12 +17,6 @@ function mapReduxDispatchToReactProps(dispatch) {
         mode: MODE.READ,
       });
     },
-    onCancelBtnClick: () => {
-      dispatch({
-        type: ACTION.KOHUB.CLICK_CHANGE_MODE,
-        mode: MODE.READ,
-      });
-    },
   };
 }
 export default connect(

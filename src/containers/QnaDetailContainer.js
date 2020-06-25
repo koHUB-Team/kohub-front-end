@@ -12,16 +12,11 @@ function mapReduxStateToReactProps(state) {
 
 function mapReduxDispatchToReactProps(dispatch) {
   return {
-    onUpdateBtnClick: () => {
+    onUpdateBtnClick: (id) => {
       dispatch({
         type: ACTION.KOHUB.CLICK_CHANGE_MODE,
+        selectedDetailId: id,
         mode: MODE.UPDATE,
-      });
-    },
-    onDeleteBtnClick: () => {
-      dispatch({
-        type: ACTION.KOHUB.CLICK_CHANGE_MODE,
-        mode: MODE.READ,
       });
     },
   };

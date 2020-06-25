@@ -18,10 +18,38 @@ const FaqData = Record({
   answer: "",
 });
 
+const SidebarData = Record({
+  menuName: "",
+  menuUrl: "",
+});
+
 class Faq extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sidebarTitle: "koHUB",
+      sidebarList: List([
+        SidebarData({
+          menuName: "공지사항",
+          menuUrl: "/notice",
+        }),
+        SidebarData({
+          menuName: "FAQ",
+          menuUrl: "/faq",
+        }),
+        SidebarData({
+          menuName: "Q&A",
+          menuUrl: "/qna",
+        }),
+        SidebarData({
+          menuName: "자유게시판",
+          menuUrl: "/free",
+        }),
+        SidebarData({
+          menuName: "실험실",
+          menuUrl: "/lab",
+        }),
+      ]),
       datas: List([]),
       startPage: 1,
       endPage: 0,
@@ -243,13 +271,13 @@ class Faq extends Component {
 
   render() {
     let dataList = this.getDataList();
-    let { startPage, endPage } = this.state;
+    let { startPage, endPage, sidebarList, sidebarTitle } = this.state;
     return (
       <div>
         <Header></Header>
         <div className="container">
           <div className="content-area kohub-faq">
-            <Sidebar></Sidebar>
+            <Sidebar sidebarTitle={sidebarTitle} datas={sidebarList}></Sidebar>
             <div className="kohub-faq__content">
               <BoardHeader value={"FAQ"}></BoardHeader>
               <div
