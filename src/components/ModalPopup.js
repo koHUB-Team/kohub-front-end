@@ -41,11 +41,32 @@ class ModalPopup extends Component {
     return "";
   }
 
+  getImage() {
+    let { image } = this.props;
+    if (image === false || image === undefined) {
+      return "";
+    }
+
+    let imageUrl = this.getImageUrl();
+    return (
+      <div className="kohub-modal-img-container">
+        <img
+          src={imageUrl}
+          alt="img"
+          onLoad={(e) => {
+            let url = e.target.src;
+            URL.revokeObjectURL(url);
+          }}
+        ></img>
+      </div>
+    );
+  }
+
   render() {
     let { isShow } = this.props;
     let title = this.getTitle();
-    let imageUrl = this.getImageUrl();
     let content = this.getContent();
+    let image = this.getImage();
 
     return (
       <div>
@@ -54,16 +75,7 @@ class ModalPopup extends Component {
             <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="kohub-modal-img-container">
-              <img
-                src={imageUrl}
-                alt="img"
-                onLoad={(e) => {
-                  let url = e.target.src;
-                  URL.revokeObjectURL(url);
-                }}
-              ></img>
-            </div>
+            {image}
             <div
               className="kohub-modal-content"
               dangerouslySetInnerHTML={{ __html: content }}

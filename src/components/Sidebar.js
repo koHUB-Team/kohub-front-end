@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Sidebar.scss";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { List, Record } from "immutable";
 
 const SidebarData = Record({
@@ -29,29 +29,29 @@ class Sidebar extends Component {
         <div className="kohub-sidebar__content">
           <ul>
             <li>
-              <Link to="/notice">
+              <NavLink to="/notice">
                 <span>공지사항</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/faq">
+              <NavLink to="/faq">
                 <span>FAQ</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/qna">
+              <NavLink to="/qna">
                 <span>Q&amp;A</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/free">
+              <NavLink to="/free">
                 <span>자유게시판</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/">
+              <NavLink to="/">
                 <span>실험실</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>

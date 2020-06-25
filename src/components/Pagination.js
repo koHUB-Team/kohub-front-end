@@ -11,6 +11,9 @@ import "./Pagination.scss";
 
 class Pagination extends Component {
   onPrevBtnClickListener(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     let { onPrevBtnClick } = this.props;
     if (onPrevBtnClick !== undefined) {
       onPrevBtnClick();
@@ -18,6 +21,9 @@ class Pagination extends Component {
   }
 
   onNextBtnClickListener(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     let { onNextBtnClick } = this.props;
     if (onNextBtnClick !== undefined) {
       onNextBtnClick();
@@ -26,6 +32,9 @@ class Pagination extends Component {
 
   //콜백함수의 인자로 클릭한 페이징 버튼의 숫자 값을 전달.
   onPageBtnClickListener(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     let pageNum = Number(e.target.textContent);
     let { onPageBtnClick } = this.props;
     if (onPageBtnClick !== undefined) {
