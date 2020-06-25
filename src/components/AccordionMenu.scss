@@ -1,0 +1,87 @@
+@use "../common/color.scss"as kohubColor;
+
+@font-face {
+    font-family: "Noto Sans KR", sans-serif;
+    src: url("../../public/fonts/NotoSansKR-Medium.otf");
+}
+
+.kohub-accordion {
+    // border-bottom: 2px solid kohubColor.$color-koHub-primary;
+
+    .accordion {
+        border-bottom: 1px solid kohubColor.$font-color-third;
+        background-color: white;
+        color: kohubColor.$font-color-bold;
+        cursor: pointer;
+        padding: 5px 13px;
+        height: 90px;
+        position: relative;
+
+        .accordion__title {
+            width: 780px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+
+            p {
+                transition: 0.4s;
+                font-size: 12pt;
+                font-weight: 600;
+                line-height: 160%;
+            }
+        }
+
+        &:hover {
+            .accordion__title {
+                p {
+                    font-size: 13pt;
+                    color: kohubColor.$color-koHub-primary;
+                }
+            }
+        }
+
+        span {
+            font-size: 18pt;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+
+            svg {
+                transition: transform, 0.2s;
+            }
+        }
+
+        &.clicked {
+            span {
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    .panel {
+        background-color: #f9f9f9;
+        font-size: 11pt;
+        padding: 40px;
+        border-bottom: 1px solid kohubColor.$font-color-third;
+
+        ul {
+            padding: 20px;
+
+            li {
+                list-style: disc;
+                margin-bottom: 5px;
+
+                &:last-of-type {
+                    margin: 0;
+                }
+            }
+        }
+
+        p {
+            line-height: 160%
+        }
+    }
+}
