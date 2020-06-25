@@ -104,13 +104,59 @@
             }
 
             .kohub-freedetail__reply-input {
+                position: relative;
                 margin-top: 15px;
 
-                input {
-                    padding: 5px;
-                    width: 1136px;
-                    height: 90px;
+                .kohub-freedetail__reply-content {
+                    width: 997px;
+                    height: 110px;
+                    border: 1px solid;
+                    border-right: none;
+
+                    textarea {
+                        background-color: white;
+                        border: none;
+                        resize: none;
+                        padding-top: 10px;
+                        padding-left: 10px;
+                        width: 985px;
+                        height: 70px;
+
+                        &::placeholder {
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .kohub-freedetail__reply-text-limit {
+                        height: 27px;
+                        padding: 0 0 15px 15px;
+
+                        span,
+                        p {
+                            font-size: 20px;
+                            color: kohubColor.$font-color-third--fade;
+                        }
+                    }
                 }
+
+                button {
+                    position: absolute;
+                    font-size: 22px;
+                    color: kohubColor.$color-koHub-primary;
+                    top: 0;
+                    right: 0;
+                    border: 1px solid;
+                    height: 112px;
+                    width: 152px;
+                    transition: font-weight 0.1s, border 0.1s;
+
+                    &:hover {
+                        font-weight: 600;
+                        border: 1.5px solid kohubColor.$color-koHub-primary;
+                    }
+                }
+
             }
 
             .kohub-freedetail__reply-register-btn {
@@ -123,6 +169,13 @@
                     height: 40px;
                 }
             }
+        }
+
+        .kohub-freedetail__reply__bottom-area {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            position: relative;
         }
     }
 }

@@ -4,12 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import { List, Record } from "immutable";
 
 const SidebarData = Record({
-  menu: "",
-  submenu1: "",
-  submenu2: "",
-  submenu3: "",
-  submenu4: "",
-  submenu5: "",
+  menuName: "",
+  menuUrl: "",
 });
 
 class Sidebar extends Component {
@@ -17,43 +13,37 @@ class Sidebar extends Component {
     super(props);
     this.state = {};
   }
+
+  getSidebar() {
+    let { datas } = this.props;
+    if (datas === undefined) {
+      return [];
+    }
+    let dataList = datas.reduce((acc, data, idx) => {
+      return acc.concat([
+        <li key={idx}>
+          <NavLink to={data.menuUrl}>
+            <span>{data.menuName}</span>
+          </NavLink>
+        </li>,
+      ]);
+    }, []);
+
+    return dataList;
+  }
   render() {
+    let { sidebarTitle } = this.props;
+    let sidebarList = this.getSidebar();
     return (
       <div className="kohub-sidebar">
         <div className="kohub-sidebar__title">
-          <h3>koHUB</h3>
+          <h3>{sidebarTitle}</h3>
         </div>
         <div className="kohub-sidebar__hr">
           <hr></hr>
         </div>
         <div className="kohub-sidebar__content">
-          <ul>
-            <li>
-              <NavLink to="/notice">
-                <span>공지사항</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/faq">
-                <span>FAQ</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/qna">
-                <span>Q&amp;A</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/free">
-                <span>자유게시판</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/">
-                <span>실험실</span>
-              </NavLink>
-            </li>
-          </ul>
+          <ul>{sidebarList}</ul>
         </div>
       </div>
     );

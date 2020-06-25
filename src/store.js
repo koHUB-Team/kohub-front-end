@@ -32,7 +32,7 @@ const Admin = Record({
 
 const Kohub = Record({
   selectedDetailId: 1,
-  mode: MODE.READ,
+  mode: MODE.CREATE,
 });
 
 //Redux state 초기화
@@ -67,6 +67,7 @@ function reducer(state = initialState, action) {
 
     case ACTION.KOHUB.CLICK_CHANGE_MODE:
       newKohub = kohub.set("mode", action.mode);
+      newKohub = newKohub.set("selectedDetailId", action.selectedDetailId);
       newState = state.set("kohub", newKohub);
 
       return newState;
