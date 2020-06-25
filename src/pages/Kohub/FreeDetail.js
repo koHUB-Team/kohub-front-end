@@ -381,13 +381,6 @@ class FreeDetail extends Component {
                   등록
                 </button>
               </div>
-              {/* <div className="kohub-freedetail__reply-register-btn">
-                <Button
-                  value={"등록"}
-                  type={"submit"}
-                  onClick={this.onReplyRegisterBtnClick.bind(this)}
-                ></Button>
-              </div> */}
             </div>
             <Reply
               datas={replyDatas}
