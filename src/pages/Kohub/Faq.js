@@ -6,11 +6,10 @@ import {
   BoardHeader,
   Sidebar,
   Pagination,
+  AccordionMenu,
 } from "../../components";
 import { Record, List } from "immutable";
 import { DomUtil, ApiUtil } from "../../common/kohubUtil";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 const FaqData = Record({
   id: null,
@@ -88,92 +87,17 @@ class Faq extends Component {
     });
   }
 
-  getDataList() {
-    let { datas } = this.state;
-
-    let dataList = datas.reduce((acc, data, idx) => {
-      return acc.concat([
-        <div key={idx}>
-          <button data-id={data.id} className="accordion">
-            {data.title}
-            <span>
-              <FontAwesomeIcon icon={faAngleDown} flip="horizontal" />
-            </span>
-          </button>
-          <div className="panel hide">
-            <p>{data.answer}</p>
-          </div>
-        </div>,
-      ]);
-    }, []);
-
-    return dataList;
-  }
-
-  onAccordionBtnClickListener(e) {
-    let isEventTarget = false;
-    let panel;
-    let spanNode;
-    let buttonNode;
-    let svgNode;
-    let pathNode;
-    switch (e.target.tagName.toLowerCase()) {
-      case "button":
-        buttonNode = e.target;
-        panel = buttonNode.nextElementSibling;
-
-        isEventTarget = true;
-        break;
-      case "span":
-        spanNode = e.target;
-        buttonNode = spanNode.parentElement;
-        panel = buttonNode.nextElementSibling;
-
-        isEventTarget = true;
-        break;
-      case "svg":
-        svgNode = e.target;
-        spanNode = svgNode.parentElement;
-        buttonNode = spanNode.parentElement;
-        panel = buttonNode.nextElementSibling;
-
-        isEventTarget = true;
-        break;
-      case "path":
-        pathNode = e.target;
-        svgNode = pathNode.parentElement;
-        spanNode = svgNode.parentElement;
-        buttonNode = spanNode.parentElement;
-        panel = buttonNode.nextElementSibling;
-
-        isEventTarget = true;
-        break;
-      default:
-        break;
-    }
-
-    if (isEventTarget) {
-      if (DomUtil.hasClassByClassName(panel, "hide")) {
-        this.showPanel(panel);
-      } else {
-        this.hidePanel(panel);
-      }
-    }
-  }
-
-  hidePanel(panel) {
+  hidePanel(panel, buttonNode) {
+    buttonNode.classList.remove("clicked");
     panel.classList.add("hide");
-  }
-
-  showPanel(panel) {
-    panel.classList.remove("hide");
   }
 
   initiatePanel() {
     let panelNodes = document.querySelectorAll(".panel");
     panelNodes.forEach((panelNode) => {
       if (!DomUtil.hasClassByClassName(panelNode, "hide")) {
-        this.hidePanel(panelNode);
+        let buttonNode = panelNode.previousSibling;
+        this.hidePanel(panelNode, buttonNode);
       }
     });
   }
@@ -242,8 +166,8 @@ class Faq extends Component {
   }
 
   render() {
-    let dataList = this.getDataList();
-    let { startPage, endPage } = this.state;
+    let { startPage, endPage, datas } = this.state;
+
     return (
       <div>
         <Header></Header>
@@ -252,12 +176,7 @@ class Faq extends Component {
             <Sidebar></Sidebar>
             <div className="kohub-faq__content">
               <BoardHeader value={"FAQ"}></BoardHeader>
-              <div
-                className="kohub-faq-accordion"
-                onClick={this.onAccordionBtnClickListener.bind(this)}
-              >
-                {dataList}
-              </div>
+              <AccordionMenu datas={datas}></AccordionMenu>
               <div className="kohub-faq-content__bottom-area">
                 <Pagination
                   start={startPage}

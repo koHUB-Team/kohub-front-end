@@ -1,0 +1,30 @@
+.kohub-admin-faq-write {
+    input {
+        width: 946px;
+        height: 48px;
+        font-size: 12pt;
+
+        &:nth-last-of-type() {
+            margin-right: 0;
+        }
+    }
+}
+
+.kohub-admin-faq-write__text-editor {
+    margin-top: 10px;
+
+    .kohub-admin-promotion-write__edited-area {
+        height: 440px;
+    }
+}
+
+.kohub-admin-faq-write-btn-area {
+    margin-top: 10px;
+    text-align: center;
+
+    button {
+        width: 93px;
+        height: 27px;
+        margin-right: 10px;
+    }
+}

@@ -1,8 +1,5 @@
 export { default as AdminNavContainer } from "./AdminNavContainer";
 export { default as AdminTitleContainer } from "./AdminTitleContainer";
-export { default as PromotionContainer } from "./PromotionContainer";
-export { default as PromotionReadContainer } from "./PromotionReadContainer";
-export { default as PromotionWriteContainer } from "./PromotionWriteContainer";
 export { default as QnaContainer } from "./QnaContainer";
 export { default as QnaBoardContainer } from "./QnaBoardContainer";
 export { default as QnaDetailContainer } from "./QnaDetailContainer";
