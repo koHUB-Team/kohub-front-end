@@ -111,9 +111,7 @@ class FreeWrite extends Component {
       })
       .then(() => {
         alert("게시물이 등록되었습니다.");
-      })
-      .then(() => {
-        history.back();
+        this.goBackPage();
       })
       .catch((err) => {
         alert("게시물을 등록하는데 문제가 발생했습니다.");
@@ -147,7 +145,7 @@ class FreeWrite extends Component {
       })
       .then(() => {
         this.onRegisterBtnClickCallback();
-        history.back();
+        this.goBackPage();
       })
       .catch((err) => {
         alert("게시물을 수정하는데 문제가 발생했습니다.");
@@ -160,7 +158,12 @@ class FreeWrite extends Component {
     }
   }
   onCancelBtnClickCallback() {
-    history.back();
+    this.goBackPage();
+  }
+
+  goBackPage() {
+    let { history } = this.props;
+    history.goBack();
   }
 
   render() {
@@ -213,6 +216,7 @@ class FreeWrite extends Component {
               <Button
                 value={"취소"}
                 btnType={"cancel"}
+                type={"button"}
                 onClick={this.onCancelBtnClickCallback.bind(this)}
               ></Button>
             </div>

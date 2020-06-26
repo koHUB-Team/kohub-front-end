@@ -126,6 +126,10 @@
                             font-size: 16px;
                             font-weight: bold;
                         }
+
+                        &:focus {
+                            outline: none;
+                        }
                     }
 
                     .kohub-freedetail__reply-text-limit {
