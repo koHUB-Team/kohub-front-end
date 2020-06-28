@@ -115,26 +115,6 @@ class Free extends Component {
       });
   }
 
-  requestSearchFreeBoardApi(params = null) {
-    let url = process.env.REACT_APP_KOHUB_API_URL_GET_FREE_SEARCH;
-    if (params !== null) {
-      let queryStr = ApiUtil.parseObjToQueryStr(params);
-      url += queryStr;
-    }
-    fetch(url)
-      .then((result) => {
-        return result.json();
-      })
-      .then((json) => {
-        let freeBoards = json.freeBoards;
-        let totalCount = json.totalCount;
-        this.freeBoardApiHandler(freeBoards, totalCount);
-      })
-      .catch((err) => {
-        new Error("FreeBoard Error");
-      });
-  }
-
   freeBoardApiHandler(freeBoards, totalCount) {
     let { searchFlag } = this.state;
     if (searchFlag) {
@@ -253,6 +233,7 @@ class Free extends Component {
     this.setState({
       searchFlag: true,
     });
+    this.requestFreeBoardApi(params);
     this.requestSearchFreeBoardApi(params);
   }
   onWriteBtnClickCallback() {

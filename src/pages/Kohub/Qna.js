@@ -116,26 +116,6 @@ class Qna extends Component {
       });
   }
 
-  requestSearchQnaApi(params = null) {
-    let url = process.env.REACT_APP_KOHUB_API_URL_GET_QNA_SEARCH;
-    if (params !== null) {
-      let queryStr = ApiUtil.parseObjToQueryStr(params);
-      url += queryStr;
-    }
-    fetch(url)
-      .then((result) => {
-        return result.json();
-      })
-      .then((json) => {
-        let qnas = json.qnas;
-        let totalQnaCount = json.totalQnaCount;
-        this.qnaApiHandler(qnas, totalQnaCount);
-      })
-      .catch((err) => {
-        new Error("Q&A Error");
-      });
-  }
-
   qnaApiHandler(qnas, totalQnaCount) {
     let { searchFlag } = this.state;
     if (searchFlag) {
@@ -259,7 +239,7 @@ class Qna extends Component {
     this.setState({
       searchFlag: true,
     });
-    this.requestSearchQnaApi(params);
+    this.requestQnaApi(params);
   }
 
   onWriteBtnClickCallback() {
